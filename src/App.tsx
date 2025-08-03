@@ -1,0 +1,20 @@
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { LoginScreen } from "./screens/login/LogIn.page";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <StatusBar style="auto" />
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
+}
