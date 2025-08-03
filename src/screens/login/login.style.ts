@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { PageSubtitle } from "../../components/ui/Title-page.component";
+import { PageSubtitle } from "../../components/ui/texts/Texts.component";
 
 export const LoginStyles = StyleSheet.create({
   safeArea: {

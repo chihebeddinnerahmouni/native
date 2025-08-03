@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "./Text";
-import { colors } from "../../constants/colors";
+import { colors } from "../../../constants/colors";
 
 export const PageTitle = (props: React.ComponentProps<typeof Text>) => (
   <Text weight="bold" color={colors.textColor} size={20} {...props} />

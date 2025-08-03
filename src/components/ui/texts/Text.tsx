@@ -1,6 +1,6 @@
 import React from "react";
 import { Text as RNText, StyleSheet, TextProps, TextStyle } from "react-native";
-import { fonts } from "../../constants/fonts";
+import { fonts } from "../../../constants/fonts";
 
 type FontWeight = "light" | "regular" | "medium" | "bold";
 

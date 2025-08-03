@@ -10,22 +10,31 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "generate:api": "npx swagger-typescript-api generate -p \"http://localhost:3000/api-json\" -o ./src/backend -n casaikos-api.ts --axios",
+    "generate:api:local": "npx swagger-typescript-api generate -p ./swagger.json -o ./src/backend -n casaikos-api.ts --axios",
+    "generate:api:url": "npx swagger-typescript-api generate -p \"$API_URL\" -o ./src/backend -n casaikos-api.ts --axios"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-navigation/native": "^7.1.16",
     "@react-navigation/native-stack": "^7.3.23",
+    "@tanstack/react-query": "^5.84.1",
+    "axios": "^1.11.0",
     "expo": "~53.0.20",
+    "expo-splash-screen": "~0.30.10",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
+    "react-hook-form": "^7.62.0",
     "react-native": "0.79.5",
     "react-native-safe-area-context": "^5.4.0",
-    "react-native-screens": "~4.11.1",
-    "expo-splash-screen": "~0.30.10"
+    "react-native-screens": "~4.11.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@tanstack/react-query-devtools": "^5.84.1",
     "@types/react": "~19.0.10",
+    "@types/react-toastify": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.1",
@@ -35,6 +44,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-native": "^4.1.0",
     "prettier": "^3.6.2",
+    "swagger-typescript-api": "^13.2.7",
     "typescript": "~5.8.3"
   },
   "private": true
