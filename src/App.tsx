@@ -3,10 +3,32 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LoginScreen } from "./screens/login/LogIn.page";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Satoshi-Regular": require("../assets/fonts/Satoshi-Regular.ttf"),
+    "Satoshi-Bold": require("../assets/fonts/Satoshi-Bold.ttf"),
+    "Satoshi-Medium": require("../assets/fonts/Satoshi-Medium.ttf"),
+    "Satoshi-Light": require("../assets/fonts/Satoshi-Light.ttf"),
+  });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <SafeAreaProvider>
       <StatusBar style="auto" />

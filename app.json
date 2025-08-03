@@ -24,6 +24,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "fonts": [
+      "./assets/fonts/Satoshi-Regular.ttf",
+      "./assets/fonts/Satoshi-Bold.ttf",
+      "./assets/fonts/Satoshi-Medium.ttf",
+      "./assets/fonts/Satoshi-Light.ttf"
+    ]
   }
 }

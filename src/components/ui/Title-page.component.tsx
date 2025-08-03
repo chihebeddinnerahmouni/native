@@ -1,18 +1,25 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { Text } from "./Text";
 import { colors } from "../../constants/colors";
 
-interface IProps {
-  title: string;
-}
+export const PageTitle = (props: React.ComponentProps<typeof Text>) => (
+  <Text weight="bold" color={colors.textColor} size={20} {...props} />
+);
 
-export const TitlePageComponent = ({ title }: IProps) => {
-  return <Text style={TitlePageStyles.text}>{title}</Text>;
-};
+export const PageSubtitle = (props: React.ComponentProps<typeof Text>) => (
+  <Text size={16} color={colors.textColor2} {...props} />
+);
 
-const TitlePageStyles = StyleSheet.create({
-  text: {
-    fontSize: 24,
-    color: colors.textColor,
-  },
-});
+export const Body = (props: React.ComponentProps<typeof Text>) => (
+  <Text weight="regular" size={16} {...props} />
+);
+
+export const Caption = (props: React.ComponentProps<typeof Text>) => (
+  <Text weight="light" size={12} {...props} />
+);
+
+export const ButtonText = (props: React.ComponentProps<typeof Text>) => (
+  <Text weight="medium" size={16} {...props} />
+);
+
+export default Text;
