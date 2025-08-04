@@ -9,5 +9,5 @@ export enum ERoute {
   FORGOT_PASSWORD = "forgot-password",
   RESET_PASSWORD = "reset-password",
   CONVERSATIONS_LIST = "conversations-list",
-  MESSAGES = "messages",
+  MESSAGES_PAGE = "messages-page",
 }

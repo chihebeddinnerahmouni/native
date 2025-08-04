@@ -16,7 +16,7 @@ export const MessagesNavigator = () => {
         name={ERoute.CONVERSATIONS_LIST}
         component={ConversationsList}
       />
-      <MessagesStack.Screen name={ERoute.MESSAGES} component={Messages} />
+      <MessagesStack.Screen name={ERoute.MESSAGES_PAGE} component={Messages} />
     </MessagesStack.Navigator>
   );
 };
