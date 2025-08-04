@@ -13,7 +13,7 @@ import { useAuthMutation } from "../../api-query/hooks";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInDto } from "../../backend/casaikos-api";
-import { AuthSchema } from "../../utils";
+import { AuthSchema, AxiosInstanceErrorResponse } from "../../utils";
 
 export function LoginScreen() {
   // const [email, setEmail] = useState("");
@@ -23,13 +23,19 @@ export function LoginScreen() {
     getValues,
     handleSubmit,
     setError,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<SignInDto>({
     resolver: yupResolver(AuthSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
   const { login: loginMut, error } = useAuthMutation();
 
-  const handleLogin = () => {
+  const onClickLogin = () => {
     const values = getValues();
     if (!values.email || !values.password) {
       showErrorAlert("Error", "Please fill in all fields");
@@ -49,7 +55,24 @@ export function LoginScreen() {
     //     },
     //   }
     // );
+    loginMut({ values })
+      .then((data) => {
+        console.log("Login successful:", data);
+        if (data.otpRequired) {
+          // navigate(`/${ERoute.VERIFY_OTP}`, { state: { email: values.email } });admin@casakios.com
+        } else {
+          // login(data);
+        }
+      })
+      .catch((e: AxiosInstanceErrorResponse) => {
+        console.error("Login error:", e);
+        if (e.status === 401) {
+          setError("email", { message: "" });
+          setError("password", { message: "" });
+        }
+      });
   };
+  // const values = getValues();
 
   return (
     <SafeAreaView style={LoginStyles.safeArea}>
@@ -64,17 +87,16 @@ export function LoginScreen() {
           <FieldText
             label="Email"
             placeholder="Enter your email"
-            // value={values.email}
-            // onChangeText={(text) => setValue("email", text)}
+            value={watch("email")}
             register={register("email", { required: true })}
             error={errors.email}
           />
 
           <FieldText
             label="Password"
+            type="password"
             placeholder="Enter your password"
-            // value={password}
-            // onChangeText={setPassword}
+            value={watch("password")}
             register={register("password", { required: true })}
             error={errors.password}
           />
@@ -94,7 +116,7 @@ export function LoginScreen() {
               Sign In
             </Text>
           </TouchableOpacity>*/}
-          <Button onPress={handleLogin}>Sign In</Button>
+          <Button onPress={handleSubmit(onClickLogin)}>Sign In</Button>
         </View>
       </View>
     </SafeAreaView>

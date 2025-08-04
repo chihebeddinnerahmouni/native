@@ -97,6 +97,17 @@ export const FieldText = ({
     return startIcon;
   }, [startIcon, type]);
 
+  const handleTextChange = (text: string) => {
+    if (register && register.onChange) {
+      register.onChange({ target: { value: text, name: register.name } });
+    }
+    if (onChangeText) {
+      onChangeText(text);
+    }
+  };
+
+  const inputValue = value?.toString() || "";
+
   useEffect(() => {
     if (type === "phoneNumber" && register?.name) {
       setValue?.(register?.name, (value as string)?.replace(/[^+\d]/g, ""));
@@ -120,15 +131,15 @@ export const FieldText = ({
             type === "password" ? styles.inputWithPasswordIcon : undefined,
           ]}
           keyboardType={customType as TextInputProps["keyboardType"]}
-          value={value?.toString()}
-          onChangeText={onChangeText}
+          value={inputValue}
+          onChangeText={handleTextChange}
           placeholder={placeholder}
           placeholderTextColor="#999"
           editable={!disabled}
           secureTextEntry={type === "password" && !passwordTextVisible}
           onKeyPress={onKeyPress}
           maxLength={maxLength}
-          {...register}
+          {...(register ? { ref: register.ref, name: register.name } : {})}
         />
         {type === "password" && (
           <TouchableOpacity

@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosError, AxiosResponse } from "axios";
 import { Api } from "../backend/casaikos-api";
-import Toast from "react-native-toast-message";
 import { getToken, removeToken, setToken } from "./token.utils";
+import { showErrorAlert } from "../components/ui/alerts/alerts.component";
 
 export interface AxiosInstanceErrorResponse {
   status: number;
   message: string;
 }
 
+const baseURL = process.env.EXPO_PUBLIC_API_URL;
+
 const AxiosInstance = new Api({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: baseURL,
 });
 
 let csrfToken: string | null = null;
@@ -49,6 +51,11 @@ const fetchCsrfToken = async () => {
 
 AxiosInstance.instance.interceptors.request.use(
   async (config) => {
+    console.log(
+      "Making request to:",
+      `${config.baseURL || ""}${config.url || ""}`
+    );
+
     // Skip interceptor for CSRF request
     if (config.url === "/auth/csrf-token") return config;
 
@@ -82,11 +89,31 @@ AxiosInstance.instance.interceptors.request.use(
 
 AxiosInstance.instance.interceptors.response.use(
   (response: AxiosResponse) =>
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       resolve(response);
     }),
   async (error: AxiosError) => {
+    console.log("Axios Error Details:", {
+      message: error.message,
+      code: error.code,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      config: {
+        url: error.config?.url,
+        baseURL: error.config?.baseURL,
+        method: error.config?.method,
+      },
+    });
+
     let errorResponse: AxiosInstanceErrorResponse;
+    // errorResponse = {
+    //   status: error?.response?.status ?? 0,
+    //   message:
+    //     (error?.response?.data as any)?.message ??
+    //     (error?.response?.data as any) ??
+    //     "Something went wrong",
+    // };
 
     switch (error?.response?.status) {
       case 400: {
@@ -155,13 +182,9 @@ AxiosInstance.instance.interceptors.response.use(
       case 429: {
         const messageError =
           "Too many requests, please try again later or contact admin.";
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: messageError,
-        });
+        showErrorAlert("Error", messageError);
         errorResponse = {
-          status: 400,
+          status: 429,
           message: messageError,
         };
         break;
@@ -174,9 +197,16 @@ AxiosInstance.instance.interceptors.response.use(
         break;
       }
       default: {
+        const message =
+          error.code === "NETWORK_ERROR"
+            ? "Network error - check your internet connection and server URL"
+            : error.code === "ECONNREFUSED"
+              ? "Connection refused - server may be down or URL incorrect"
+              : error.message || "Unknown error";
+
         errorResponse = {
           status: error?.response?.status ?? 0,
-          message: "Unknown error",
+          message: message,
         };
         break;
       }
