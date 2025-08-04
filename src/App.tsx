@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LoginScreen } from "./screens/login/LogIn.page";
+import { VerifyOTPScreen } from "./screens/otp/VerifyOTP.page";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
@@ -41,6 +42,7 @@ export default function App() {
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="VerifyOTP" component={VerifyOTPScreen} />
             </Stack.Navigator>
           </NavigationContainer>
           <Toast />

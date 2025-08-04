@@ -14,6 +14,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInDto } from "../../backend/casaikos-api";
 import { AuthSchema, AxiosInstanceErrorResponse } from "../../utils";
 import { useAuth } from "../../contexts";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  VerifyOTP: { email: string };
+};
 
 export function LoginScreen() {
   const {
@@ -32,6 +38,8 @@ export function LoginScreen() {
   });
   const { login: loginMut } = useAuthMutation();
   const { login } = useAuth();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const onClickLogin = () => {
     const values = getValues();
@@ -42,12 +50,12 @@ export function LoginScreen() {
 
     loginMut({ values })
       .then((data) => {
-        console.log("Login successful:", data);
-        if (data.otpRequired) {
-          // navigate(`/${ERoute.VERIFY_OTP}`, { state: { email: values.email } });admin@casakios.com
-        } else {
-          login(data);
-        }
+        // if (data.otpRequired) {
+        //   navigation.navigate("VerifyOTP", { email: values.email });
+        // } else {
+        //   login(data);
+        // }
+        navigation.navigate("VerifyOTP", { email: values.email });
       })
       .catch((e: AxiosInstanceErrorResponse) => {
         if (e.status === 401) {
