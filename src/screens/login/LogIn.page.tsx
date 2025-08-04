@@ -83,22 +83,6 @@ export function LoginScreen() {
             register={register("password", { required: true })}
             error={errors.password}
           />
-
-          {/* <TouchableOpacity
-            style={{
-              backgroundColor: "#2664EB",
-              padding: 16,
-              borderRadius: 8,
-              alignItems: "center",
-              // opacity: loginMutation.isPending ? 0.7 : 1,
-            }}
-            onPress={handleLogin}
-            // disabled={loginMutation.isPending}
-          >
-            <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
-              Sign In
-            </Text>
-          </TouchableOpacity>*/}
           <Button onPress={handleSubmit(onClickLogin)}>Sign In</Button>
         </View>
       </View>

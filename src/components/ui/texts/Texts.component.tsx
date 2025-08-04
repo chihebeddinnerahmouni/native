@@ -15,7 +15,7 @@ export const TextBody = (props: React.ComponentProps<typeof Text>) => (
 );
 
 export const TextLabel = (props: React.ComponentProps<typeof Text>) => (
-  <Text weight="medium" size={16} {...props} />
+  <Text weight="medium" size={14} {...props} />
 );
 
 export const Caption = (props: React.ComponentProps<typeof Text>) => (

@@ -43,7 +43,6 @@ type FieldTextProps = {
   onKeyPress?: TextInputProps["onKeyPress"];
   maxLength?: number;
   startIcon?: ReactNode;
-  secureTextEntry?: boolean;
 };
 
 export const FieldText = ({
@@ -63,7 +62,6 @@ export const FieldText = ({
   onKeyPress,
   maxLength,
   startIcon,
-  secureTextEntry,
 }: FieldTextProps) => {
   const [passwordTextVisible, setPasswordTextVisible] = useState(false);
 
@@ -115,10 +113,11 @@ export const FieldText = ({
   }, [value, register?.name, setValue, type]);
 
   return (
-    <View style={[styles.container, style, error && styles.errorContainer]}>
+    <View style={[style, error && styles.errorContainer]}>
       {label && (
         <TextLabel style={styles.label}>
-          {label} {required && <TextLabel style={styles.required}>*</TextLabel>}
+          {label}
+          {required && <TextLabel style={styles.required}>*</TextLabel>}
         </TextLabel>
       )}
 
@@ -158,32 +157,26 @@ export const FieldText = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
   errorContainer: {
-    borderColor: colors.errorColor || "#FF6B6B",
+    borderColor: colors.errorColor,
   },
   label: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: colors.textColor || "#333",
     marginBottom: 8,
   },
   required: {
-    color: colors.errorColor || "#FF6B6B",
+    color: colors.errorColor,
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: colors.borderColor || "#DDD",
+    borderColor: colors.borderColor,
     borderRadius: 8,
-    backgroundColor: colors.bgColor || "#FFF",
+    backgroundColor: colors.bgColor,
     minHeight: 48,
   },
   disabled: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: colors.emptyBgColor,
     opacity: 0.6,
   },
   startIcon: {
@@ -192,7 +185,7 @@ const styles = StyleSheet.create({
   },
   currencyText: {
     fontSize: 14,
-    color: colors.textColor || "#333",
+    color: colors.textColor,
     fontWeight: "500",
   },
   input: {
@@ -200,7 +193,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
     fontSize: 16,
-    color: colors.textColor || "#333",
+    color: colors.textColor,
     minHeight: 48,
   },
   inputWithIcon: {
@@ -215,7 +208,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 12,
-    color: colors.errorColor || "#FF6B6B",
+    color: colors.errorColor,
     marginTop: 4,
   },
 });

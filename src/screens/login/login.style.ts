@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { PageSubtitle } from "../../components/ui/texts/Texts.component";
+// import { PageSubtitle } from "../../components/ui/texts/Texts.component";
 
 export const LoginStyles = StyleSheet.create({
   safeArea: {
@@ -7,10 +7,16 @@ export const LoginStyles = StyleSheet.create({
   },
   container: {
     padding: 16,
+    marginTop: 32,
   },
   PageSubtitle: {
-    ...PageSubtitle,
-    marginTop: 16,
+    // ...PageSubtitle,
+    marginTop: 12,
   },
-  formContainer: { marginTop: 40, gap: 16 },
+  formContainer: {
+    marginTop: 32,
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+  },
 });
