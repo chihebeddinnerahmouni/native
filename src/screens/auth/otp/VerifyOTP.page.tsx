@@ -11,22 +11,25 @@ import { useAuth } from "../../../contexts";
 import { VerifyOtpStyles } from "./verifyOtp.style";
 import { MainLayout } from "../../../layout/main-layout.layout";
 import { useAuthMutation } from "../../../api-query/hooks";
-import { AxiosInstanceErrorResponse } from "../../../utils";
+import { AxiosInstanceErrorResponse, ERoute, EScreens } from "../../../utils";
 import { LeftArrowIcon } from "../../../icons";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type RootStackParamList = {
-  VerifyOTP: {
+  [ERoute.VERIFY_OTP]: {
     email: string;
   };
+  [EScreens.MESSAGES]: undefined;
 };
 
-type VerifyOTPRouteProp = RouteProp<RootStackParamList, "VerifyOTP">;
+type VerifyOTPRouteProp = RouteProp<RootStackParamList, ERoute.VERIFY_OTP>;
 
 export function VerifyOTPScreen() {
   const route = useRoute<VerifyOTPRouteProp>();
   const { email } = route.params || { email: "test@example.com" };
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -67,7 +70,7 @@ export function VerifyOTPScreen() {
         otp: otpCode,
       });
       login(data);
-      navigation.navigate("Messages" as never);
+      navigation.navigate(EScreens.MESSAGES);
     } catch (error) {
       setOtp(["", "", "", "", "", ""]);
       inputRefs.current[0]?.focus();
