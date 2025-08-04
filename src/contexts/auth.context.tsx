@@ -1,5 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { AxiosInstance, getToken, removeToken, setToken } from "../utils";
+import {
+  AxiosInstance,
+  ERoute,
+  getToken,
+  removeToken,
+  setToken,
+} from "../utils";
 import { RefreshTokenResponse, User } from "../backend/casaikos-api";
 
 interface AuthContextType {
@@ -73,6 +79,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async (data: RefreshTokenResponse) => {
     await setToken(data.accessToken);
     await verifyToken();
+    console.log("User logged in:");
+    // navigation.navigate(ERoute.CONVERSATIONS_LIST);
   };
 
   const logout = async () => {

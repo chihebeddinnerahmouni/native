@@ -19,6 +19,7 @@ import { MainLayout } from "../../../layout/main-layout.layout";
 
 type RootStackParamList = {
   [ERoute.VERIFY_OTP]: { email: string };
+  [ERoute.CONVERSATIONS_LIST]: undefined;
 };
 
 export function LoginScreen() {
@@ -54,6 +55,7 @@ export function LoginScreen() {
           navigation.navigate(ERoute.VERIFY_OTP, { email: values.email });
         } else {
           login(data);
+          navigation.navigate(ERoute.CONVERSATIONS_LIST);
         }
         // navigation.navigate(ERoute.VERIFY_OTP, { email: values.email });
       })
