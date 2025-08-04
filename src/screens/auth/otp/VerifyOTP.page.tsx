@@ -67,6 +67,7 @@ export function VerifyOTPScreen() {
         otp: otpCode,
       });
       login(data);
+      navigation.navigate("Messages" as never);
     } catch (error) {
       setOtp(["", "", "", "", "", ""]);
       inputRefs.current[0]?.focus();

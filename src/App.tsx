@@ -8,7 +8,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./api-query/queryClient";
 import Toast from "react-native-toast-message";
 import { AuthProvider } from "./contexts/auth.context";
-import { AuthNavigator, MessagesNavigator } from "./navigation";
+import { RootNavigator } from "./navigation";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,8 +36,7 @@ export default function App() {
         <SafeAreaProvider>
           <StatusBar style="auto" />
           <NavigationContainer>
-            <AuthNavigator />
-            {/* <MessagesNavigator /> */}
+            <RootNavigator />
           </NavigationContainer>
           <Toast />
         </SafeAreaProvider>

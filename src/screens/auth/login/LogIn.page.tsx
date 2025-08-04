@@ -19,7 +19,7 @@ import { MainLayout } from "../../../layout/main-layout.layout";
 
 type RootStackParamList = {
   [ERoute.VERIFY_OTP]: { email: string };
-  [ERoute.CONVERSATIONS_LIST]: undefined;
+  Messages: undefined;
 };
 
 export function LoginScreen() {
@@ -55,11 +55,11 @@ export function LoginScreen() {
           navigation.navigate(ERoute.VERIFY_OTP, { email: values.email });
         } else {
           login(data);
-          navigation.navigate(ERoute.CONVERSATIONS_LIST);
+          navigation.navigate("Messages");
         }
-        // navigation.navigate(ERoute.VERIFY_OTP, { email: values.email });
       })
       .catch((e: AxiosInstanceErrorResponse) => {
+        console.error("Login error:", e);
         if (e.status === 401) {
           setError("email", { message: "" });
           setError("password", { message: "" });
