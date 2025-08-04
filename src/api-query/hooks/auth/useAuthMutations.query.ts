@@ -1,5 +1,4 @@
 import { UseMutateAsyncFunction, useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import {
   forgetPasswordHandler,
   loginHandler,
@@ -16,6 +15,7 @@ import {
   VerifyOtpDto,
 } from "../../../backend/casaikos-api";
 import { errorHandler } from "../../../utils/errors.utils";
+import { showSuccessAlert } from "../../../components/ui/alerts/alerts.component";
 
 type IResponse = {
   forgetPassword: UseMutateAsyncFunction<
@@ -52,8 +52,9 @@ export const useAuthMutation = (): IResponse => {
   const forgetPasswordMutation = useMutation({
     mutationFn: forgetPasswordHandler,
     onSuccess: () => {
-      toast.success(
-        `A password reset link has been sent. Please check your inbox.`
+      showSuccessAlert(
+        "Password Reset",
+        "A password reset link has been sent to your email."
       );
     },
     onError: errorHandler,
@@ -68,8 +69,9 @@ export const useAuthMutation = (): IResponse => {
       token: string;
     }) => resetPasswordHandler(values, token),
     onSuccess: () => {
-      toast.success(
-        "Your password has been successfully reset. You can now log in with your new password."
+      showSuccessAlert(
+        "Your password has been successfully reset.",
+        "You can now log in with your new password."
       );
     },
   });
@@ -86,7 +88,7 @@ export const useAuthMutation = (): IResponse => {
   const requestNewOtpMutation = useMutation({
     mutationFn: requestNewOtpHandler,
     onSuccess: () => {
-      toast.success("A new OTP has been sent to your email.");
+      showSuccessAlert("OTP Sent", "A new OTP has been sent to your email.");
     },
     onError: errorHandler,
   });

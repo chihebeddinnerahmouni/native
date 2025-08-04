@@ -16,6 +16,7 @@
     "generate:api:url": "npx swagger-typescript-api generate -p \"$API_URL\" -o ./src/backend -n casaikos-api.ts --axios"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-navigation/native": "^7.1.16",
     "@react-navigation/native-stack": "^7.3.23",
@@ -30,7 +31,8 @@
     "react-native-image-picker": "^8.2.1",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "~4.11.1",
-    "react-native-toast-message": "^2.3.3"
+    "react-native-toast-message": "^2.3.3",
+    "yup": "^1.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

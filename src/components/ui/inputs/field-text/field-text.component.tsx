@@ -43,6 +43,7 @@ type FieldTextProps = {
   onKeyPress?: TextInputProps["onKeyPress"];
   maxLength?: number;
   startIcon?: ReactNode;
+  secureTextEntry?: boolean;
 };
 
 export const FieldText = ({
@@ -62,6 +63,7 @@ export const FieldText = ({
   onKeyPress,
   maxLength,
   startIcon,
+  secureTextEntry,
 }: FieldTextProps) => {
   const [passwordTextVisible, setPasswordTextVisible] = useState(false);
 

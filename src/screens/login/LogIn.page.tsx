@@ -9,13 +9,29 @@ import { useState } from "react";
 import { FieldText } from "../../components/ui/inputs/field-text/field-text.component";
 import { Button } from "../../components/ui/buttons/button.component";
 import { showErrorAlert } from "../../components/ui/alerts/alerts.component";
+import { useAuthMutation } from "../../api-query/hooks";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { SignInDto } from "../../backend/casaikos-api";
+import { AuthSchema } from "../../utils";
 
 export function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const {
+    register,
+    getValues,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<SignInDto>({
+    resolver: yupResolver(AuthSchema),
+  });
+  const { login: loginMut, error } = useAuthMutation();
 
   const handleLogin = () => {
-    if (!email || !password) {
+    const values = getValues();
+    if (!values.email || !values.password) {
       showErrorAlert("Error", "Please fill in all fields");
       return;
     }
@@ -48,15 +64,19 @@ export function LoginScreen() {
           <FieldText
             label="Email"
             placeholder="Enter your email"
-            value={email}
-            onChangeText={setEmail}
+            // value={values.email}
+            // onChangeText={(text) => setValue("email", text)}
+            register={register("email", { required: true })}
+            error={errors.email}
           />
 
           <FieldText
             label="Password"
             placeholder="Enter your password"
-            value={password}
-            onChangeText={setPassword}
+            // value={password}
+            // onChangeText={setPassword}
+            register={register("password", { required: true })}
+            error={errors.password}
           />
 
           {/* <TouchableOpacity
