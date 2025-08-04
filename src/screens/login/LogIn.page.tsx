@@ -55,6 +55,7 @@ export function LoginScreen() {
         } else {
           login(data);
         }
+        // navigation.navigate(ERoute.VERIFY_OTP, { email: values.email });
       })
       .catch((e: AxiosInstanceErrorResponse) => {
         if (e.status === 401) {

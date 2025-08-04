@@ -43,7 +43,7 @@ export default function App() {
           <NavigationContainer>
             <Stack.Navigator
               screenOptions={{ headerShown: false }}
-              initialRouteName={ERoute.LOGIN}
+              initialRouteName={ERoute.VERIFY_OTP}
             >
               <Stack.Screen name={ERoute.LOGIN} component={LoginScreen} />
               <Stack.Screen

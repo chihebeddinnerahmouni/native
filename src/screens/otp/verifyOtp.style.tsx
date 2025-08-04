@@ -6,6 +6,9 @@ export const VerifyOtpStyles = StyleSheet.create({
     flex: 1,
     marginTop: 32,
   },
+  backButton: {
+    marginBottom: 16,
+  },
   subtitle: {
     marginTop: 12,
   },

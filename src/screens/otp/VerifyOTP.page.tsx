@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, TextInput } from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import {
   PageTitle,
@@ -12,6 +12,8 @@ import { VerifyOtpStyles } from "./verifyOtp.style";
 import { MainLayout } from "../../layout/main-layout.layout";
 import { useAuthMutation } from "../../api-query/hooks";
 import { AxiosInstanceErrorResponse } from "../../utils";
+import { LeftArrowIcon } from "../../icons";
+import { useNavigation } from "@react-navigation/native";
 
 type RootStackParamList = {
   VerifyOTP: {
@@ -24,6 +26,7 @@ type VerifyOTPRouteProp = RouteProp<RootStackParamList, "VerifyOTP">;
 export function VerifyOTPScreen() {
   const route = useRoute<VerifyOTPRouteProp>();
   const { email } = route.params || { email: "test@example.com" };
+  const navigation = useNavigation();
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -65,10 +68,6 @@ export function VerifyOTPScreen() {
       });
       login(data);
     } catch (error) {
-      const axiosError = error as AxiosInstanceErrorResponse;
-      const errorMessage =
-        axiosError.message || "Invalid OTP. Please try again.";
-      showErrorAlert("Error", errorMessage);
       setOtp(["", "", "", "", "", ""]);
       inputRefs.current[0]?.focus();
     } finally {
@@ -96,6 +95,12 @@ export function VerifyOTPScreen() {
   return (
     <MainLayout>
       <View style={VerifyOtpStyles.container}>
+        <TouchableOpacity
+          style={VerifyOtpStyles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <LeftArrowIcon />
+        </TouchableOpacity>
         <PageTitle>Verify Your Email</PageTitle>
         <PageSubtitle style={VerifyOtpStyles.subtitle}>
           We&apos;ve sent a 6-digit code to {email}. Enter it below to continue.
