@@ -51,11 +51,6 @@ const fetchCsrfToken = async () => {
 
 AxiosInstance.instance.interceptors.request.use(
   async (config) => {
-    console.log(
-      "Making request to:",
-      `${config.baseURL || ""}${config.url || ""}`
-    );
-
     // Skip interceptor for CSRF request
     if (config.url === "/auth/csrf-token") return config;
 
@@ -93,27 +88,7 @@ AxiosInstance.instance.interceptors.response.use(
       resolve(response);
     }),
   async (error: AxiosError) => {
-    console.log("Axios Error Details:", {
-      message: error.message,
-      code: error.code,
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data,
-      config: {
-        url: error.config?.url,
-        baseURL: error.config?.baseURL,
-        method: error.config?.method,
-      },
-    });
-
     let errorResponse: AxiosInstanceErrorResponse;
-    // errorResponse = {
-    //   status: error?.response?.status ?? 0,
-    //   message:
-    //     (error?.response?.data as any)?.message ??
-    //     (error?.response?.data as any) ??
-    //     "Something went wrong",
-    // };
 
     switch (error?.response?.status) {
       case 400: {
