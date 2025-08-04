@@ -5,7 +5,6 @@ import {
 import { LoginStyles } from "./login.style";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
 import { FieldText } from "../../components/ui/inputs/field-text/field-text.component";
 import { Button } from "../../components/ui/buttons/button.component";
 import { showErrorAlert } from "../../components/ui/alerts/alerts.component";
@@ -14,16 +13,14 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInDto } from "../../backend/casaikos-api";
 import { AuthSchema, AxiosInstanceErrorResponse } from "../../utils";
+import { useAuth } from "../../contexts";
 
 export function LoginScreen() {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
   const {
     register,
     getValues,
     handleSubmit,
     setError,
-    setValue,
     watch,
     formState: { errors },
   } = useForm<SignInDto>({
@@ -33,7 +30,8 @@ export function LoginScreen() {
       password: "",
     },
   });
-  const { login: loginMut, error } = useAuthMutation();
+  const { login: loginMut } = useAuthMutation();
+  const { login } = useAuth();
 
   const onClickLogin = () => {
     const values = getValues();
@@ -42,37 +40,22 @@ export function LoginScreen() {
       return;
     }
 
-    // loginMutation.mutate(
-    //   { email, password },
-    //   {
-    //     onSuccess: (data) => {
-    //       Alert.alert("Success", `Welcome back, ${data.user.name}!`);
-    //       // Navigate to main app here
-    //     },
-    //     onError: (error) => {
-    //       Alert.alert("Login Failed", "Please check your credentials");
-    //       console.error("Login error:", error);
-    //     },
-    //   }
-    // );
     loginMut({ values })
       .then((data) => {
         console.log("Login successful:", data);
         if (data.otpRequired) {
           // navigate(`/${ERoute.VERIFY_OTP}`, { state: { email: values.email } });admin@casakios.com
         } else {
-          // login(data);
+          login(data);
         }
       })
       .catch((e: AxiosInstanceErrorResponse) => {
-        console.error("Login error:", e);
         if (e.status === 401) {
           setError("email", { message: "" });
           setError("password", { message: "" });
         }
       });
   };
-  // const values = getValues();
 
   return (
     <SafeAreaView style={LoginStyles.safeArea}>
