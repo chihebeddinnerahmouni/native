@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { View, TextInput } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import {
   PageTitle,
@@ -10,6 +9,7 @@ import { Button } from "../../components/ui/buttons/button.component";
 import { showErrorAlert } from "../../components/ui/alerts/alerts.component";
 import { useAuth } from "../../contexts";
 import { VerifyOtpStyles } from "./verifyOtp.style";
+import { MainLayout } from "../../layout/main-layout.layout";
 
 type RootStackParamList = {
   VerifyOTP: {
@@ -20,8 +20,9 @@ type RootStackParamList = {
 type VerifyOTPRouteProp = RouteProp<RootStackParamList, "VerifyOTP">;
 
 export function VerifyOTPScreen() {
-  const route = useRoute<VerifyOTPRouteProp>();
-  const { email } = route.params;
+  //   const route = useRoute<VerifyOTPRouteProp>();
+  //   const { email } = route.params;
+  const email = "test@example.com";
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -86,7 +87,7 @@ export function VerifyOTPScreen() {
   };
 
   return (
-    <SafeAreaView style={VerifyOtpStyles.safeArea}>
+    <MainLayout>
       <View style={VerifyOtpStyles.container}>
         <PageTitle>Verify Your Email</PageTitle>
         <PageSubtitle style={VerifyOtpStyles.subtitle}>
@@ -135,6 +136,6 @@ export function VerifyOTPScreen() {
           </Button>
         </View>
       </View>
-    </SafeAreaView>
+    </MainLayout>
   );
 }

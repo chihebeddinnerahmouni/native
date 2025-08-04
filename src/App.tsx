@@ -11,6 +11,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./api-query/queryClient";
 import Toast from "react-native-toast-message";
 import { AuthProvider } from "./contexts/auth.context";
+import { ERoute } from "./utils";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,9 +41,15 @@ export default function App() {
         <SafeAreaProvider>
           <StatusBar style="auto" />
           <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Login" component={LoginScreen} />
-              <Stack.Screen name="VerifyOTP" component={VerifyOTPScreen} />
+            <Stack.Navigator
+              screenOptions={{ headerShown: false }}
+              initialRouteName={ERoute.VERIFY_OTP}
+            >
+              <Stack.Screen name={ERoute.LOGIN} component={LoginScreen} />
+              <Stack.Screen
+                name={ERoute.VERIFY_OTP}
+                component={VerifyOTPScreen}
+              />
             </Stack.Navigator>
           </NavigationContainer>
           <Toast />

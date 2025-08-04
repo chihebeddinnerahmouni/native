@@ -4,7 +4,6 @@ import {
 } from "../../components/ui/texts/Texts.component";
 import { LoginStyles } from "./login.style";
 import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { FieldText } from "../../components/ui/inputs/field-text/field-text.component";
 import { Button } from "../../components/ui/buttons/button.component";
 import { showErrorAlert } from "../../components/ui/alerts/alerts.component";
@@ -16,6 +15,7 @@ import { AuthSchema, AxiosInstanceErrorResponse } from "../../utils";
 import { useAuth } from "../../contexts";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { MainLayout } from "../../layout/main-layout.layout";
 
 type RootStackParamList = {
   VerifyOTP: { email: string };
@@ -66,7 +66,7 @@ export function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={LoginStyles.safeArea}>
+    <MainLayout>
       <View style={LoginStyles.container}>
         <PageTitle>Hello Again! Sign in to Access Your Dashboard</PageTitle>
         <PageSubtitle style={LoginStyles.PageSubtitle}>
@@ -94,6 +94,6 @@ export function LoginScreen() {
           <Button onPress={handleSubmit(onClickLogin)}>Sign In</Button>
         </View>
       </View>
-    </SafeAreaView>
+    </MainLayout>
   );
 }

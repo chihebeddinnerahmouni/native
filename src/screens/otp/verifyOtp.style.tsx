@@ -2,23 +2,17 @@ import { StyleSheet } from "react-native";
 import colors from "../../constants/colors";
 
 export const VerifyOtpStyles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.bgColor,
-  },
   container: {
     flex: 1,
-    padding: 24,
-    // justifyContent: "center",
+    marginTop: 32,
   },
   subtitle: {
-    // marginBottom: 40,
-    textAlign: "center",
+    marginTop: 12,
   },
   otpContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 40,
+    marginTop: 30,
     paddingHorizontal: 20,
   },
   otpInput: {
@@ -39,6 +33,7 @@ export const VerifyOtpStyles = StyleSheet.create({
   },
   buttonContainer: {
     gap: 16,
+    marginTop: 24,
   },
   resendButton: {
     marginTop: 8,
