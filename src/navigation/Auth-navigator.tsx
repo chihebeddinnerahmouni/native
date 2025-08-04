@@ -1,8 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { LoginScreen } from "../screens/login/LogIn.page";
-import { VerifyOTPScreen } from "../screens/otp/VerifyOTP.page";
 import { ERoute } from "../utils";
+import { LoginScreen } from "../screens/auth/login/LogIn.page";
+import { VerifyOTPScreen } from "../screens/auth/otp/VerifyOTP.page";
 
 const AuthStack = createNativeStackNavigator();
 

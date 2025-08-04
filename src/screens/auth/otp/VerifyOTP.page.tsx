@@ -4,15 +4,15 @@ import { useRoute, RouteProp } from "@react-navigation/native";
 import {
   PageTitle,
   PageSubtitle,
-} from "../../components/ui/texts/Texts.component";
-import { Button } from "../../components/ui/buttons/button.component";
-import { showErrorAlert } from "../../components/ui/alerts/alerts.component";
-import { useAuth } from "../../contexts";
+} from "../../../components/ui/texts/Texts.component";
+import { Button } from "../../../components/ui/buttons/button.component";
+import { showErrorAlert } from "../../../components/ui/alerts/alerts.component";
+import { useAuth } from "../../../contexts";
 import { VerifyOtpStyles } from "./verifyOtp.style";
-import { MainLayout } from "../../layout/main-layout.layout";
-import { useAuthMutation } from "../../api-query/hooks";
-import { AxiosInstanceErrorResponse } from "../../utils";
-import { LeftArrowIcon } from "../../icons";
+import { MainLayout } from "../../../layout/main-layout.layout";
+import { useAuthMutation } from "../../../api-query/hooks";
+import { AxiosInstanceErrorResponse } from "../../../utils";
+import { LeftArrowIcon } from "../../../icons";
 import { useNavigation } from "@react-navigation/native";
 
 type RootStackParamList = {

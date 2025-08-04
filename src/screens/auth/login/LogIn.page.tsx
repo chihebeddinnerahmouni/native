@@ -1,21 +1,21 @@
 import {
   PageTitle,
   PageSubtitle,
-} from "../../components/ui/texts/Texts.component";
+} from "../../../components/ui/texts/Texts.component";
 import { LoginStyles } from "./login.style";
 import { View } from "react-native";
-import { FieldText } from "../../components/ui/inputs/field-text/field-text.component";
-import { Button } from "../../components/ui/buttons/button.component";
-import { showErrorAlert } from "../../components/ui/alerts/alerts.component";
-import { useAuthMutation } from "../../api-query/hooks";
+import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
+import { Button } from "../../../components/ui/buttons/button.component";
+import { showErrorAlert } from "../../../components/ui/alerts/alerts.component";
+import { useAuthMutation } from "../../../api-query/hooks";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SignInDto } from "../../backend/casaikos-api";
-import { AuthSchema, AxiosInstanceErrorResponse, ERoute } from "../../utils";
-import { useAuth } from "../../contexts";
+import { SignInDto } from "../../../backend/casaikos-api";
+import { AuthSchema, AxiosInstanceErrorResponse, ERoute } from "../../../utils";
+import { useAuth } from "../../../contexts";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MainLayout } from "../../layout/main-layout.layout";
+import { MainLayout } from "../../../layout/main-layout.layout";
 
 type RootStackParamList = {
   [ERoute.VERIFY_OTP]: { email: string };
