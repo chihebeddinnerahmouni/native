@@ -15,7 +15,7 @@ import {
   AuthSchema,
   AxiosInstanceErrorResponse,
   ERoute,
-  EScreens,
+  NavigateAfterLogin,
 } from "../../../utils";
 import { useAuth } from "../../../contexts";
 import { useNavigation } from "@react-navigation/native";
@@ -24,7 +24,6 @@ import { MainLayout } from "../../../layout/main-layout.layout";
 
 type RootStackParamList = {
   [ERoute.VERIFY_OTP]: { email: string };
-  [EScreens.MESSAGES]: { screen: ERoute.MESSAGES_PAGE };
 };
 
 export function LoginScreen() {
@@ -60,9 +59,7 @@ export function LoginScreen() {
           navigation.navigate(ERoute.VERIFY_OTP, { email: values.email });
         } else {
           login(data);
-          navigation.navigate(EScreens.MESSAGES, {
-            screen: ERoute.MESSAGES_PAGE,
-          });
+          NavigateAfterLogin(navigation);
         }
       })
       .catch((e: AxiosInstanceErrorResponse) => {
