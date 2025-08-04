@@ -11,14 +11,14 @@ import { useAuthMutation } from "../../api-query/hooks";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInDto } from "../../backend/casaikos-api";
-import { AuthSchema, AxiosInstanceErrorResponse } from "../../utils";
+import { AuthSchema, AxiosInstanceErrorResponse, ERoute } from "../../utils";
 import { useAuth } from "../../contexts";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MainLayout } from "../../layout/main-layout.layout";
 
 type RootStackParamList = {
-  VerifyOTP: { email: string };
+  [ERoute.VERIFY_OTP]: { email: string };
 };
 
 export function LoginScreen() {
@@ -50,12 +50,11 @@ export function LoginScreen() {
 
     loginMut({ values })
       .then((data) => {
-        // if (data.otpRequired) {
-        //   navigation.navigate("VerifyOTP", { email: values.email });
-        // } else {
-        //   login(data);
-        // }
-        navigation.navigate("VerifyOTP", { email: values.email });
+        if (data.otpRequired) {
+          navigation.navigate(ERoute.VERIFY_OTP, { email: values.email });
+        } else {
+          login(data);
+        }
       })
       .catch((e: AxiosInstanceErrorResponse) => {
         if (e.status === 401) {

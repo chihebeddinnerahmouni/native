@@ -10,6 +10,8 @@ import { showErrorAlert } from "../../components/ui/alerts/alerts.component";
 import { useAuth } from "../../contexts";
 import { VerifyOtpStyles } from "./verifyOtp.style";
 import { MainLayout } from "../../layout/main-layout.layout";
+import { useAuthMutation } from "../../api-query/hooks";
+import { AxiosInstanceErrorResponse } from "../../utils";
 
 type RootStackParamList = {
   VerifyOTP: {
@@ -20,15 +22,15 @@ type RootStackParamList = {
 type VerifyOTPRouteProp = RouteProp<RootStackParamList, "VerifyOTP">;
 
 export function VerifyOTPScreen() {
-  //   const route = useRoute<VerifyOTPRouteProp>();
-  //   const { email } = route.params;
-  const email = "test@example.com";
+  const route = useRoute<VerifyOTPRouteProp>();
+  const { email } = route.params || { email: "test@example.com" };
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const inputRefs = useRef<(TextInput | null)[]>([]);
 
-  // const { verifyOTP: verifyOTPMut } = useAuthMutation();
+  const { verifyOtp, requestNewOtp } = useAuthMutation();
   const { login } = useAuth();
 
   const handleOTPChange = (value: string, index: number) => {
@@ -36,7 +38,6 @@ export function VerifyOTPScreen() {
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Auto-focus next input
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -58,18 +59,16 @@ export function VerifyOTPScreen() {
 
     setLoading(true);
     try {
-      // TODO: Implement actual OTP verification API call
-      // const data = await verifyOTPMut({
-      //   email,
-      //   otp: otpCode,
-      // });
-
-      // For now, just simulate success
-      const mockData = { accessToken: "mock-token", user: { name: "User" } };
-      login(mockData);
-      // Navigation will be handled by auth context
+      const data = await verifyOtp({
+        email,
+        otp: otpCode,
+      });
+      login(data);
     } catch (error) {
-      showErrorAlert("Error", "Invalid OTP. Please try again.");
+      const axiosError = error as AxiosInstanceErrorResponse;
+      const errorMessage =
+        axiosError.message || "Invalid OTP. Please try again.";
+      showErrorAlert("Error", errorMessage);
       setOtp(["", "", "", "", "", ""]);
       inputRefs.current[0]?.focus();
     } finally {
@@ -78,11 +77,19 @@ export function VerifyOTPScreen() {
   };
 
   const handleResendOTP = async () => {
+    setResendLoading(true);
     try {
-      // Implement resend OTP logic here
+      await requestNewOtp(email);
       showErrorAlert("Success", "OTP sent successfully!");
+      setOtp(["", "", "", "", "", ""]);
+      inputRefs.current[0]?.focus();
     } catch (error) {
-      showErrorAlert("Error", "Failed to resend OTP. Please try again.");
+      const axiosError = error as AxiosInstanceErrorResponse;
+      const errorMessage =
+        axiosError.message || "Failed to resend OTP. Please try again.";
+      showErrorAlert("Error", errorMessage);
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -131,6 +138,8 @@ export function VerifyOTPScreen() {
             variant="text"
             onPress={handleResendOTP}
             style={VerifyOtpStyles.resendButton}
+            loading={resendLoading}
+            disabled={resendLoading}
           >
             Resend OTP
           </Button>
