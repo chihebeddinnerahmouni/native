@@ -3,17 +3,14 @@ import {
   PageSubtitle,
 } from "../../components/ui/texts/Texts.component";
 import { LoginStyles } from "./login.style";
-import { View, TextInput, TouchableOpacity, Text, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-// import { FieldText } from "../../components/ui/inputs/field-text/field-text.component";
-// import { useLogin } from "../../api-query/auth.hooks";
+import { FieldText } from "../../components/ui/inputs/field-text/field-text.component";
 
 export function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // const loginMutation = useLogin();
 
   const handleLogin = () => {
     if (!email || !password) {
@@ -45,43 +42,20 @@ export function LoginScreen() {
           place.
         </PageSubtitle>
 
-        {/* Simple login form - you can style this better */}
         <View style={{ marginTop: 40, gap: 16 }}>
-          {/* <TextInput
-            style={{
-              borderWidth: 1,
-              borderColor: "#ccc",
-              padding: 12,
-              borderRadius: 8,
-              fontSize: 16,
-            }}
-            placeholder="Email"
+          <FieldText
+            label="Email"
+            placeholder="Enter your email"
             value={email}
             onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
           />
 
-          <TextInput
-            style={{
-              borderWidth: 1,
-              borderColor: "#ccc",
-              padding: 12,
-              borderRadius: 8,
-              fontSize: 16,
-            }}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          /> */}
-          {/* <FieldText
+          <FieldText
             label="Password"
             placeholder="Enter your password"
             value={password}
             onChangeText={setPassword}
-            // secureTextEntry
-          /> */}
+          />
 
           {/* <TouchableOpacity
             style={{
