@@ -3,10 +3,12 @@ import {
   PageSubtitle,
 } from "../../components/ui/texts/Texts.component";
 import { LoginStyles } from "./login.style";
-import { View, Alert } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { FieldText } from "../../components/ui/inputs/field-text/field-text.component";
+import { Button } from "../../components/ui/buttons/button.component";
+import { showErrorAlert } from "../../components/ui/alerts/alerts.component";
 
 export function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -14,7 +16,7 @@ export function LoginScreen() {
 
   const handleLogin = () => {
     if (!email || !password) {
-      Alert.alert("Error", "Please fill in all fields");
+      showErrorAlert("Error", "Please fill in all fields");
       return;
     }
 
@@ -42,7 +44,7 @@ export function LoginScreen() {
           place.
         </PageSubtitle>
 
-        <View style={{ marginTop: 40, gap: 16 }}>
+        <View style={LoginStyles.formContainer}>
           <FieldText
             label="Email"
             placeholder="Enter your email"
@@ -72,6 +74,7 @@ export function LoginScreen() {
               Sign In
             </Text>
           </TouchableOpacity>*/}
+          <Button onPress={handleLogin}>Sign In</Button>
         </View>
       </View>
     </SafeAreaView>

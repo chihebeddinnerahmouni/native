@@ -12,4 +12,5 @@ export const LoginStyles = StyleSheet.create({
     ...PageSubtitle,
     marginTop: 16,
   },
+  formContainer: { marginTop: 40, gap: 16 },
 });

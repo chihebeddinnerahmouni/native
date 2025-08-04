@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosError, AxiosResponse } from "axios";
 import { Api } from "../backend/casaikos-api";
-import { toast } from "react-toastify";
+import Toast from "react-native-toast-message";
 import { getToken, removeToken, setToken } from "./token.utils";
 
 export interface AxiosInstanceErrorResponse {
@@ -155,7 +155,11 @@ AxiosInstance.instance.interceptors.response.use(
       case 429: {
         const messageError =
           "Too many requests, please try again later or contact admin.";
-        toast.error(messageError);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: messageError,
+        });
         errorResponse = {
           status: 400,
           message: messageError,

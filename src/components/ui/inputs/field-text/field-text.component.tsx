@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import {
   View,
-  Text,
+  // Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
@@ -14,6 +14,7 @@ import {
 } from "react-hook-form";
 import { EyeIcon, EyeOffIcon, LoopIcon } from "../../../../icons";
 import { colors } from "../../../../constants/colors";
+import { TextLabel } from "../../texts/Texts.component";
 
 type FieldTextProps = {
   label?: string;
@@ -88,7 +89,7 @@ export const FieldText = ({
     }
 
     if (type === "currency") {
-      return <Text style={styles.currencyText}>AED</Text>;
+      return <TextLabel style={styles.currencyText}>AED</TextLabel>;
     }
 
     return startIcon;
@@ -103,9 +104,9 @@ export const FieldText = ({
   return (
     <View style={[styles.container, style, error && styles.errorContainer]}>
       {label && (
-        <Text style={styles.label}>
-          {label} {required && <Text style={styles.required}>*</Text>}
-        </Text>
+        <TextLabel style={styles.label}>
+          {label} {required && <TextLabel style={styles.required}>*</TextLabel>}
+        </TextLabel>
       )}
 
       <View style={[styles.inputContainer, disabled && styles.disabled]}>
@@ -136,7 +137,9 @@ export const FieldText = ({
           </TouchableOpacity>
         )}
       </View>
-      {error && <Text style={styles.errorText}>{error?.message}</Text>}
+      {error && (
+        <TextLabel style={styles.errorText}>{error?.message}</TextLabel>
+      )}
     </View>
   );
 };

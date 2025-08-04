@@ -1,5 +1,6 @@
 export * from "./axios.utils";
 export * from "./token.utils";
+export * from "./theme.utils";
 // export * from "./pagination";
 // export * from "./time.utils";
 // export * from "./routes.utils";

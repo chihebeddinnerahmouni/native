@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+coverage/
+.expo/
+.expo-shared/
+*.log
+*.tsbuildinfo
+android/
+ios/
+web-build/
+.git/
