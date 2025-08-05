@@ -15,13 +15,6 @@
 //     </AuthLayout>
 //   );
 // };
-
-// src/screens/MessagesScreen.tsx
-// import {
-//   MessagesList,
-//   EActiveSection,
-// } from "../components/messages/MessagesList";
-// import { IRecentMessage } from "../utils/messages.utils";
 import React, { useMemo, useState } from "react";
 import {
   ScrollView,
@@ -40,7 +33,7 @@ import { RecentMessageComponent } from "../../../components/messages/conversatio
 import { IRecentMessage } from "../../../utils";
 import { ConversationListStyle } from "./conversations-list.style";
 
-export const MessagesScreen = () => {
+export const ConversationsList = () => {
   const [search, setSearch] = useState("");
   const [selectedTenantId, setSelectedTenantId] = useState<string>();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
