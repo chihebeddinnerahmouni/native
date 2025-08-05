@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ERoute } from "../utils";
-import { ConversationsList } from "../screens/messages/conversations-list.page";
+import { MessagesScreen } from "../screens/messages/conversations-list.page";
 import { Messages } from "../screens/messages/messages.page";
 
 const MessagesStack = createNativeStackNavigator();
@@ -14,7 +14,7 @@ export const MessagesNavigator = () => {
     >
       <MessagesStack.Screen
         name={ERoute.CONVERSATIONS_LIST}
-        component={ConversationsList}
+        component={MessagesScreen}
       />
       <MessagesStack.Screen name={ERoute.MESSAGES_PAGE} component={Messages} />
     </MessagesStack.Navigator>

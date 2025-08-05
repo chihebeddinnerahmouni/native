@@ -14,7 +14,5 @@ export enum ERoute {
 }
 
 export const NavigateAfterLogin = (navigation: any) => {
-  navigation.navigate(EScreens.MESSAGES, {
-    screen: ERoute.MESSAGES_PAGE,
-  });
+  navigation.navigate(EScreens.MESSAGES);
 };

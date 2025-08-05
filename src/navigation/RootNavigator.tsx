@@ -10,7 +10,7 @@ export const RootNavigator = () => {
   return (
     <RootStack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={EScreens.AUTH}
+      initialRouteName={EScreens.MESSAGES}
     >
       <RootStack.Screen name={EScreens.AUTH} component={AuthNavigator} />
       <RootStack.Screen
