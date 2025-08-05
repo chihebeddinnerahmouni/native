@@ -44,10 +44,12 @@ import { MainLayout } from "../../../layout/main-layout.layout";
 import { PageTitle } from "../../../components/ui/texts/Texts.component";
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 import { SearchIcon } from "../../../icons";
+import colors from "../../../constants/colors";
 
 export const MessagesScreen = () => {
   const [search, setSearch] = useState("");
   const [selectedTenantId, setSelectedTenantId] = useState<string>();
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [recentMessages, setRecentMessages] =
     useState<IRecentMessage[]>(recentMessagesMock);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,20 +73,24 @@ export const MessagesScreen = () => {
     <MainLayout>
       <View style={[styles.container]}>
         <View style={styles.header}>
-          <PageTitle style={styles.title}>Messages</PageTitle>
-          <View>
+          <PageTitle>Messages</PageTitle>
+          <TouchableOpacity onPress={() => setIsSearchFocused((prev) => !prev)}>
             <SearchIcon />
-          </View>
-          {/* <FieldText
+          </TouchableOpacity>
+        </View>
+        {isSearchFocused && (
+          <FieldText
             value={search}
             onChangeText={(text) => setSearch(text)}
             placeholder="Search messages..."
-          /> */}
-        </View>
+            startIcon={<SearchIcon />}
+            style={styles.searchInput}
+          />
+        )}
 
         {isLoading ? (
           <View style={styles.noItems}>
-            <ActivityIndicator size="large" color="#007bff" />
+            <ActivityIndicator size="large" color={colors.primaryColor} />
           </View>
         ) : (
           <ScrollView
@@ -190,15 +196,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    marginBottom: 16,
+    marginBottom: 12,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  title: {
-    marginBottom: 12,
-  },
+  searchInput: { marginBottom: 12 },
   // searchInput: {
   //   height: 40,
   //   borderWidth: 1,
