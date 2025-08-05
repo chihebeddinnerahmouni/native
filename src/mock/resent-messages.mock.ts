@@ -3,7 +3,7 @@ import { IRecentMessage } from "../utils";
 export const recentMessagesMock: IRecentMessage[] = [
   {
     tenant: {
-      _id: "1",
+      _id: "686a6bfe33547b8927dfc66a",
       firstName: "Alice",
       lastName: "Smith",
       isOnline: true,
@@ -14,7 +14,7 @@ export const recentMessagesMock: IRecentMessage[] = [
   },
   {
     tenant: {
-      _id: "2",
+      _id: "687f4b067f57e18f83ed58ed",
       firstName: "Bob",
       lastName: "Johnson",
       isOnline: false,

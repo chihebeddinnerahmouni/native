@@ -41,11 +41,6 @@ export const ConversationsList = () => {
     useState<IRecentMessage[]>(recentMessagesMock);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSelectConversation = (tenantId: string) => {
-    setSelectedTenantId(tenantId);
-    // Navigate to conversation screen or update state as needed
-  };
-
   const filteredRecentMessages = useMemo(
     () =>
       recentMessages.filter((el) =>
@@ -92,7 +87,6 @@ export const ConversationsList = () => {
                   key={el.tenant._id}
                   el={el}
                   selectedTenantId={selectedTenantId}
-                  onSelectConversation={handleSelectConversation}
                 />
               ))
             ) : (

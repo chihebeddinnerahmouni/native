@@ -4,23 +4,37 @@ import {
   ProfileIcon,
   EntityType,
 } from "../../../components/ui/Profile-icon.component";
-// import { useNavigation } from '@react-navigation/native';
-import { getTimeSince } from "../../../utils";
+import { useNavigation } from "@react-navigation/native";
+import { ERoute, EScreens, getTimeSince } from "../../../utils";
 import { getIconColorFromId, IRecentMessage } from "../../../utils";
 import { TextBody } from "../../../components/ui/texts/Texts.component";
 import { ConversationItemStyle } from "./conversation-item.style";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  [EScreens.MESSAGES]: {
+    screen: string;
+    params: {
+      tenantId: string;
+    };
+  };
+};
 
 export const RecentMessageComponent = ({
   el,
   selectedTenantId,
-  onSelectConversation,
 }: {
   el: IRecentMessage;
   selectedTenantId?: string;
-  onSelectConversation: (tenantId: string) => void;
 }) => {
-  const onPress = () => {
-    onSelectConversation(el.tenant._id);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const handleSelectConversation = (tenantId: string) => {
+    navigation.navigate(EScreens.MESSAGES, {
+      screen: ERoute.MESSAGES_PAGE,
+      params: { tenantId: tenantId },
+    });
   };
 
   const isActive = el.tenant._id === selectedTenantId;
@@ -34,7 +48,7 @@ export const RecentMessageComponent = ({
           ? ConversationItemStyle.activeMessageItem
           : ConversationItemStyle.notActiveMessageItem,
       ]}
-      onPress={onPress}
+      onPress={() => handleSelectConversation(el.tenant._id)}
       activeOpacity={0.7}
     >
       <View style={ConversationItemStyle.profileSection}>
