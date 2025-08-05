@@ -9,7 +9,7 @@ import { Button } from "../../../components/ui/buttons/button.component";
 import { showErrorAlert } from "../../../components/ui/alerts/alerts.component";
 import { useAuth } from "../../../contexts";
 import { VerifyOtpStyles } from "./verifyOtp.style";
-import { MainLayout } from "../../../layout/main-layout.layout";
+import { AuthLayout } from "../../../layout/auth.layout";
 import { useAuthMutation } from "../../../api-query/hooks";
 import {
   AxiosInstanceErrorResponse,
@@ -100,7 +100,7 @@ export function VerifyOTPScreen() {
   };
 
   return (
-    <MainLayout>
+    <AuthLayout>
       <View style={VerifyOtpStyles.container}>
         <TouchableOpacity
           style={VerifyOtpStyles.backButton}
@@ -157,6 +157,6 @@ export function VerifyOTPScreen() {
           </Button>
         </View>
       </View>
-    </MainLayout>
+    </AuthLayout>
   );
 }

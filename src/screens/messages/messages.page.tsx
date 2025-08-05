@@ -1,14 +1,14 @@
 import React from "react";
 import { View } from "react-native";
 import { TextLabel } from "../../components/ui/texts/Texts.component";
-import { MainLayout } from "../../layout/main-layout.layout";
+import { AuthLayout } from "../../layout/auth.layout";
 
 export const Messages = () => {
   return (
-    <MainLayout>
+    <AuthLayout>
       <View>
         <TextLabel>Messages Page</TextLabel>
       </View>
-    </MainLayout>
+    </AuthLayout>
   );
 };

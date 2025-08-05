@@ -6,7 +6,7 @@ import colors from "../constants/colors";
 type AppLayoutProps = {
   children: React.ReactNode;
 };
-export const MainLayout = ({ children }: AppLayoutProps) => {
+export const AuthLayout = ({ children }: AppLayoutProps) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>{children}</View>

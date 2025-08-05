@@ -143,3 +143,21 @@ export const SearchIcon = ({ title = "Search" }: { title?: string }) => (
     />
   </Svg>
 );
+
+export const BackArrowIcon = ({ title = "Back" }: { title?: string }) => (
+  <Svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M15 6L9 12L15 18"
+      stroke="#030F0F"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);

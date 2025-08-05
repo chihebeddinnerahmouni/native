@@ -1,18 +1,18 @@
 // import React from "react";
 // import { View } from "react-native";
 // import { TextLabel } from "../../components/ui/texts/Texts.component";
-// import { MainLayout } from "../../layout/main-layout.layout";
+// import { AuthLayout } from "../../layout/main-layout.layout";
 // import { useChatList } from "../../api-query/hooks";
 
 // export const ConversationsList = () => {
 //   const { chatList, isLoading: isChatListLoading } = useChatList();
 
 //   return (
-//     <MainLayout>
+//     <AuthLayout>
 //       <View>
 //         <TextLabel>Conversations List Page</TextLabel>
 //       </View>
-//     </MainLayout>
+//     </AuthLayout>
 //   );
 // };
 
@@ -40,11 +40,11 @@ import {
 import { getTimeSince } from "../../../utils";
 import { getIconColorFromId, IRecentMessage } from "../../../utils";
 import { recentMessagesMock } from "../../../mock/resent-messages.mock";
-import { MainLayout } from "../../../layout/main-layout.layout";
 import { PageTitle } from "../../../components/ui/texts/Texts.component";
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 import { SearchIcon } from "../../../icons";
 import colors from "../../../constants/colors";
+import { MainLayout } from "../../../layout";
 
 export const MessagesScreen = () => {
   const [search, setSearch] = useState("");
@@ -70,14 +70,16 @@ export const MessagesScreen = () => {
   );
 
   return (
-    <MainLayout>
+    <MainLayout
+      isBackButtonVisible={false}
+      HeaderLeft={<PageTitle>Messages</PageTitle>}
+      HeaderRight={
+        <TouchableOpacity onPress={() => setIsSearchFocused((prev) => !prev)}>
+          <SearchIcon />
+        </TouchableOpacity>
+      }
+    >
       <View style={[styles.container]}>
-        <View style={styles.header}>
-          <PageTitle>Messages</PageTitle>
-          <TouchableOpacity onPress={() => setIsSearchFocused((prev) => !prev)}>
-            <SearchIcon />
-          </TouchableOpacity>
-        </View>
         {isSearchFocused && (
           <FieldText
             value={search}
@@ -104,7 +106,7 @@ export const MessagesScreen = () => {
                   el={el}
                   selectedTenantId={selectedTenantId}
                   onSelectConversation={handleSelectConversation}
-                  highlighted={index % 2 !== 0}
+                  highlighted={index % 2 === 0}
                 />
               ))
             ) : (
@@ -195,23 +197,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    marginBottom: 12,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
   searchInput: { marginBottom: 12 },
-  // searchInput: {
-  //   height: 40,
-  //   borderWidth: 1,
-  //   borderColor: "#ddd",
-  //   borderRadius: 8,
-  //   paddingHorizontal: 12,
-  //   fontSize: 16,
-  //   backgroundColor: "#f8f9fa",
-  // },
   messagesList: {
     flex: 1,
   },
@@ -220,7 +206,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 8,
-    marginVertical: 1,
     borderRadius: 8,
   },
   activeMessageItem: {
@@ -229,7 +214,7 @@ const styles = StyleSheet.create({
     borderRightColor: "#007bff",
   },
   highlightedMessageItem: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "red",
   },
   profileSection: {
     flexDirection: "row",

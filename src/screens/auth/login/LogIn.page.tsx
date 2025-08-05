@@ -20,7 +20,7 @@ import {
 import { useAuth } from "../../../contexts";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MainLayout } from "../../../layout/main-layout.layout";
+import { AuthLayout } from "../../../layout/auth.layout";
 
 type RootStackParamList = {
   [ERoute.VERIFY_OTP]: { email: string };
@@ -71,7 +71,7 @@ export function LoginScreen() {
   };
 
   return (
-    <MainLayout>
+    <AuthLayout>
       <View style={LoginStyles.container}>
         <PageTitle>Hello Again! Sign in to Access Your Dashboard</PageTitle>
         <PageSubtitle style={LoginStyles.PageSubtitle}>
@@ -99,6 +99,6 @@ export function LoginScreen() {
           <Button onPress={handleSubmit(onClickLogin)}>Sign In</Button>
         </View>
       </View>
-    </MainLayout>
+    </AuthLayout>
   );
 }
