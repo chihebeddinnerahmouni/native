@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import colors from "../constants/colors";
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -16,9 +17,11 @@ export const MainLayout = ({ children }: AppLayoutProps) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    backgroundColor: colors.bgColor,
   },
   container: {
     flex: 1,
-    padding: 16,
+    paddingHorizontal: 16,
+    backgroundColor: colors.bgColor,
   },
 });

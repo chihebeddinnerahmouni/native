@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ERoute } from "../utils";
-import { MessagesScreen } from "../screens/messages/conversations-list.page";
+import { MessagesScreen } from "../screens/messages/conversation list/conversations-list.page";
 import { Messages } from "../screens/messages/messages.page";
 
 const MessagesStack = createNativeStackNavigator();

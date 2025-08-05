@@ -35,11 +35,15 @@ import {
 import {
   ProfileIcon,
   EntityType,
-} from "../../components/ui/Profile-icon.component";
+} from "../../../components/ui/Profile-icon.component";
 // import { useNavigation } from '@react-navigation/native';
-import { getTimeSince } from "../../utils";
-import { getIconColorFromId, IRecentMessage } from "../../utils";
-import { recentMessagesMock } from "../../mock/resent-messages.mock";
+import { getTimeSince } from "../../../utils";
+import { getIconColorFromId, IRecentMessage } from "../../../utils";
+import { recentMessagesMock } from "../../../mock/resent-messages.mock";
+import { MainLayout } from "../../../layout/main-layout.layout";
+import { PageTitle } from "../../../components/ui/texts/Texts.component";
+import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
+import { SearchIcon } from "../../../icons";
 
 export const MessagesScreen = () => {
   const [search, setSearch] = useState("");
@@ -64,17 +68,18 @@ export const MessagesScreen = () => {
   );
 
   return (
-    <View style={MainStyles.container}>
+    <MainLayout>
       <View style={[styles.container]}>
         <View style={styles.header}>
-          <Text style={styles.title}>Messages</Text>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search messages..."
+          <PageTitle style={styles.title}>Messages</PageTitle>
+          <View>
+            <SearchIcon />
+          </View>
+          {/* <FieldText
             value={search}
-            onChangeText={setSearch}
-            placeholderTextColor="#999"
-          />
+            onChangeText={(text) => setSearch(text)}
+            placeholder="Search messages..."
+          /> */}
         </View>
 
         {isLoading ? (
@@ -92,7 +97,6 @@ export const MessagesScreen = () => {
                   key={el.tenant._id}
                   el={el}
                   selectedTenantId={selectedTenantId}
-                  // setActiveSection={setActiveSection}
                   onSelectConversation={handleSelectConversation}
                   highlighted={index % 2 !== 0}
                 />
@@ -105,32 +109,22 @@ export const MessagesScreen = () => {
           </ScrollView>
         )}
       </View>
-    </View>
+    </MainLayout>
   );
 };
-
-const MainStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
-});
 
 const RecentMessageComponent = ({
   el,
   selectedTenantId,
-  // setActiveSection,
   onSelectConversation,
   highlighted,
 }: {
   el: IRecentMessage;
   selectedTenantId?: string;
-  // setActiveSection: (section: EActiveSection) => void;
   onSelectConversation: (tenantId: string) => void;
   highlighted: boolean;
 }) => {
   const onPress = () => {
-    // setActiveSection(EActiveSection.CONVERSATION);
     onSelectConversation(el.tenant._id);
   };
 
@@ -194,34 +188,26 @@ const RecentMessageComponent = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 16,
-    margin: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   header: {
     marginBottom: 16,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#333",
     marginBottom: 12,
   },
-  searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    fontSize: 16,
-    backgroundColor: "#f8f9fa",
-  },
+  // searchInput: {
+  //   height: 40,
+  //   borderWidth: 1,
+  //   borderColor: "#ddd",
+  //   borderRadius: 8,
+  //   paddingHorizontal: 12,
+  //   fontSize: 16,
+  //   backgroundColor: "#f8f9fa",
+  // },
   messagesList: {
     flex: 1,
   },

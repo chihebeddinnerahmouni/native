@@ -18,10 +18,6 @@ export const TextLabel = (props: React.ComponentProps<typeof Text>) => (
   <Text weight="medium" size={14} {...props} />
 );
 
-export const Caption = (props: React.ComponentProps<typeof Text>) => (
-  <Text weight="light" size={12} {...props} />
-);
-
 export const ButtonText = (props: React.ComponentProps<typeof Text>) => (
   <Text weight="medium" size={16} {...props} />
 );
