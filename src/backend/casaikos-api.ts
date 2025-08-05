@@ -89,6 +89,11 @@ export enum EModuleNames {
   Notes = "notes",
 }
 
+export enum EChatMessageType {
+  AgentTookLead = "AgentTookLead",
+  AiTookLead = "AiTookLead",
+}
+
 export enum EWebsocketType {
   Select = "select",
   Message = "message",
@@ -299,9 +304,16 @@ export enum EAvailabilityStatus {
   FREE = "FREE",
 }
 
-export enum EChatMessageType {
+export enum EChatAgentType {
   AgentTookLead = "AgentTookLead",
   AiTookLead = "AiTookLead",
+}
+
+export enum EWhatsappMessageType {
+  Text = "text",
+  Document = "document",
+  Image = "image",
+  Audio = "audio",
 }
 
 export enum EUserSelectFields {
@@ -572,6 +584,14 @@ export interface Image {
   id: string;
 }
 
+export interface Audio {
+  filename: string;
+  caption: string;
+  mime_type: string;
+  sha256: string;
+  id: string;
+}
+
 export interface Document {
   filename: string;
   caption: string;
@@ -587,6 +607,7 @@ export interface Message {
   type: string;
   text?: Text;
   image?: Image;
+  audio?: Audio;
   document?: Document;
 }
 
@@ -631,8 +652,10 @@ export interface WhatsappChat {
   /** @format date-time */
   timestamp: string;
   isRead?: boolean;
+  whatsappMessageType?: EWhatsappMessageType;
+  aiTranscriptionOfFile: string;
   isReply: boolean;
-  type?: EChatMessageType;
+  type?: EChatAgentType;
   agent?: User;
   isAiRecommendationOn: boolean;
   tenant: object;
@@ -706,7 +729,7 @@ export interface UpdateConversationLeadDto {
   tenantId: string;
   /** Agent id */
   agentId?: string;
-  lead: EChatMessageType;
+  lead: string;
 }
 
 export interface AddAvailabilityDto {
@@ -1573,6 +1596,10 @@ export interface UpdateTenantDataDto {
   passport?: PassportDto;
   agentId?: string;
   bank?: BankDto;
+}
+
+export interface UpdateWhatsappViaAiDto {
+  aiTranscriptionOfFile: string;
 }
 
 export interface CreateTaskDto {
@@ -4896,6 +4923,40 @@ export class Api<
       this.request<void, any>({
         path: `/ai/update-summary-conversation`,
         method: "POST",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags ai
+     * @name AiControllerUpdateWhatsapp
+     * @request POST:/ai/whatsapp/{id}
+     */
+    aiControllerUpdateWhatsapp: (
+      id: string,
+      data: UpdateWhatsappViaAiDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/ai/whatsapp/${id}`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags ai
+     * @name AiControllerDownloadFile
+     * @request GET:/ai/{fileKey}
+     */
+    aiControllerDownloadFile: (fileKey: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/ai/${fileKey}`,
+        method: "GET",
         ...params,
       }),
   };

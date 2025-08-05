@@ -32,7 +32,7 @@ const addPendingRequest = (callback: CallableFunction) => {
 const refreshToken = async () => {
   const response = await AxiosInstance.instance.post("/auth/refresh", {});
   const { accessToken } = response.data;
-  setToken(accessToken);
+  await setToken(accessToken);
   return accessToken;
 };
 
@@ -54,7 +54,7 @@ AxiosInstance.instance.interceptors.request.use(
     // Skip interceptor for CSRF request
     if (config.url === "/auth/csrf-token") return config;
 
-    const token = getToken();
+    const token = await getToken();
     if (token) config.headers.Authorization = `Bearer ${token}`;
     config.headers["Content-Type"] = "application/json";
     config.headers["ngrok-skip-browser-warning"] = "skip-browser-warning";
@@ -123,7 +123,7 @@ AxiosInstance.instance.interceptors.response.use(
             onRefreshed(newToken);
             return AxiosInstance.instance(originalRequest);
           } catch (refreshError) {
-            removeToken();
+            await removeToken();
             // window.location.href = "/login";
           } finally {
             isRefreshing = false;

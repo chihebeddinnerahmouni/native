@@ -33,7 +33,7 @@ import { useAuth } from "../../../contexts";
 import { ERoute, getIconColorFromId } from "../../../utils";
 import {
   Tenant,
-  EChatMessageType,
+  EChatAgentType,
   WhatsappChat,
 } from "../../../backend/casaikos-api";
 
@@ -55,7 +55,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useMessages, useSingleTenant } from "../../../api-query/hooks";
 
 export type TLeadConversation = {
-  type: EChatMessageType;
+  type: EChatAgentType;
   id?: string;
   isMe?: boolean;
   leadAgent?: any; // User type
@@ -110,21 +110,21 @@ export const Messages = () => {
     const lastLead = messagesResult
       .filter((message) => !!message.type && message.isReply === false)
       ?.pop();
-    if (!lastLead || lastLead.type === EChatMessageType.AiTookLead) {
+    if (!lastLead || lastLead.type === EChatAgentType.AiTookLead) {
       return {
-        type: EChatMessageType.AiTookLead,
+        type: EChatAgentType.AiTookLead,
       };
     }
     return {
       id: lastLead._id,
-      type: EChatMessageType.AgentTookLead,
+      type: EChatAgentType.AgentTookLead,
       isMe: lastLead.agent?._id === user?._id,
       leadAgent: lastLead.agent,
     };
   }, [messagesResult, user?._id]);
 
   const submitMessage = () => {
-    if (leadConversation.type === EChatMessageType.AiTookLead) return;
+    if (leadConversation.type === EChatAgentType.AiTookLead) return;
 
     if (attachment) {
       // Check file size (assuming you have a max file size constant)
@@ -240,7 +240,7 @@ export const Messages = () => {
               <Text style={styles.leadName}>
                 {leadConversation.isMe
                   ? "You have "
-                  : leadConversation.type === EChatMessageType.AgentTookLead
+                  : leadConversation.type === EChatAgentType.AgentTookLead
                     ? `${leadConversation.leadAgent?.firstName} ${leadConversation.leadAgent?.lastName} has `
                     : "AI has "}
                 the lead
@@ -359,7 +359,7 @@ const MessageItem = ({
     return (
       <View style={styles.leadItem}>
         <Text style={styles.leadItemText}>
-          {message.type === EChatMessageType.AiTookLead
+          {message.type === EChatAgentType.AiTookLead
             ? "AI"
             : message.agent?.firstName}{" "}
           took the lead
