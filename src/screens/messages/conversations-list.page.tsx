@@ -42,11 +42,9 @@ import { getIconColorFromId, IRecentMessage } from "../../utils";
 import { recentMessagesMock } from "../../mock/resent-messages.mock";
 
 export const MessagesScreen = () => {
-  const [activeSection, setActiveSection] = useState<EActiveSection>(
-    EActiveSection.MESSAGES
-  );
+  const [search, setSearch] = useState("");
   const [selectedTenantId, setSelectedTenantId] = useState<string>();
-  const [messages, setMessages] =
+  const [recentMessages, setRecentMessages] =
     useState<IRecentMessage[]>(recentMessagesMock);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -55,16 +53,58 @@ export const MessagesScreen = () => {
     // Navigate to conversation screen or update state as needed
   };
 
+  const filteredRecentMessages = useMemo(
+    () =>
+      recentMessages.filter((el) =>
+        (el.tenant.firstName + " " + el.tenant.lastName)
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      ),
+    [search, recentMessages]
+  );
+
   return (
     <View style={MainStyles.container}>
-      <ConversationsList
-        data={messages}
-        selectedTenantId={selectedTenantId}
-        isLoading={isLoading}
-        setActiveSection={setActiveSection}
-        onSelectConversation={handleSelectConversation}
-        isActive={activeSection === EActiveSection.MESSAGES}
-      />
+      <View style={[styles.container]}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Messages</Text>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search messages..."
+            value={search}
+            onChangeText={setSearch}
+            placeholderTextColor="#999"
+          />
+        </View>
+
+        {isLoading ? (
+          <View style={styles.noItems}>
+            <ActivityIndicator size="large" color="#007bff" />
+          </View>
+        ) : (
+          <ScrollView
+            style={styles.messagesList}
+            showsVerticalScrollIndicator={false}
+          >
+            {filteredRecentMessages.length ? (
+              filteredRecentMessages.map((el, index) => (
+                <RecentMessageComponent
+                  key={el.tenant._id}
+                  el={el}
+                  selectedTenantId={selectedTenantId}
+                  // setActiveSection={setActiveSection}
+                  onSelectConversation={handleSelectConversation}
+                  highlighted={index % 2 !== 0}
+                />
+              ))
+            ) : (
+              <View style={styles.noItems}>
+                <Text style={styles.noItemsText}>No results</Text>
+              </View>
+            )}
+          </ScrollView>
+        )}
+      </View>
     </View>
   );
 };
@@ -76,101 +116,21 @@ const MainStyles = StyleSheet.create({
   },
 });
 
-export enum EActiveSection {
-  MESSAGES = "messages",
-  CONVERSATION = "conversation",
-}
-
-type MessageListProps = {
-  data: IRecentMessage[];
-  selectedTenantId?: string;
-  isLoading?: boolean;
-  setActiveSection: (section: EActiveSection) => void;
-  onSelectConversation: (tenantId: string) => void;
-  isActive: boolean;
-};
-
-const ConversationsList = ({
-  data,
-  selectedTenantId,
-  isLoading = false,
-  setActiveSection,
-  onSelectConversation,
-  isActive,
-}: MessageListProps) => {
-  const [search, setSearch] = useState("");
-
-  console.log("ConversationsList data:", data);
-
-  const filteredRecentMessages = useMemo(
-    () =>
-      data.filter((el) =>
-        (el.tenant.firstName + " " + el.tenant.lastName)
-          .toLowerCase()
-          .includes(search.toLowerCase())
-      ),
-    [search, data]
-  );
-
-  return (
-    <View style={[styles.container, !isActive && styles.notActive]}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Messages</Text>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search messages..."
-          value={search}
-          onChangeText={setSearch}
-          placeholderTextColor="#999"
-        />
-      </View>
-
-      {isLoading ? (
-        <View style={styles.noItems}>
-          <ActivityIndicator size="large" color="#007bff" />
-        </View>
-      ) : (
-        <ScrollView
-          style={styles.messagesList}
-          showsVerticalScrollIndicator={false}
-        >
-          {filteredRecentMessages.length ? (
-            filteredRecentMessages.map((el, index) => (
-              <RecentMessageComponent
-                key={el.tenant._id}
-                el={el}
-                selectedTenantId={selectedTenantId}
-                setActiveSection={setActiveSection}
-                onSelectConversation={onSelectConversation}
-                highlighted={index % 2 !== 0}
-              />
-            ))
-          ) : (
-            <View style={styles.noItems}>
-              <Text style={styles.noItemsText}>No results</Text>
-            </View>
-          )}
-        </ScrollView>
-      )}
-    </View>
-  );
-};
-
 const RecentMessageComponent = ({
   el,
   selectedTenantId,
-  setActiveSection,
+  // setActiveSection,
   onSelectConversation,
   highlighted,
 }: {
   el: IRecentMessage;
   selectedTenantId?: string;
-  setActiveSection: (section: EActiveSection) => void;
+  // setActiveSection: (section: EActiveSection) => void;
   onSelectConversation: (tenantId: string) => void;
   highlighted: boolean;
 }) => {
   const onPress = () => {
-    setActiveSection(EActiveSection.CONVERSATION);
+    // setActiveSection(EActiveSection.CONVERSATION);
     onSelectConversation(el.tenant._id);
   };
 
@@ -244,9 +204,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  notActive: {
-    opacity: 0.6,
-  },
   header: {
     marginBottom: 16,
   },
@@ -294,9 +251,7 @@ const styles = StyleSheet.create({
     position: "relative",
     marginRight: 12,
   },
-  onlineIndicator: {
-    // Additional styling for online users if needed
-  },
+  onlineIndicator: {},
   onlineDot: {
     position: "absolute",
     bottom: 2,
