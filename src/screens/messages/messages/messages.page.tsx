@@ -57,6 +57,7 @@ import {
   useMessagesMutation,
   useSingleTenant,
 } from "../../../api-query/hooks";
+import { RNFile, sendWhatsappRequest } from "../../../utils/files.utils";
 
 export type TLeadConversation = {
   type: EChatAgentType;
@@ -82,7 +83,7 @@ export const Messages = () => {
   const selectedTenantId = route.params?.tenantId;
   const scrollViewRef = useRef<ScrollView>(null);
   const [message, setMessage] = useState("");
-  const [attachment, setAttachment] = useState<any>(null);
+  const [attachment, setAttachment] = useState<RNFile | null>(null);
   const [isUpdatingLead, setIsUpdatingLead] = useState(false);
 
   const { tenant: selectedTenant } = useSingleTenant({
@@ -130,9 +131,8 @@ export const Messages = () => {
     if (leadConversation.type === EChatAgentType.AiTookLead) return;
 
     if (attachment) {
-      // Check file size (assuming you have a max file size constant)
-      const maxFileSize = 10; // MB
-      if (attachment.size > maxFileSize * 1024 * 1024) {
+      const maxFileSize = 10;
+      if (attachment.size && attachment.size > maxFileSize * 1024 * 1024) {
         Alert.alert("Error", `File size is bigger than ${maxFileSize} MB!`);
         return;
       }
@@ -141,10 +141,7 @@ export const Messages = () => {
     if (!attachment && !message) {
       return;
     }
-
-    // updateRecentMessages(selectedTenant, message);
-    // Call your WhatsApp send function here
-    // sendWhatsappRequest(selectedTenant?._id ?? '', message, attachment);
+    sendWhatsappRequest(selectedTenant?._id ?? "", message, attachment);
     setAttachment(null);
     setMessage("");
   };
@@ -166,15 +163,27 @@ export const Messages = () => {
   };
 
   const handleAttachFile = () => {
-    // Use react-native-document-picker or similar
+    //     const result = await DocumentPicker.getDocumentAsync({
+    //       type: '*/*',
+    //       copyToCacheDirectory: true,
+    //     });
+    //
+    //     if (!result.cancelled) {
+    //       const file: RNFile = {
+    //         uri: result.uri,
+    //         name: result.name,
+    //         type: result.mimeType || 'application/octet-stream',
+    //         size: result.size,
+    //       };
+    //       setAttachment(file);
+    //     }
     Alert.alert(
       "File Attachment",
-      "File attachment feature will be implemented"
+      "To implement file attachment, install expo-document-picker:\n\nnpx expo install expo-document-picker"
     );
   };
 
   const handleDownloadFile = (file: any) => {
-    // Implement file download
     Alert.alert("Download", `Downloading ${file.fileName}`);
   };
 
@@ -435,9 +444,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  // notActive: {
-  //   display: "none",
-  // },
   header: {
     flexDirection: "row",
     alignItems: "center",
