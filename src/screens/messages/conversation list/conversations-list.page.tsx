@@ -40,7 +40,10 @@ import {
 import { getTimeSince } from "../../../utils";
 import { getIconColorFromId, IRecentMessage } from "../../../utils";
 import { recentMessagesMock } from "../../../mock/resent-messages.mock";
-import { PageTitle } from "../../../components/ui/texts/Texts.component";
+import {
+  PageTitle,
+  TextBody,
+} from "../../../components/ui/texts/Texts.component";
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 import { SearchIcon } from "../../../icons";
 import colors from "../../../constants/colors";
@@ -151,29 +154,32 @@ const RecentMessageComponent = ({
           lastName={el.tenant.lastName ?? ""}
           entity={EntityType.TENANT}
           isOnline={el.tenant.isOnline}
+          color={getIconColorFromId(el.tenant._id)}
         />
         <View style={styles.profileContent}>
-          <Text style={styles.tenantName} numberOfLines={1}>
+          <TextBody style={styles.tenantName} numberOfLines={1}>
             {el.tenant.firstName ?? "unknown"} {el.tenant.lastName ?? ""}
-          </Text>
-          <Text style={styles.lastMessage} numberOfLines={1}>
+          </TextBody>
+          <TextBody style={styles.lastMessage} numberOfLines={1}>
             {el.lastMessage || "click to open conversation"}
-          </Text>
+          </TextBody>
         </View>
       </View>
 
       <View style={styles.statusSection}>
-        <Text style={styles.timestamp}>
+        <TextBody style={styles.timestamp}>
           {el.lastMessageTimestamp ? getTimeSince(el.lastMessageTimestamp) : ""}
-        </Text>
+        </TextBody>
 
         <View style={styles.unreadContainer}>
           {hasUnreadMessages ? (
             <View style={styles.unreadBadge}>
-              <Text style={styles.unreadText}>{el.unreadMessagesCount}</Text>
+              <TextBody style={styles.unreadText}>
+                {el.unreadMessagesCount}
+              </TextBody>
             </View>
           ) : (
-            <Text style={styles.noUnreadText}>-</Text>
+            <TextBody style={styles.noUnreadText}>-</TextBody>
           )}
         </View>
       </View>
@@ -222,13 +228,13 @@ const styles = StyleSheet.create({
   tenantName: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#333",
+    color: colors.textColor,
     marginBottom: 4,
   },
   lastMessage: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#666",
+    color: colors.textColor2,
   },
   statusSection: {
     alignItems: "flex-end",
@@ -237,7 +243,7 @@ const styles = StyleSheet.create({
   },
   timestamp: {
     fontSize: 12,
-    color: "#999",
+    color: colors.textColor2,
     marginBottom: 4,
   },
   unreadContainer: {
@@ -246,7 +252,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   unreadBadge: {
-    backgroundColor: "#e3f2fd",
+    backgroundColor: colors.primaryLight,
     borderRadius: 10,
     paddingHorizontal: 6,
     paddingVertical: 2,
@@ -256,11 +262,11 @@ const styles = StyleSheet.create({
   unreadText: {
     fontSize: 11,
     fontWeight: "500",
-    color: "#007bff",
+    color: colors.primaryColor,
   },
   noUnreadText: {
     fontSize: 12,
-    color: "#ccc",
+    color: colors.textColor2,
   },
   noItems: {
     flex: 1,
@@ -269,6 +275,6 @@ const styles = StyleSheet.create({
   },
   noItemsText: {
     fontSize: 16,
-    color: "#666",
+    color: colors.textColor2,
   },
 });

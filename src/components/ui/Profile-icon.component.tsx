@@ -28,6 +28,7 @@ export type ProfileIconProps = {
   entity?: EntityType;
   size?: number;
   isOnline?: boolean;
+  color?: string;
 };
 
 export const ProfileIcon = ({
@@ -36,12 +37,13 @@ export const ProfileIcon = ({
   entity = EntityType.AGENT,
   size = 40,
   isOnline = false,
+  color,
 }: ProfileIconProps) => {
   const getInitials = () => {
     return (firstName?.[0] ?? "-") + (lastName?.[0] ?? "-");
   };
 
-  const backgroundColor = getTypeColor(entity);
+  const backgroundColor = color || getTypeColor(entity);
 
   return (
     <View style={styles.profileIconContainer}>
