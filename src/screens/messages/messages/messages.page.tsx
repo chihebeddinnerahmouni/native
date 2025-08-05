@@ -52,13 +52,17 @@ import {
   ProfileIcon,
 } from "../../../components/ui/Profile-icon.component";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useMessages, useSingleTenant } from "../../../api-query/hooks";
+import {
+  useMessages,
+  useMessagesMutation,
+  useSingleTenant,
+} from "../../../api-query/hooks";
 
 export type TLeadConversation = {
   type: EChatAgentType;
   id?: string;
   isMe?: boolean;
-  leadAgent?: any; // User type
+  leadAgent?: any;
 };
 
 type MessagesStackParamList = {
@@ -76,7 +80,6 @@ export const Messages = () => {
   const { user } = useAuth();
   const route = useRoute<MessagesRouteProp>();
   const selectedTenantId = route.params?.tenantId;
-  console.log("Selected Tenant ID:", selectedTenantId);
   const scrollViewRef = useRef<ScrollView>(null);
   const [message, setMessage] = useState("");
   const [attachment, setAttachment] = useState<any>(null);
@@ -85,7 +88,7 @@ export const Messages = () => {
   const { tenant: selectedTenant } = useSingleTenant({
     tenantId: selectedTenantId || "",
   });
-  console.log("Selected Tenant:", selectedTenant);
+  const { markAsRead, markChatAsRead } = useMessagesMutation();
 
   const {
     messagesResult,
@@ -102,9 +105,9 @@ export const Messages = () => {
 
   useEffect(() => {
     if (isMessagesSuccess && messagesResult?.length) {
-      // markAsRead({ tenantId: selectedTenantId || "" }); back
+      markAsRead({ tenantId: selectedTenantId || "" });
     }
-  }, [messagesResult, isMessagesSuccess, selectedTenantId]);
+  }, [messagesResult, isMessagesSuccess, selectedTenantId, markAsRead]);
 
   const leadConversation: TLeadConversation = useMemo(() => {
     const lastLead = messagesResult
