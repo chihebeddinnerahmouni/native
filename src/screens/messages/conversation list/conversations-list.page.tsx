@@ -100,13 +100,12 @@ export const MessagesScreen = () => {
             showsVerticalScrollIndicator={false}
           >
             {filteredRecentMessages.length ? (
-              filteredRecentMessages.map((el, index) => (
+              filteredRecentMessages.map((el) => (
                 <RecentMessageComponent
                   key={el.tenant._id}
                   el={el}
                   selectedTenantId={selectedTenantId}
                   onSelectConversation={handleSelectConversation}
-                  highlighted={index % 2 === 0}
                 />
               ))
             ) : (
@@ -125,12 +124,10 @@ const RecentMessageComponent = ({
   el,
   selectedTenantId,
   onSelectConversation,
-  highlighted,
 }: {
   el: IRecentMessage;
   selectedTenantId?: string;
   onSelectConversation: (tenantId: string) => void;
-  highlighted: boolean;
 }) => {
   const onPress = () => {
     onSelectConversation(el.tenant._id);
@@ -143,27 +140,18 @@ const RecentMessageComponent = ({
     <TouchableOpacity
       style={[
         styles.messageItem,
-        isActive && styles.activeMessageItem,
-        highlighted && styles.highlightedMessageItem,
+        isActive ? styles.activeMessageItem : styles.notActiveMessageItem,
       ]}
       onPress={onPress}
       activeOpacity={0.7}
     >
       <View style={styles.profileSection}>
-        <View
-          style={[
-            styles.profileIconContainer,
-            el.tenant.isOnline && styles.onlineIndicator,
-          ]}
-        >
-          <ProfileIcon
-            firstName={el.tenant.firstName ?? ""}
-            lastName={el.tenant.lastName ?? ""}
-            entity={EntityType.TENANT}
-          />
-          {el.tenant.isOnline && <View style={styles.onlineDot} />}
-        </View>
-
+        <ProfileIcon
+          firstName={el.tenant.firstName ?? ""}
+          lastName={el.tenant.lastName ?? ""}
+          entity={EntityType.TENANT}
+          isOnline={el.tenant.isOnline}
+        />
         <View style={styles.profileContent}>
           <Text style={styles.tenantName} numberOfLines={1}>
             {el.tenant.firstName ?? "unknown"} {el.tenant.lastName ?? ""}
@@ -200,6 +188,9 @@ const styles = StyleSheet.create({
   searchInput: { marginBottom: 12 },
   messagesList: {
     flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
   },
   messageItem: {
     flexDirection: "row",
@@ -207,36 +198,23 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 8,
     borderRadius: 8,
+    marginVertical: 4,
   },
   activeMessageItem: {
-    backgroundColor: "#e3f2fd",
+    backgroundColor: colors.primaryLight,
     borderRightWidth: 3,
-    borderRightColor: "#007bff",
+    borderRightColor: colors.primaryColor,
   },
-  highlightedMessageItem: {
-    backgroundColor: "red",
+  notActiveMessageItem: {
+    backgroundColor: colors.bgColor,
+    borderRightWidth: 3,
+    borderRightColor: "transparent",
   },
   profileSection: {
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
     paddingRight: 12,
-  },
-  profileIconContainer: {
-    position: "relative",
-    marginRight: 12,
-  },
-  onlineIndicator: {},
-  onlineDot: {
-    position: "absolute",
-    bottom: 2,
-    right: 2,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: "#4caf50",
-    borderWidth: 2,
-    borderColor: "#fff",
   },
   profileContent: {
     flex: 1,

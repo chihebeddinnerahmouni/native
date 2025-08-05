@@ -1,5 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { TextBody } from "./texts/Texts.component";
+import colors from "../../constants/colors";
 
 export enum EntityType {
   AGENT = "agent",
@@ -10,13 +12,13 @@ export enum EntityType {
 const getTypeColor = (entity: EntityType) => {
   switch (entity) {
     case EntityType.AGENT:
-      return "#00931b"; // Green
+      return "#00931b";
     case EntityType.OWNER:
-      return "#007bff"; // Blue
+      return "#007bff";
     case EntityType.TENANT:
-      return "#ff6600"; // Orange
+      return "#ff6600";
     default:
-      return "#333"; // Default
+      return "#333";
   }
 };
 
@@ -25,6 +27,7 @@ export type ProfileIconProps = {
   lastName: string | null | undefined;
   entity?: EntityType;
   size?: number;
+  isOnline?: boolean;
 };
 
 export const ProfileIcon = ({
@@ -32,6 +35,7 @@ export const ProfileIcon = ({
   lastName,
   entity = EntityType.AGENT,
   size = 40,
+  isOnline = false,
 }: ProfileIconProps) => {
   const getInitials = () => {
     return (firstName?.[0] ?? "-") + (lastName?.[0] ?? "-");
@@ -40,31 +44,49 @@ export const ProfileIcon = ({
   const backgroundColor = getTypeColor(entity);
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor,
-          width: size,
-          height: size,
-          borderRadius: size / 2,
-        },
-      ]}
-    >
-      <Text style={[styles.text, { fontSize: size * 0.35 }]}>
-        {getInitials().toUpperCase()}
-      </Text>
+    <View style={styles.profileIconContainer}>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor,
+            width: size,
+            height: size,
+            borderRadius: size / 2,
+          },
+        ]}
+      >
+        <TextBody style={[styles.text, { fontSize: size * 0.35 }]}>
+          {getInitials().toUpperCase()}
+        </TextBody>
+      </View>
+      {isOnline && <View style={styles.onlineDot} />}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  profileIconContainer: {
+    position: "relative",
+    marginRight: 12,
+  },
   container: {
     justifyContent: "center",
     alignItems: "center",
   },
   text: {
-    color: "#fff",
+    color: colors.bgColor,
     fontWeight: "bold",
+  },
+  onlineDot: {
+    position: "absolute",
+    bottom: 2,
+    right: 2,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "#4caf50",
+    borderWidth: 2,
+    borderColor: "#fff",
   },
 });
