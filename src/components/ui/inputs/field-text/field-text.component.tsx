@@ -113,7 +113,7 @@ export const FieldText = ({
   }, [value, register?.name, setValue, type]);
 
   return (
-    <View style={[style, error && styles.errorContainer]}>
+    <View style={[style, styles.container, error && styles.errorContainer]}>
       {label && (
         <TextLabel style={styles.label}>
           {label}
@@ -157,6 +157,9 @@ export const FieldText = ({
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   errorContainer: {
     borderColor: colors.errorColor,
   },

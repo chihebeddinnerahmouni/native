@@ -60,8 +60,13 @@ import {
 } from "../../../api-query/hooks";
 import { RNFile, sendWhatsappRequest } from "../../../utils/files.utils";
 import { MainLayout } from "../../../layout";
-import { PageTitle } from "../../../components/ui/texts/Texts.component";
+import {
+  PageTitle,
+  TextBody,
+  TextButton,
+} from "../../../components/ui/texts/Texts.component";
 import colors from "../../../constants/colors";
+import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 
 export type TLeadConversation = {
   type: EChatAgentType;
@@ -229,12 +234,13 @@ export const Messages = () => {
             lastName={selectedTenant.lastName ?? ""}
             entity={EntityType.TENANT}
             size={40}
+            color={getIconColorFromId(selectedTenant._id)}
           />
 
           <View style={styles.profileNameContainer}>
-            <Text style={styles.profileName}>
+            <TextBody style={styles.profileName}>
               {selectedTenant.firstName} {selectedTenant.lastName}
-            </Text>
+            </TextBody>
             <Text style={[styles.profileStatus, styles.connected]}>
               connected
             </Text>
@@ -256,19 +262,19 @@ export const Messages = () => {
         <View style={styles.leadContainer}>
           <View style={styles.leadDetails}>
             <View style={styles.leadInfos}>
-              <Text style={styles.leadName}>
+              <TextBody style={styles.leadName}>
                 {leadConversation.isMe
                   ? "You have "
                   : leadConversation.type === EChatAgentType.AgentTookLead
                     ? `${leadConversation.leadAgent?.firstName} ${leadConversation.leadAgent?.lastName} has `
                     : "AI has "}
                 the lead
-              </Text>
-              <Text style={styles.leadDescription}>
+              </TextBody>
+              <TextBody style={styles.leadDescription}>
                 {!leadConversation.isMe
                   ? "You can take the lead in the conversation."
                   : "You can release the lead in the conversation."}
-              </Text>
+              </TextBody>
             </View>
           </View>
 
@@ -281,7 +287,9 @@ export const Messages = () => {
             {leadConversation.isMe ? (
               <>
                 <ReleaseLeadIcon size={16} />
-                <Text style={styles.buttonText}>Release the lead</Text>
+                <TextButton style={styles.buttonText}>
+                  Release the lead
+                </TextButton>
               </>
             ) : (
               <>
@@ -293,7 +301,6 @@ export const Messages = () => {
         </View>
       )}
 
-      {/* Messages Content */}
       <ScrollView
         ref={scrollViewRef}
         style={styles.messagesContainer}
@@ -329,20 +336,13 @@ export const Messages = () => {
           onPress={handleAttachFile}
           style={styles.attachButton}
         >
-          <AttachFileIcon size={24} color="#666" />
+          <AttachFileIcon size={24} color={colors.textColor2} />
         </TouchableOpacity>
-
-        <TextInput
-          style={[
-            styles.textInput,
-            !leadConversation.isMe && styles.disabledInput,
-          ]}
+        <FieldText
           placeholder="Write message here ..."
           value={message}
-          onChangeText={setMessage}
-          multiline
-          editable={leadConversation.isMe}
-          placeholderTextColor="#999"
+          onChangeText={(text) => setMessage(text)}
+          disabled={!leadConversation.isMe}
         />
 
         <TouchableOpacity
@@ -360,12 +360,9 @@ export const Messages = () => {
         </TouchableOpacity>
       </View>
     </MainLayout>
-    // </KeyboardAvoidingView>
-    // </SafeAreaView>
   );
 };
 
-// Message Item Component
 const MessageItem = ({
   message,
   selectedTenant,
@@ -376,15 +373,14 @@ const MessageItem = ({
   onDownloadFile: (file: any) => void;
 }) => {
   if (message.type && !message.message) {
-    // Lead item
     return (
       <View style={styles.leadItem}>
-        <Text style={styles.leadItemText}>
+        <TextBody style={styles.leadItemText}>
           {message.type === EChatAgentType.AiTookLead
             ? "AI"
             : message.agent?.firstName}{" "}
           took the lead
-        </Text>
+        </TextBody>
       </View>
     );
   }
@@ -396,7 +392,6 @@ const MessageItem = ({
         message.isReply ? styles.replyMessage : styles.sentMessage,
       ]}
     >
-      {/* Text Message */}
       {message.message && (
         <View
           style={[
@@ -413,28 +408,39 @@ const MessageItem = ({
                 : styles.messageContentContainerSent,
             ]}
           >
-            <View
-              style={[
-                styles.messageContent,
-                message.isReply
-                  ? styles.messageContentIsReply
-                  : styles.messageContentIsSent,
-              ]}
-            >
-              <Text
-                style={
+            <View style={styles.messageContent}>
+              <View
+                style={[
+                  styles.messageContentText,
                   message.isReply
-                    ? styles.messageTextReply
-                    : styles.messageTextSent
-                }
+                    ? styles.messageContentIsReply
+                    : styles.messageContentIsSent,
+                ]}
               >
-                {message.message}
-              </Text>
-              <Text style={styles.messageTime}>{new Date().getFullYear()}</Text>
+                <TextBody
+                  style={
+                    message.isReply
+                      ? styles.messageTextReply
+                      : styles.messageTextSent
+                  }
+                >
+                  {message.message}
+                </TextBody>
+              </View>
+              <TextBody
+                style={[
+                  styles.messageTime,
+                  message.isReply
+                    ? styles.messageTimeReply
+                    : styles.messageTimeSent,
+                ]}
+              >
+                {new Date().getFullYear()}
+              </TextBody>
             </View>
 
             {/* Profile Icon */}
-            <View style={styles.messageProfile}>
+            <View>
               {!message.isReply ? (
                 message.agent ? (
                   <ProfileIcon
@@ -442,10 +448,11 @@ const MessageItem = ({
                     lastName={message.agent.lastName ?? ""}
                     entity={EntityType.AGENT}
                     size={30}
+                    color={getIconColorFromId(message.agent._id)}
                   />
                 ) : (
                   <View style={styles.aiIcon}>
-                    <Text style={styles.aiText}>AI</Text>
+                    <TextBody style={styles.aiText}>AI</TextBody>
                   </View>
                 )
               ) : (
@@ -454,6 +461,7 @@ const MessageItem = ({
                   lastName={selectedTenant.lastName ?? ""}
                   entity={EntityType.TENANT}
                   size={30}
+                  color={getIconColorFromId(selectedTenant._id)}
                 />
               )}
             </View>
@@ -471,7 +479,9 @@ const MessageItem = ({
           onPress={() => onDownloadFile(message.hostedFile)}
         >
           <DownloadIcon size={20} color="#007bff" />
-          <Text style={styles.fileName}>{message.hostedFile.fileName}</Text>
+          <TextBody style={styles.fileName}>
+            {message.hostedFile.fileName}
+          </TextBody>
         </TouchableOpacity>
       )}
     </View>
@@ -493,12 +503,12 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "bold",
+    color: colors.textColor,
   },
   profileStatus: {
     fontSize: 12,
-    fontWeight: "500",
+    fontWeight: "600",
   },
   connected: {
     color: "#34c759",
@@ -508,9 +518,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 16,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: colors.emptyBgColor2,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: colors.borderColor,
   },
   leadDetails: {
     flex: 1,
@@ -521,19 +531,18 @@ const styles = StyleSheet.create({
   leadName: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#333",
+    color: colors.textColor,
     marginBottom: 4,
   },
   leadDescription: {
     fontSize: 12,
-    color: "#666",
+    color: colors.textColor2,
   },
   leadButton: {
     marginLeft: 12,
   },
   buttonText: {
     marginLeft: 8,
-    fontSize: 14,
   },
   messagesContainer: {
     flex: 1,
@@ -551,15 +560,13 @@ const styles = StyleSheet.create({
   },
   noMessagesText: {
     fontSize: 16,
-    color: "#666",
+    color: colors.textColor2,
   },
   messageItemContainer: {
     marginBottom: 16,
-    // backgroundColor: "green",
     flexDirection: "row",
   },
   messageItem: {
-    // backgroundColor: "orange",
     flexDirection: "row",
   },
   messageContentContainer: {
@@ -574,12 +581,16 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   messageContent: {
-    backgroundColor: "#f1f1f1",
-    borderRadius: 16,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
     marginHorizontal: 8,
     maxWidth: "70%",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+  },
+  messageContentText: {
+    borderRadius: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    flex: 1,
   },
   messageContentIsReply: {
     backgroundColor: colors.bgColor,
@@ -597,11 +608,14 @@ const styles = StyleSheet.create({
   },
   messageTime: {
     fontSize: 10,
-    color: "#999",
+    color: colors.textColor2,
     marginTop: 4,
   },
-  messageProfile: {
-    // marginHorizontal: 4,
+  messageTimeReply: {
+    alignSelf: "flex-start",
+  },
+  messageTimeSent: {
+    alignSelf: "flex-end",
   },
   aiIcon: {
     width: 30,
@@ -638,35 +652,21 @@ const styles = StyleSheet.create({
   },
   leadItemText: {
     fontSize: 12,
-    color: "#666",
+    color: colors.textColor2,
     fontStyle: "italic",
   },
   inputArea: {
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: colors.bgColor,
     borderTopWidth: 1,
-    borderTopColor: "#eee",
+    borderTopColor: colors.borderColor,
   },
   attachButton: {
     padding: 8,
     marginRight: 8,
-  },
-  textInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    fontSize: 16,
-    maxHeight: 100,
-    backgroundColor: "#f8f9fa",
-  },
-  disabledInput: {
-    backgroundColor: "#f0f0f0",
-    color: "#999",
   },
   sendButton: {
     padding: 8,
