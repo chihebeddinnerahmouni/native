@@ -158,7 +158,8 @@ export const FieldText = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // width: "auto",
+    // flex: 1,
   },
   errorContainer: {
     borderColor: colors.errorColor,

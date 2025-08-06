@@ -17,10 +17,6 @@ class SocketManager {
     const API_URL = process.env.EXPO_PUBLIC_API_URL;
     const token = await getToken();
 
-    // console.log("=== SOCKET INITIALIZATION ===");
-    // console.log("API URL:", API_URL);
-    // console.log("Token available:", !!token);
-
     this.socket = io(API_URL, {
       auth: {
         token: token,
@@ -41,25 +37,24 @@ class SocketManager {
     if (!this.socket) return;
 
     this.socket.on("connect", () => {
-      console.log("Socket connected:", this.socket?.id);
       this.reconnectAttempts = 0;
     });
 
     this.socket.on("disconnect", (reason) => {
-      console.log("Socket disconnected:", reason);
+      // console.log("Socket disconnected:", reason);
     });
 
     this.socket.on("connect_error", (error) => {
-      console.log("Socket connection error:", error);
+      // console.log("Socket connection error:", error);
       this.reconnectAttempts++;
 
       if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-        console.log("Max reconnection attempts reached");
+        // console.log("Max reconnection attempts reached");
       }
     });
 
     this.socket.on("reconnect", (attemptNumber) => {
-      console.log("Socket reconnected after", attemptNumber, "attempts");
+      // console.log("Socket reconnected after", attemptNumber, "attempts");
       this.reconnectAttempts = 0;
     });
   }
@@ -67,7 +62,6 @@ class SocketManager {
   private setupNetworkMonitoring() {
     NetInfo.addEventListener((state) => {
       if (state.isConnected && !this.socket?.connected) {
-        console.log("Network restored, attempting to reconnect socket");
         this.reconnect();
       }
     });
@@ -90,7 +84,6 @@ class SocketManager {
   }
 
   public async reinitializeWithAuth() {
-    console.log("=== REINITIALIZING SOCKET WITH AUTH ===");
     this.disconnect();
     await this.initializeSocket();
   }
