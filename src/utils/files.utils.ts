@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { getToken } from "./token.utils";
 
@@ -29,7 +30,6 @@ export const sendWhatsappRequest = async (
 ) => {
   const token = await getToken();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formData = new (global as any).FormData();
   formData.append("tenantId", tenantId);
   formData.append("message", message);
@@ -40,7 +40,6 @@ export const sendWhatsappRequest = async (
       name: file.name,
       type: file.type,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formData.append("file", fileObject as any);
   }
 

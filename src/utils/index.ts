@@ -5,10 +5,10 @@ export * from "./regex.utils";
 export * from "./routes.utils";
 export * from "./messages.utils";
 export * from "./time.utils";
+export * from "./socket.utils";
 //
 export * from "./validators/auth.validator";
 // export * from "./pagination";
-// export * from "./socket.utils";
 // export * from "./files.utils";
 // export * from "./template-campaign.utils";
 // export * from "./utils";

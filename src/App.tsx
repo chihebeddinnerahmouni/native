@@ -8,6 +8,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./api-query/queryClient";
 import Toast from "react-native-toast-message";
 import { AuthProvider } from "./contexts/auth.context";
+import { SocketProvider } from "./contexts/socket.context";
 import { RootNavigator } from "./navigation";
 
 SplashScreen.preventAutoHideAsync();
@@ -33,13 +34,15 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <SafeAreaProvider>
-          <StatusBar style="auto" />
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
-          <Toast />
-        </SafeAreaProvider>
+        <SocketProvider>
+          <SafeAreaProvider>
+            <StatusBar style="auto" />
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+            <Toast />
+          </SafeAreaProvider>
+        </SocketProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

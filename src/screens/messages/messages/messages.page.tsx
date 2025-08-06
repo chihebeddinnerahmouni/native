@@ -11,8 +11,13 @@ import {
 } from "react-native";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { useAuth } from "../../../contexts";
+import { useSocket } from "../../../contexts/socket.context";
 import { ERoute, getIconColorFromId } from "../../../utils";
-import { EChatAgentType } from "../../../backend/casaikos-api";
+import {
+  EChatAgentType,
+  EWebsocketType,
+  SocketMessageEvent,
+} from "../../../backend/casaikos-api";
 
 // Icons - you'll need to create these or use react-native-vector-icons
 import {
@@ -63,6 +68,7 @@ type MessagesRouteProp = RouteProp<
 
 export const Messages = () => {
   const { user } = useAuth();
+  const { socket, isConnected, on, off } = useSocket();
   const route = useRoute<MessagesRouteProp>();
   const selectedTenantId = route.params?.tenantId;
   const scrollViewRef = useRef<ScrollView>(null);
@@ -179,6 +185,45 @@ export const Messages = () => {
       // }, 100);
     }
   }, [messagesResult]);
+
+  useEffect(() => {
+    const messageHandler = (messageData: SocketMessageEvent) => {
+      const { tenant } = messageData;
+      console.log("=== SOCKET MESSAGE RECEIVED ===");
+      console.log("Message data:", messageData);
+      console.log("Tenant ID from socket:", tenant._id);
+      console.log("Current selected tenant:", selectedTenantId);
+
+      // updateRecentMessages(tenant, message ?? "");
+      if (selectedTenantId !== tenant._id) {
+        console.log("Message is not for current tenant, ignoring");
+        return;
+      }
+
+      console.log("Message is for current tenant, refetching messages");
+      refetchMessages();
+      markChatAsRead({
+        tenantId: selectedTenantId || "",
+      });
+    };
+
+    console.log("=== SOCKET SETUP ===");
+    console.log("Setting up socket listener for tenant:", selectedTenantId);
+    console.log("Socket connected:", isConnected);
+
+    if (isConnected && selectedTenantId) {
+      on(EWebsocketType.Message, messageHandler);
+    } else {
+      console.warn("Socket not connected or no tenant selected");
+    }
+
+    // Cleanup function to remove listener when component unmounts or dependencies change
+    return () => {
+      // console.log("=== SOCKET CLEANUP ===");
+      // console.log("Removing socket listener");
+      off(EWebsocketType.Message, messageHandler);
+    };
+  }, [selectedTenantId, refetchMessages, markChatAsRead, isConnected, on, off]);
 
   if (!selectedTenant) {
     return (
