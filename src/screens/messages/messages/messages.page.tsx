@@ -1,52 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// import React from "react";
-// import { View } from "react-native";
-// import { TextLabel } from "../../../components/ui/texts/Texts.component";
-// import { AuthLayout } from "../../../layout/auth.layout";
-
-// export const Messages = () => {
-//   return (
-//     <AuthLayout>
-//       <View>
-//         <TextLabel>Messages Page</TextLabel>
-//       </View>
-//     </AuthLayout>
-//   );
-// };
-// src/screens/MessageContentScreen.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
   ScrollView,
-  TextInput,
   TouchableOpacity,
-  StyleSheet,
   ActivityIndicator,
   Alert,
-  KeyboardAvoidingView,
-  Platform,
   SafeAreaView,
 } from "react-native";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { useAuth } from "../../../contexts";
 import { ERoute, getIconColorFromId } from "../../../utils";
-import {
-  Tenant,
-  EChatAgentType,
-  WhatsappChat,
-} from "../../../backend/casaikos-api";
+import { EChatAgentType } from "../../../backend/casaikos-api";
 
 // Icons - you'll need to create these or use react-native-vector-icons
 import {
   AttachFileIcon,
-  DownloadIcon,
   TakeLeadIcon,
   SendIcon,
   ReleaseLeadIcon,
   AlertIcon,
-  LeftArrowIcon,
-  SearchIcon,
 } from "../../../icons";
 import {
   EntityType,
@@ -61,12 +35,13 @@ import {
 import { RNFile, sendWhatsappRequest } from "../../../utils/files.utils";
 import { MainLayout } from "../../../layout";
 import {
-  PageTitle,
   TextBody,
   TextButton,
 } from "../../../components/ui/texts/Texts.component";
 import colors from "../../../constants/colors";
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
+import { MessageItem } from "../../../components/messages/message item/message-item.component";
+import { MessagesStyles } from "./messages.style";
 
 export type TLeadConversation = {
   type: EChatAgentType;
@@ -207,12 +182,12 @@ export const Messages = () => {
 
   if (!selectedTenant) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.noConversation}>
-          <Text style={styles.noConversationTitle}>
+      <SafeAreaView style={MessagesStyles.container}>
+        <View style={MessagesStyles.noConversation}>
+          <Text style={MessagesStyles.noConversationTitle}>
             No conversation selected
           </Text>
-          <Text style={styles.noConversationSubtitle}>
+          <Text style={MessagesStyles.noConversationSubtitle}>
             Please select an item on the left to view.
           </Text>
         </View>
@@ -221,14 +196,14 @@ export const Messages = () => {
   }
 
   return (
-    // <SafeAreaView style={styles.container}>
+    // <SafeAreaView style={MessagesStyles.container}>
     //   <KeyboardAvoidingView
-    //     style={styles.container}
+    //     style={MessagesStyles.container}
     //     behavior={Platform.OS === "ios" ? "padding" : "height"}
     //   >
     <MainLayout
       HeaderLeft={
-        <View style={styles.profileSection}>
+        <View style={MessagesStyles.profileSection}>
           <ProfileIcon
             firstName={selectedTenant.firstName ?? ""}
             lastName={selectedTenant.lastName ?? ""}
@@ -237,11 +212,13 @@ export const Messages = () => {
             color={getIconColorFromId(selectedTenant._id)}
           />
 
-          <View style={styles.profileNameContainer}>
-            <TextBody style={styles.profileName}>
+          <View style={MessagesStyles.profileNameContainer}>
+            <TextBody style={MessagesStyles.profileName}>
               {selectedTenant.firstName} {selectedTenant.lastName}
             </TextBody>
-            <Text style={[styles.profileStatus, styles.connected]}>
+            <Text
+              style={[MessagesStyles.profileStatus, MessagesStyles.connected]}
+            >
               connected
             </Text>
           </View>
@@ -259,10 +236,10 @@ export const Messages = () => {
       hasPadding={false}
     >
       {isLeadShown && (
-        <View style={styles.leadContainer}>
-          <View style={styles.leadDetails}>
-            <View style={styles.leadInfos}>
-              <TextBody style={styles.leadName}>
+        <View style={MessagesStyles.leadContainer}>
+          <View style={MessagesStyles.leadDetails}>
+            <View style={MessagesStyles.leadInfos}>
+              <TextBody style={MessagesStyles.leadName}>
                 {leadConversation.isMe
                   ? "You have "
                   : leadConversation.type === EChatAgentType.AgentTookLead
@@ -270,7 +247,7 @@ export const Messages = () => {
                     : "AI has "}
                 the lead
               </TextBody>
-              <TextBody style={styles.leadDescription}>
+              <TextBody style={MessagesStyles.leadDescription}>
                 {!leadConversation.isMe
                   ? "You can take the lead in the conversation."
                   : "You can release the lead in the conversation."}
@@ -282,19 +259,19 @@ export const Messages = () => {
             variant={leadConversation.isMe ? "outlined" : "contained"}
             disabled={isUpdatingLead}
             onPress={updateLeadConversation}
-            style={styles.leadButton}
+            style={MessagesStyles.leadButton}
           >
             {leadConversation.isMe ? (
               <>
                 <ReleaseLeadIcon size={16} />
-                <TextButton style={styles.buttonText}>
+                <TextButton style={MessagesStyles.buttonText}>
                   Release the lead
                 </TextButton>
               </>
             ) : (
               <>
                 <TakeLeadIcon size={16} />
-                <Text style={styles.buttonText}>Take the lead</Text>
+                <Text style={MessagesStyles.buttonText}>Take the lead</Text>
               </>
             )}
           </Button>
@@ -303,11 +280,11 @@ export const Messages = () => {
 
       <ScrollView
         ref={scrollViewRef}
-        style={styles.messagesContainer}
+        style={MessagesStyles.messagesContainer}
         showsVerticalScrollIndicator={false}
       >
         {isLoading ? (
-          <View style={styles.loadingContainer}>
+          <View style={MessagesStyles.loadingContainer}>
             <ActivityIndicator size="large" color="#007bff" />
           </View>
         ) : (
@@ -322,8 +299,10 @@ export const Messages = () => {
                 />
               ))
             ) : (
-              <View style={styles.noMessages}>
-                <Text style={styles.noMessagesText}>No messages yet</Text>
+              <View style={MessagesStyles.noMessages}>
+                <Text style={MessagesStyles.noMessagesText}>
+                  No messages yet
+                </Text>
               </View>
             )}
           </>
@@ -331,10 +310,10 @@ export const Messages = () => {
       </ScrollView>
 
       {/* Input Area */}
-      <View style={styles.inputArea}>
+      <View style={MessagesStyles.inputArea}>
         <TouchableOpacity
           onPress={handleAttachFile}
-          style={styles.attachButton}
+          style={MessagesStyles.attachButton}
         >
           <AttachFileIcon size={24} color={colors.textColor2} />
         </TouchableOpacity>
@@ -348,8 +327,8 @@ export const Messages = () => {
         <TouchableOpacity
           onPress={submitMessage}
           style={[
-            styles.sendButton,
-            !leadConversation.isMe && styles.disabledButton,
+            MessagesStyles.sendButton,
+            !leadConversation.isMe && MessagesStyles.disabledButton,
           ]}
           disabled={!leadConversation.isMe}
         >
@@ -362,334 +341,3 @@ export const Messages = () => {
     </MainLayout>
   );
 };
-
-const MessageItem = ({
-  message,
-  selectedTenant,
-  onDownloadFile,
-}: {
-  message: WhatsappChat;
-  selectedTenant: Tenant;
-  onDownloadFile: (file: any) => void;
-}) => {
-  if (message.type && !message.message) {
-    return (
-      <View style={styles.leadItem}>
-        <TextBody style={styles.leadItemText}>
-          {message.type === EChatAgentType.AiTookLead
-            ? "AI"
-            : message.agent?.firstName}{" "}
-          took the lead
-        </TextBody>
-      </View>
-    );
-  }
-
-  return (
-    <View
-      style={[
-        styles.messageItemContainer,
-        message.isReply ? styles.replyMessage : styles.sentMessage,
-      ]}
-    >
-      {message.message && (
-        <View
-          style={[
-            styles.messageItem,
-            message.isReply ? styles.replyMessage : styles.sentMessage,
-          ]}
-        >
-          <View
-            style={[
-              styles.messageContentContainer,
-              message.isReply ? styles.replyMessage : styles.sentMessage,
-              message.isReply
-                ? styles.messageContentContainerReply
-                : styles.messageContentContainerSent,
-            ]}
-          >
-            <View style={styles.messageContent}>
-              <View
-                style={[
-                  styles.messageContentText,
-                  message.isReply
-                    ? styles.messageContentIsReply
-                    : styles.messageContentIsSent,
-                ]}
-              >
-                <TextBody
-                  style={
-                    message.isReply
-                      ? styles.messageTextReply
-                      : styles.messageTextSent
-                  }
-                >
-                  {message.message}
-                </TextBody>
-              </View>
-              <TextBody
-                style={[
-                  styles.messageTime,
-                  message.isReply
-                    ? styles.messageTimeReply
-                    : styles.messageTimeSent,
-                ]}
-              >
-                {new Date().getFullYear()}
-              </TextBody>
-            </View>
-
-            {/* Profile Icon */}
-            <View>
-              {!message.isReply ? (
-                message.agent ? (
-                  <ProfileIcon
-                    firstName={message.agent.firstName ?? ""}
-                    lastName={message.agent.lastName ?? ""}
-                    entity={EntityType.AGENT}
-                    size={30}
-                    color={getIconColorFromId(message.agent._id)}
-                  />
-                ) : (
-                  <View style={styles.aiIcon}>
-                    <TextBody style={styles.aiText}>AI</TextBody>
-                  </View>
-                )
-              ) : (
-                <ProfileIcon
-                  firstName={selectedTenant.firstName ?? ""}
-                  lastName={selectedTenant.lastName ?? ""}
-                  entity={EntityType.TENANT}
-                  size={30}
-                  color={getIconColorFromId(selectedTenant._id)}
-                />
-              )}
-            </View>
-          </View>
-        </View>
-      )}
-
-      {/* File Message */}
-      {message.hostedFile && (
-        <TouchableOpacity
-          style={[
-            styles.fileMessage,
-            message.isReply ? styles.replyMessage : styles.sentMessage,
-          ]}
-          onPress={() => onDownloadFile(message.hostedFile)}
-        >
-          <DownloadIcon size={20} color="#007bff" />
-          <TextBody style={styles.fileName}>
-            {message.hostedFile.fileName}
-          </TextBody>
-        </TouchableOpacity>
-      )}
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  profileSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: 16,
-  },
-  profileNameContainer: {
-    marginLeft: 5,
-  },
-  profileName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: colors.textColor,
-  },
-  profileStatus: {
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  connected: {
-    color: "#34c759",
-  },
-  leadContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 16,
-    backgroundColor: colors.emptyBgColor2,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderColor,
-  },
-  leadDetails: {
-    flex: 1,
-  },
-  leadInfos: {
-    flex: 1,
-  },
-  leadName: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: colors.textColor,
-    marginBottom: 4,
-  },
-  leadDescription: {
-    fontSize: 12,
-    color: colors.textColor2,
-  },
-  leadButton: {
-    marginLeft: 12,
-  },
-  buttonText: {
-    marginLeft: 8,
-  },
-  messagesContainer: {
-    flex: 1,
-    paddingHorizontal: 16,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  noMessages: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  noMessagesText: {
-    fontSize: 16,
-    color: colors.textColor2,
-  },
-  messageItemContainer: {
-    marginBottom: 16,
-    flexDirection: "row",
-  },
-  messageItem: {
-    flexDirection: "row",
-  },
-  messageContentContainer: {
-    flexDirection: "row",
-  },
-  messageContentContainerReply: { flexDirection: "row-reverse" },
-  messageContentContainerSent: { flexDirection: "row" },
-  sentMessage: {
-    justifyContent: "flex-end",
-  },
-  replyMessage: {
-    justifyContent: "flex-start",
-  },
-  messageContent: {
-    marginHorizontal: 8,
-    maxWidth: "70%",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-  },
-  messageContentText: {
-    borderRadius: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    flex: 1,
-  },
-  messageContentIsReply: {
-    backgroundColor: colors.bgColor,
-  },
-  messageContentIsSent: {
-    backgroundColor: colors.primaryColor,
-  },
-  messageTextSent: {
-    fontSize: 14,
-    color: colors.bgColor,
-  },
-  messageTextReply: {
-    fontSize: 14,
-    color: colors.textColor,
-  },
-  messageTime: {
-    fontSize: 10,
-    color: colors.textColor2,
-    marginTop: 4,
-  },
-  messageTimeReply: {
-    alignSelf: "flex-start",
-  },
-  messageTimeSent: {
-    alignSelf: "flex-end",
-  },
-  aiIcon: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: "#007bff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  aiText: {
-    color: "#fff",
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  fileMessage: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#e3f2fd",
-    borderRadius: 16,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginHorizontal: 8,
-    maxWidth: "70%",
-  },
-  fileName: {
-    marginLeft: 8,
-    fontSize: 14,
-    color: "#007bff",
-  },
-  leadItem: {
-    alignItems: "center",
-    paddingVertical: 8,
-    marginVertical: 4,
-  },
-  leadItemText: {
-    fontSize: 12,
-    color: colors.textColor2,
-    fontStyle: "italic",
-  },
-  inputArea: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 16,
-    backgroundColor: colors.bgColor,
-    borderTopWidth: 1,
-    borderTopColor: colors.borderColor,
-  },
-  attachButton: {
-    padding: 8,
-    marginRight: 8,
-  },
-  sendButton: {
-    padding: 8,
-    marginLeft: 8,
-  },
-  disabledButton: {
-    opacity: 0.5,
-  },
-  noConversation: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 32,
-  },
-  noConversationTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 8,
-  },
-  noConversationSubtitle: {
-    fontSize: 16,
-    color: "#666",
-    textAlign: "center",
-  },
-});
