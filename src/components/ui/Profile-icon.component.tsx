@@ -70,7 +70,6 @@ export const ProfileIcon = ({
 const styles = StyleSheet.create({
   profileIconContainer: {
     position: "relative",
-    marginRight: 12,
   },
   container: {
     justifyContent: "center",

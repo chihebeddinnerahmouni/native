@@ -231,7 +231,7 @@ export const Messages = () => {
             size={40}
           />
 
-          <View>
+          <View style={styles.profileNameContainer}>
             <Text style={styles.profileName}>
               {selectedTenant.firstName} {selectedTenant.lastName}
             </Text>
@@ -486,6 +486,10 @@ const styles = StyleSheet.create({
   profileSection: {
     flexDirection: "row",
     alignItems: "center",
+    marginRight: 16,
+  },
+  profileNameContainer: {
+    marginLeft: 5,
   },
   profileName: {
     fontSize: 16,
@@ -533,6 +537,7 @@ const styles = StyleSheet.create({
   },
   messagesContainer: {
     flex: 1,
+    paddingHorizontal: 16,
   },
   loadingContainer: {
     flex: 1,
@@ -554,7 +559,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   messageItem: {
-    width: "70%",
     // backgroundColor: "orange",
     flexDirection: "row",
   },
@@ -597,7 +601,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   messageProfile: {
-    marginHorizontal: 4,
+    // marginHorizontal: 4,
   },
   aiIcon: {
     width: 30,

@@ -28,6 +28,7 @@ export const ConversationItemStyle = StyleSheet.create({
   },
   profileContent: {
     flex: 1,
+    marginLeft: 8,
   },
   tenantName: {
     fontSize: 16,
