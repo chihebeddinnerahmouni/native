@@ -10,18 +10,19 @@ type AppLayoutProps = {
   isBackButtonVisible?: boolean;
   HeaderLeft?: React.ReactNode;
   HeaderRight?: React.ReactNode;
+  hasPadding?: boolean;
 };
 export const MainLayout = ({
   children,
   HeaderLeft,
   HeaderRight,
   isBackButtonVisible = true,
+  hasPadding = true,
 }: AppLayoutProps) => {
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* <View style={styles.container}>{children}</View> */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           {isBackButtonVisible && (
@@ -33,7 +34,9 @@ export const MainLayout = ({
         </View>
         {HeaderRight}
       </View>
-      <View style={styles.container}>{children}</View>
+      <View style={[styles.container, hasPadding && styles.hasPadding]}>
+        {children}
+      </View>
     </SafeAreaView>
   );
 };
@@ -59,7 +62,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 16,
+    // padding: 16,
     backgroundColor: colors.emptyBgColor,
+  },
+  hasPadding: {
+    padding: 16,
   },
 });

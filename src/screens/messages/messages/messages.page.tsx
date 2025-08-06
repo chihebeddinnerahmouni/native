@@ -46,6 +46,7 @@ import {
   ReleaseLeadIcon,
   AlertIcon,
   LeftArrowIcon,
+  SearchIcon,
 } from "../../../icons";
 import {
   EntityType,
@@ -58,6 +59,9 @@ import {
   useSingleTenant,
 } from "../../../api-query/hooks";
 import { RNFile, sendWhatsappRequest } from "../../../utils/files.utils";
+import { MainLayout } from "../../../layout";
+import { PageTitle } from "../../../components/ui/texts/Texts.component";
+import colors from "../../../constants/colors";
 
 export type TLeadConversation = {
   type: EChatAgentType;
@@ -85,6 +89,7 @@ export const Messages = () => {
   const [message, setMessage] = useState("");
   const [attachment, setAttachment] = useState<RNFile | null>(null);
   const [isUpdatingLead, setIsUpdatingLead] = useState(false);
+  const [isLeadShown, setIsLeadShown] = useState(false);
 
   const { tenant: selectedTenant } = useSingleTenant({
     tenantId: selectedTenantId || "",
@@ -211,41 +216,43 @@ export const Messages = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.profileSection}>
-            <TouchableOpacity onPress={() => {}} style={styles.backButton}>
-              <LeftArrowIcon size={24} />
-            </TouchableOpacity>
+    // <SafeAreaView style={styles.container}>
+    //   <KeyboardAvoidingView
+    //     style={styles.container}
+    //     behavior={Platform.OS === "ios" ? "padding" : "height"}
+    //   >
+    <MainLayout
+      HeaderLeft={
+        <View style={styles.profileSection}>
+          <ProfileIcon
+            firstName={selectedTenant.firstName ?? ""}
+            lastName={selectedTenant.lastName ?? ""}
+            entity={EntityType.TENANT}
+            size={40}
+          />
 
-            <ProfileIcon
-              firstName={selectedTenant.firstName ?? ""}
-              lastName={selectedTenant.lastName ?? ""}
-              entity={EntityType.TENANT}
-              size={40}
-            />
-
-            <View style={styles.profileContent}>
-              <Text style={styles.profileName}>
-                {selectedTenant.firstName} {selectedTenant.lastName}
-              </Text>
-              <Text style={[styles.profileStatus, styles.connected]}>
-                connected
-              </Text>
-            </View>
+          <View>
+            <Text style={styles.profileName}>
+              {selectedTenant.firstName} {selectedTenant.lastName}
+            </Text>
+            <Text style={[styles.profileStatus, styles.connected]}>
+              connected
+            </Text>
           </View>
-
-          <TouchableOpacity onPress={() => {}} style={styles.actionButton}>
-            <AlertIcon size={24} color="#007bff" />
-          </TouchableOpacity>
         </View>
-
-        {/* Lead Container */}
+      }
+      HeaderRight={
+        <TouchableOpacity
+          onPress={() => {
+            setIsLeadShown((prev) => !prev);
+          }}
+        >
+          <AlertIcon size={24} color={colors.textColor} />
+        </TouchableOpacity>
+      }
+      hasPadding={false}
+    >
+      {isLeadShown && (
         <View style={styles.leadContainer}>
           <View style={styles.leadDetails}>
             <View style={styles.leadInfos}>
@@ -284,75 +291,77 @@ export const Messages = () => {
             )}
           </Button>
         </View>
+      )}
 
-        {/* Messages Content */}
-        <ScrollView
-          ref={scrollViewRef}
-          style={styles.messagesContainer}
-          showsVerticalScrollIndicator={false}
+      {/* Messages Content */}
+      <ScrollView
+        ref={scrollViewRef}
+        style={styles.messagesContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        {isLoading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#007bff" />
+          </View>
+        ) : (
+          <>
+            {messagesResult.length ? (
+              messagesResult.map((el) => (
+                <MessageItem
+                  key={el._id}
+                  message={el}
+                  selectedTenant={selectedTenant}
+                  onDownloadFile={handleDownloadFile}
+                />
+              ))
+            ) : (
+              <View style={styles.noMessages}>
+                <Text style={styles.noMessagesText}>No messages yet</Text>
+              </View>
+            )}
+          </>
+        )}
+      </ScrollView>
+
+      {/* Input Area */}
+      <View style={styles.inputArea}>
+        <TouchableOpacity
+          onPress={handleAttachFile}
+          style={styles.attachButton}
         >
-          {isLoading ? (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#007bff" />
-            </View>
-          ) : (
-            <>
-              {messagesResult.length ? (
-                messagesResult.map((el) => (
-                  <MessageItem
-                    key={el._id}
-                    message={el}
-                    selectedTenant={selectedTenant}
-                    onDownloadFile={handleDownloadFile}
-                  />
-                ))
-              ) : (
-                <View style={styles.noMessages}>
-                  <Text style={styles.noMessagesText}>No messages yet</Text>
-                </View>
-              )}
-            </>
-          )}
-        </ScrollView>
+          <AttachFileIcon size={24} color="#666" />
+        </TouchableOpacity>
 
-        {/* Input Area */}
-        <View style={styles.inputArea}>
-          <TouchableOpacity
-            onPress={handleAttachFile}
-            style={styles.attachButton}
-          >
-            <AttachFileIcon size={24} color="#666" />
-          </TouchableOpacity>
+        <TextInput
+          style={[
+            styles.textInput,
+            !leadConversation.isMe && styles.disabledInput,
+          ]}
+          placeholder="Write message here ..."
+          value={message}
+          onChangeText={setMessage}
+          multiline
+          editable={leadConversation.isMe}
+          placeholderTextColor="#999"
+        />
 
-          <TextInput
-            style={[
-              styles.textInput,
-              !leadConversation.isMe && styles.disabledInput,
-            ]}
-            placeholder="Write message here ..."
-            value={message}
-            onChangeText={setMessage}
-            multiline
-            editable={leadConversation.isMe}
-            placeholderTextColor="#999"
+        <TouchableOpacity
+          onPress={submitMessage}
+          style={[
+            styles.sendButton,
+            !leadConversation.isMe && styles.disabledButton,
+          ]}
+          disabled={!leadConversation.isMe}
+        >
+          <SendIcon
+            size={20}
+            color={leadConversation.isMe ? "#007bff" : "#ccc"}
           />
-
-          <TouchableOpacity
-            onPress={submitMessage}
-            style={[
-              styles.sendButton,
-              !leadConversation.isMe && styles.disabledButton,
-            ]}
-            disabled={!leadConversation.isMe}
-          >
-            <SendIcon
-              size={20}
-              color={leadConversation.isMe ? "#007bff" : "#ccc"}
-            />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        </TouchableOpacity>
+      </View>
+    </MainLayout>
+    // </KeyboardAvoidingView>
+    // </SafeAreaView>
   );
 };
 
@@ -381,7 +390,12 @@ const MessageItem = ({
   }
 
   return (
-    <View style={styles.messageItemContainer}>
+    <View
+      style={[
+        styles.messageItemContainer,
+        message.isReply ? styles.replyMessage : styles.sentMessage,
+      ]}
+    >
       {/* Text Message */}
       {message.message && (
         <View
@@ -390,34 +404,59 @@ const MessageItem = ({
             message.isReply ? styles.replyMessage : styles.sentMessage,
           ]}
         >
-          <View style={styles.messageContent}>
-            <Text style={styles.messageText}>{message.message}</Text>
-            <Text style={styles.messageTime}>{new Date().getFullYear()}</Text>
-          </View>
+          <View
+            style={[
+              styles.messageContentContainer,
+              message.isReply ? styles.replyMessage : styles.sentMessage,
+              message.isReply
+                ? styles.messageContentContainerReply
+                : styles.messageContentContainerSent,
+            ]}
+          >
+            <View
+              style={[
+                styles.messageContent,
+                message.isReply
+                  ? styles.messageContentIsReply
+                  : styles.messageContentIsSent,
+              ]}
+            >
+              <Text
+                style={
+                  message.isReply
+                    ? styles.messageTextReply
+                    : styles.messageTextSent
+                }
+              >
+                {message.message}
+              </Text>
+              <Text style={styles.messageTime}>{new Date().getFullYear()}</Text>
+            </View>
 
-          {/* Profile Icon */}
-          <View style={styles.messageProfile}>
-            {!message.isReply ? (
-              message.agent ? (
+            {/* Profile Icon */}
+            <View style={styles.messageProfile}>
+              {!message.isReply ? (
+                message.agent ? (
+                  <ProfileIcon
+                    firstName={message.agent.firstName ?? ""}
+                    lastName={message.agent.lastName ?? ""}
+                    entity={EntityType.AGENT}
+                    size={30}
+                  />
+                ) : (
+                  <View style={styles.aiIcon}>
+                    <Text style={styles.aiText}>AI</Text>
+                  </View>
+                )
+              ) : (
                 <ProfileIcon
-                  firstName={message.agent.firstName ?? ""}
-                  lastName={message.agent.lastName ?? ""}
-                  entity={EntityType.AGENT}
+                  firstName={selectedTenant.firstName ?? ""}
+                  lastName={selectedTenant.lastName ?? ""}
+                  entity={EntityType.TENANT}
                   size={30}
                 />
-              ) : (
-                <View style={styles.aiIcon}>
-                  <Text style={styles.aiText}>AI</Text>
-                </View>
-              )
-            ) : (
-              <ProfileIcon
-                firstName={selectedTenant.firstName ?? ""}
-                lastName={selectedTenant.lastName ?? ""}
-                entity={EntityType.TENANT}
-                size={30}
-              />
-            )}
+              )}
+            </View>
           </View>
         </View>
       )}
@@ -444,31 +483,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 16,
-    backgroundColor: "#fff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
   profileSection: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,
-  },
-  backButton: {
-    marginRight: 12,
-    padding: 4,
-  },
-  profileContent: {
-    marginLeft: 12,
   },
   profileName: {
     fontSize: 16,
@@ -481,9 +498,6 @@ const styles = StyleSheet.create({
   },
   connected: {
     color: "#34c759",
-  },
-  actionButton: {
-    padding: 8,
   },
   leadContainer: {
     flexDirection: "row",
@@ -519,7 +533,6 @@ const styles = StyleSheet.create({
   },
   messagesContainer: {
     flex: 1,
-    padding: 16,
   },
   loadingContainer: {
     flex: 1,
@@ -537,18 +550,24 @@ const styles = StyleSheet.create({
   },
   messageItemContainer: {
     marginBottom: 16,
+    // backgroundColor: "green",
+    flexDirection: "row",
   },
   messageItem: {
+    width: "70%",
+    // backgroundColor: "orange",
     flexDirection: "row",
-    alignItems: "flex-end",
-    marginBottom: 8,
   },
+  messageContentContainer: {
+    flexDirection: "row",
+  },
+  messageContentContainerReply: { flexDirection: "row-reverse" },
+  messageContentContainerSent: { flexDirection: "row" },
   sentMessage: {
-    justifyContent: "flex-start",
+    justifyContent: "flex-end",
   },
   replyMessage: {
-    justifyContent: "flex-end",
-    flexDirection: "row-reverse",
+    justifyContent: "flex-start",
   },
   messageContent: {
     backgroundColor: "#f1f1f1",
@@ -558,9 +577,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     maxWidth: "70%",
   },
-  messageText: {
+  messageContentIsReply: {
+    backgroundColor: colors.bgColor,
+  },
+  messageContentIsSent: {
+    backgroundColor: colors.primaryColor,
+  },
+  messageTextSent: {
     fontSize: 14,
-    color: "#333",
+    color: colors.bgColor,
+  },
+  messageTextReply: {
+    fontSize: 14,
+    color: colors.textColor,
   },
   messageTime: {
     fontSize: 10,
