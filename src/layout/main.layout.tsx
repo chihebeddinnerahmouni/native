@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../constants/colors";
 import { BackArrowIcon } from "../icons";
@@ -34,9 +34,9 @@ export const MainLayout = ({
         </View>
         {HeaderRight}
       </View>
-      <View style={[styles.container, hasPadding && styles.hasPadding]}>
+      <ScrollView style={[styles.container, hasPadding && styles.hasPadding]}>
         {children}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // padding: 16,
+    paddingBottom: 36,
     backgroundColor: colors.emptyBgColor,
   },
   hasPadding: {

@@ -1,1 +1,4 @@
-export const no_image_placeholder = "/assets/images/image-not-available.png";
+// utils/images.js
+import noImagePlaceholder from "../../assets/images/image-not-available.png";
+
+export { noImagePlaceholder };

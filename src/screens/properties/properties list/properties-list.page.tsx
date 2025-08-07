@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
 import { MainLayout } from "../../../layout";
 import { FilterIcon, PlusIcon, SearchIcon } from "../../../icons";
@@ -7,6 +7,9 @@ import { ActionHeader } from "../../../components/ui/action-header.component";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { useProperties } from "../../../api-query/hooks/properties/useProperties.query";
 import { PropertyCard } from "../../../components/ui/cards/property card/property-card.component";
+import { LoadingScreen } from "../../../components";
+import { colors } from "../../../constants/colors";
+import { PropertiesListStyles } from "./property-list.style";
 
 export const PropertiesListPage = () => {
   const { propertiesResult, isLoading } = useProperties({
@@ -23,6 +26,8 @@ export const PropertiesListPage = () => {
     //   sortDirection,
     // },
   });
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <MainLayout
@@ -43,9 +48,8 @@ export const PropertiesListPage = () => {
         title="List Properties"
         actions={
           <Button
-            variant="outlined"
-            type="secondary"
-            icon={<PlusIcon />}
+            variant="contained"
+            icon={<PlusIcon color={colors.bgColor} />}
             onPress={() => {
               // Handle add property action
             }}
@@ -64,30 +68,7 @@ export const PropertiesListPage = () => {
             }}
           />
         ))}
-        {propertiesResult.items.map((property) => (
-          <PropertyCard
-            key={property._id}
-            property={property}
-            onPress={() => {
-              // Handle property card press
-            }}
-          />
-        ))}
       </View>
     </MainLayout>
   );
 };
-
-const PropertiesListStyles = StyleSheet.create({
-  headerActions: {
-    flexDirection: "row",
-    gap: 16,
-  },
-  propertiesContainer: {
-    // marginTop: 16,
-    flex: 1,
-    flexDirection: "column",
-    // flexWrap: "wrap",
-    gap: 12,
-  },
-});

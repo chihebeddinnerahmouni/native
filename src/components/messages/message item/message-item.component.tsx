@@ -134,7 +134,7 @@ export const MessageItem = ({
           ]}
           onPress={() => onDownloadFile(message.hostedFile)}
         >
-          <DownloadIcon size={20} color="#007bff" />
+          <DownloadIcon size={20} />
           <TextBody style={messageItemStyles.fileName}>
             {message.hostedFile.fileName}
           </TextBody>

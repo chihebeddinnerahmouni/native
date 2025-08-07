@@ -5,7 +5,7 @@ import colors from "../../constants/colors";
 
 type IconLabelValueProps = {
   icon?: ReactNode;
-  label: string;
+  label?: string;
   value: string | number;
   labelStyle?: object;
   valueStyle?: object;
@@ -25,7 +25,9 @@ export const IconLabelValue: React.FC<IconLabelValueProps> = ({
       {icon && <View style={styles.iconContainer}>{icon}</View>}
 
       <View style={styles.textContainerHorizontal}>
-        <TextBody style={[styles.label, labelStyle]}>{label}</TextBody>
+        {label && (
+          <TextBody style={[styles.label, labelStyle]}>{label}</TextBody>
+        )}
         <TextBody style={[styles.value, valueStyle]}>{value}</TextBody>
       </View>
     </View>
