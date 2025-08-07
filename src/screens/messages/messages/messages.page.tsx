@@ -47,6 +47,7 @@ import { FieldText } from "../../../components/ui/inputs/field-text/field-text.c
 import { MessageItem } from "../../../components/messages/message item/message-item.component";
 import { MessagesStyles } from "./messages.style";
 import { EQueryKeys, queryClient } from "../../../api-query/queryClient";
+import { showErrorAlert } from "../../../components/ui/alerts/alerts.component";
 
 export type TLeadConversation = {
   type: EChatAgentType;
@@ -118,7 +119,7 @@ export const Messages = () => {
     };
   }, [messagesResult, user?._id]);
 
-  const submitMessage = () => {
+  const submitMessage = async () => {
     if (leadConversation.type === EChatAgentType.AiTookLead) return;
 
     if (attachment) {
@@ -129,15 +130,19 @@ export const Messages = () => {
       }
     }
 
-    if (!attachment && !message) {
-      return;
+    if (!attachment && !message) return;
+
+    try {
+      await sendWhatsappRequest(selectedTenant?._id ?? "", message, attachment);
+      queryClient.invalidateQueries({
+        queryKey: [EQueryKeys.CHAT_LIST],
+      });
+
+      setAttachment(null);
+      setMessage("");
+    } catch (error) {
+      showErrorAlert("Error", "Failed to send message. Please try again.");
     }
-    sendWhatsappRequest(selectedTenant?._id ?? "", message, attachment);
-    queryClient.invalidateQueries({
-      queryKey: [EQueryKeys.CHAT_LIST],
-    });
-    setAttachment(null);
-    setMessage("");
   };
 
   const updateLeadConversation = async () => {
