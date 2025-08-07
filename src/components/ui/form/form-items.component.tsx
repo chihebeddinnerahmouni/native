@@ -33,6 +33,23 @@ export const FormContainer = ({
   );
 };
 
+export const FormRow = ({
+  rightChildren,
+  leftChildren,
+  style,
+}: {
+  rightChildren: React.ReactNode;
+  leftChildren: React.ReactNode;
+  style?: ViewStyle;
+}) => {
+  return (
+    <View style={[formStyles.row, style]}>
+      <View style={formStyles.halfWidth}>{rightChildren}</View>
+      <View style={formStyles.halfWidth}>{leftChildren}</View>
+    </View>
+  );
+};
+
 const formStyles = StyleSheet.create({
   formContainer: {
     flexDirection: "column",
@@ -43,6 +60,14 @@ const formStyles = StyleSheet.create({
     flex: 1,
   },
   scrollView: {
+    flex: 1,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  halfWidth: {
     flex: 1,
   },
 });

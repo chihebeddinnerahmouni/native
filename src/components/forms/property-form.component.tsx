@@ -24,7 +24,7 @@ import { usePropertiesMutation } from "../../api-query/hooks";
 import { FieldText } from "../ui/inputs/field-text/field-text.component";
 import { Button } from "../ui/buttons/button.component";
 import Select from "../ui/inputs/select.component";
-import { FormContainer } from "../ui/form/form-items.component";
+import { FormContainer, FormRow } from "../ui/form/form-items.component";
 import { TextFormSectionTitle } from "../ui/texts/Texts.component";
 import { Textarea } from "../ui/inputs/field-text/textarea.component";
 // import { Select } from "../ui/Select";
@@ -183,45 +183,42 @@ export const PropertyForm = ({
           )}
         />
 
-        <View style={styles.row}>
-          <View style={styles.halfWidth}>
-            {/* <Controller
-                name="buildingName"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Building Name"
-                    required
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.buildingName?.message}
-                  />
-                )}
-              /> */}
-          </View>
+        <FormRow
+          rightChildren={
+            <Controller
+              name="buildingName"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Building Name"
+                  required
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
+            />
+          }
+          leftChildren={
+            <Controller
+              name="propertyType"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Select
+                  placeholder="Enter here ..."
+                  label="Property Type"
+                  options={propertyTypesOptions}
+                  value={value}
+                  //   onValueChange={onChange}
+                />
+              )}
+            />
+          }
+        />
 
-          {/* <View style={styles.halfWidth}>
-              <Controller
-                name="propertyType"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    placeholder="Enter here ..."
-                    label="Property Type"
-                    options={propertyTypesOptions}
-                    value={value}
-                    onValueChange={onChange}
-                    error={errors.propertyType?.message}
-                  />
-                )}
-              />
-            </View> */}
-        </View>
-
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
+            <Controller
                 name="propertySize"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -236,11 +233,11 @@ export const PropertyForm = ({
                     error={errors.propertySize?.message}
                   />
                 )}
-              /> */}
+              />
           </View>
 
           <View style={styles.halfWidth}>
-            {/* <Controller
+            <Controller
                 name="bedrooms"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -255,9 +252,47 @@ export const PropertyForm = ({
                     error={errors.bedrooms?.message}
                   />
                 )}
-              /> */}
+              />
           </View>
-        </View>
+        </View> */}
+        <FormRow
+          rightChildren={
+            <Controller
+              name="bedrooms"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Bedrooms Number"
+                  type="number"
+                  value={value?.toString()}
+                  onChangeText={(text) =>
+                    onChange(text ? Number(text) : undefined)
+                  }
+                  //   error={errors.bedrooms?.message}
+                />
+              )}
+            />
+          }
+          leftChildren={
+            <Controller
+              name="propertySize"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Property Size (Sqft)"
+                  type="number"
+                  value={value?.toString()}
+                  onChangeText={(text) =>
+                    onChange(text ? Number(text) : undefined)
+                  }
+                  //   error={errors.propertySize?.message}
+                />
+              )}
+            />
+          }
+        />
 
         <View style={styles.row}>
           <View style={styles.halfWidth}>
