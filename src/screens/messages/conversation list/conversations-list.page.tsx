@@ -1,21 +1,4 @@
-// import React from "react";
-// import { View } from "react-native";
-// import { TextLabel } from "../../components/ui/texts/Texts.component";
-// import { AuthLayout } from "../../layout/main-layout.layout";
-// import { useChatList } from "../../api-query/hooks";
-
-// export const ConversationsList = () => {
-//   const { chatList, isLoading: isChatListLoading } = useChatList();
-
-//   return (
-//     <AuthLayout>
-//       <View>
-//         <TextLabel>Conversations List Page</TextLabel>
-//       </View>
-//     </AuthLayout>
-//   );
-// };
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ScrollView,
   View,
@@ -29,19 +12,14 @@ import { SearchIcon } from "../../../icons";
 import colors from "../../../constants/colors";
 import { MainLayout } from "../../../layout";
 import { RecentMessageComponent } from "../../../components/messages/conversation item/conversation-item.component";
-import { socketManager } from "../../../utils";
+// import { socketManager } from "../../../utils";
 import { ConversationListStyle } from "./conversations-list.style";
 import { useChatList } from "../../../api-query/hooks";
 
 export const ConversationsList = () => {
   const [search, setSearch] = useState("");
-  const [selectedTenantId, setSelectedTenantId] = useState<string>();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  // const [recentMessages, setRecentMessages] =
-  //   useState<IRecentMessage[]>(recentMessagesMock);
-  // const [isLoading, setIsLoading] = useState(false);
   const { chatList: recentMessages, isLoading } = useChatList();
-  const socket = socketManager.getSocket();
 
   const filteredRecentMessages = useMemo(
     () =>
@@ -52,12 +30,6 @@ export const ConversationsList = () => {
       ),
     [search, recentMessages]
   );
-
-  useEffect(() => {
-    if (selectedTenantId && socket) {
-      socket.emit("select", selectedTenantId);
-    }
-  }, [selectedTenantId, socket]);
 
   return (
     <MainLayout
@@ -91,11 +63,7 @@ export const ConversationsList = () => {
           >
             {filteredRecentMessages.length ? (
               filteredRecentMessages.map((el) => (
-                <RecentMessageComponent
-                  key={el.tenant._id}
-                  el={el}
-                  selectedTenantId={selectedTenantId}
-                />
+                <RecentMessageComponent key={el.tenant._id} el={el} />
               ))
             ) : (
               <View style={ConversationListStyle.noItems}>

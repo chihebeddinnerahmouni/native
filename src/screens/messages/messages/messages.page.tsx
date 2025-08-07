@@ -74,6 +74,7 @@ export const Messages = () => {
   const [attachment, setAttachment] = useState<RNFile | null>(null);
   const [isUpdatingLead, setIsUpdatingLead] = useState(false);
   const [isLeadShown, setIsLeadShown] = useState(false);
+  const socket = socketManager.getSocket();
 
   const { tenant: selectedTenant } = useSingleTenant({
     tenantId: selectedTenantId || "",
@@ -195,8 +196,6 @@ export const Messages = () => {
       });
     };
 
-    const socket = socketManager.getSocket();
-
     if (socket && selectedTenantId) {
       socketManager.on(EWebsocketType.Message, messageHandler);
     }
@@ -206,7 +205,13 @@ export const Messages = () => {
         socketManager.off(EWebsocketType.Message, messageHandler);
       }
     };
-  }, [selectedTenantId, refetchMessages, markChatAsRead]);
+  }, [selectedTenantId, refetchMessages, markChatAsRead, socket]);
+
+  useEffect(() => {
+    if (selectedTenantId && socket) {
+      socket.emit("select", selectedTenantId);
+    }
+  }, [selectedTenantId, socket]);
 
   if (!selectedTenant) {
     return (

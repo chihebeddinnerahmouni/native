@@ -23,10 +23,10 @@ type RootStackParamList = {
 
 export const RecentMessageComponent = ({
   el,
-  selectedTenantId,
+  // selectedTenantId,
 }: {
   el: ChatListItemDto;
-  selectedTenantId?: string;
+  // selectedTenantId?: string;
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -38,7 +38,8 @@ export const RecentMessageComponent = ({
     });
   };
 
-  const isActive = el.tenant._id === selectedTenantId;
+  // const isActive = el.tenant._id === selectedTenantId;
+  const isActive = false;
   const hasUnreadMessages = Number(el?.unreadMessagesCount) > 0;
 
   return (
