@@ -32,10 +32,10 @@ import { MainLayout } from "../../../layout";
 import { RecentMessageComponent } from "../../../components/messages/conversation item/conversation-item.component";
 import { IRecentMessage } from "../../../utils";
 import { ConversationListStyle } from "./conversations-list.style";
-import { useSocket } from "../../../contexts/socket.context";
+// import { useSocket } from "../../../contexts/socket.context";
 
 export const ConversationsList = () => {
-  const { emit } = useSocket();
+  // const { emit } = useSocket();
   const [search, setSearch] = useState("");
   const [selectedTenantId, setSelectedTenantId] = useState<string>();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -53,11 +53,11 @@ export const ConversationsList = () => {
     [search, recentMessages]
   );
 
-  useEffect(() => {
-    if (selectedTenantId) {
-      emit("select", selectedTenantId);
-    }
-  }, [selectedTenantId, emit]);
+  // useEffect(() => {
+  //   if (selectedTenantId) {
+  //     emit("select", selectedTenantId);
+  //   }
+  // }, [selectedTenantId, emit]);
 
   return (
     <MainLayout
