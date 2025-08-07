@@ -108,25 +108,6 @@ export const PropertyForm = ({
   return (
     <FormContainer>
       <Controller
-        name="agentId"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <Select
-            placeholder="Select agent"
-            required
-            label="Agent"
-            options={usersResult.items.map((el) => ({
-              label: el.firstName + " " + el.lastName,
-              value: el._id,
-            }))}
-            value={value}
-            onChange={onChange}
-            error={errors.agentId}
-          />
-        )}
-      />
-
-      <Controller
         name="ownerId"
         control={control}
         render={({ field: { onChange, value } }) => (
@@ -251,49 +232,49 @@ export const PropertyForm = ({
           }
         />
 
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="bathrooms"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Bathrooms Number"
-                    keyboardType="numeric"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.bathrooms?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="bathrooms"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Bathrooms Number"
+                  keyboardType="numeric"
+                  value={value?.toString()}
+                  onChangeText={(text) =>
+                    onChange(text ? Number(text) : undefined)
+                  }
+                  error={errors.bathrooms?.message}
+                />
+              )}
+            />
           </View>
 
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="parkingSpaces"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Parking Spaces"
-                    keyboardType="numeric"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.parkingSpaces?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="parkingSpaces"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Parking Spaces"
+                  type="number"
+                  value={value?.toString()}
+                  onChangeText={(text) =>
+                    onChange(text ? Number(text) : undefined)
+                  }
+                  error={errors.parkingSpaces}
+                />
+              )}
+            />
           </View>
-        </View>
+        </View> */}
 
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
+            <Controller
                 name="yearBuilt"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -308,11 +289,11 @@ export const PropertyForm = ({
                     error={errors.yearBuilt?.message}
                   />
                 )}
-              /> */}
+              />
           </View>
 
           <View style={styles.halfWidth}>
-            {/* <Controller
+            <Controller
                 name="balconySize"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -327,13 +308,13 @@ export const PropertyForm = ({
                     error={errors.balconySize?.message}
                   />
                 )}
-              /> */}
+              />
           </View>
-        </View>
+        </View> */}
 
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
+            <Controller
                 name="tenantType"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -346,11 +327,11 @@ export const PropertyForm = ({
                     error={errors.tenantType?.message}
                   />
                 )}
-              /> */}
+              />
           </View>
 
           <View style={styles.halfWidth}>
-            {/* <Controller
+            <Controller
                 name="maxTenants"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -365,13 +346,10 @@ export const PropertyForm = ({
                     error={errors.maxTenants?.message}
                   />
                 )}
-              /> */}
+              />
           </View>
-        </View>
+        </View> */}
       </View>
-
-      {/* Rent Section */}
-      {/* <TitleCard title="Rent" /> */}
 
       <View style={styles.section}>
         <TextFormSectionTitle style={styles.sectionTitle}>
@@ -455,164 +433,160 @@ export const PropertyForm = ({
       {/* Address Section */}
       {/* <TitleCard title="Address" /> */}
 
-      <View style={styles.section}>
-        {/* <Controller
-            name="address.street"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FieldText
-                placeholder="Enter here ..."
-                label="Street Address"
-                value={value}
-                onChangeText={onChange}
-                error={errors.address?.street?.message}
-              />
-            )}
-          /> */}
+      {/* <View style={styles.section}>
+        <Controller
+          name="address.street"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FieldText
+              placeholder="Enter here ..."
+              label="Street Address"
+              value={value}
+              onChangeText={onChange}
+              error={errors.address?.street}
+            />
+          )}
+        />
 
         <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="address.district"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="District"
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.address?.district?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="address.district"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="District"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.address?.district}
+                />
+              )}
+            />
           </View>
 
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="address.city"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="City"
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.address?.city?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="address.city"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="City"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.address?.city?.message}
+                />
+              )}
+            />
           </View>
         </View>
 
         <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="address.country"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Select country"
-                    label="Country"
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.address?.country?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="address.country"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Select country"
+                  label="Country"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.address?.country?.message}
+                />
+              )}
+            />
           </View>
 
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="address.zip"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Postcode"
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.address?.zip?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="address.zip"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Postcode"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.address?.zip?.message}
+                />
+              )}
+            />
           </View>
         </View>
-      </View>
+      </View> */}
 
-      {/* External Links Section */}
-      {/* <TitleCard title="External links" /> */}
-
-      <View style={styles.section}>
+      {/* <View style={styles.section}>
         <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="airbnbId"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Airbnb Profile"
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.airbnbId?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="airbnbId"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Airbnb Profile"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.airbnbId?.message}
+                />
+              )}
+            />
           </View>
 
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="bayutLink"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Bayut link"
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.bayutLink?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="bayutLink"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Bayut link"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.bayutLink?.message}
+                />
+              )}
+            />
           </View>
         </View>
 
         <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="dubizzleLink"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Dubizzle link"
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.dubizzleLink?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="dubizzleLink"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Dubizzle link"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.dubizzleLink?.message}
+                />
+              )}
+            />
           </View>
 
           <View style={styles.halfWidth}>
-            {/* <Controller
-                name="propertyfinderLink"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Property finder link"
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.propertyfinderLink?.message}
-                  />
-                )}
-              /> */}
+            <Controller
+              name="propertyfinderLink"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Property finder link"
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.propertyfinderLink?.message}
+                />
+              )}
+            />
           </View>
         </View>
-      </View>
+      </View> */}
 
-      {/* Form Actions */}
       <View style={styles.formActions}>
         <Button
           variant="outlined"
@@ -630,33 +604,17 @@ export const PropertyForm = ({
           Submit
         </Button>
       </View>
-      {/* </ScrollView> */}
-      {/* </KeyboardAvoidingView> */}
     </FormContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //   },
-  //   scrollView: {
-  //     flex: 1,
-  //   },
   section: {
-    // marginBottom: 24,
+    marginBottom: 24,
     gap: 12,
   },
   sectionTitle: {
-    marginBottom: 12,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-  halfWidth: {
-    flex: 1,
+    // marginBottom: 12,
   },
   formActions: {
     flexDirection: "row",
