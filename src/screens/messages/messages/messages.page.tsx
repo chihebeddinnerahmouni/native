@@ -45,7 +45,7 @@ import { MessageItem } from "../../../components/messages/message item/message-i
 import { MessagesStyles } from "./messages.style";
 import { EQueryKeys, queryClient } from "../../../api-query/queryClient";
 import { showErrorAlert } from "../../../components/ui/alerts/alerts.component";
-import { LoadingScreen } from "../../../components";
+import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 
 export type TLeadConversation = {
   type: EChatAgentType;

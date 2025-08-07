@@ -7,7 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import Toast from "react-native-toast-message";
 import { RootNavigator } from "./navigation";
 import { useAuth } from "./contexts/auth.context";
-import { LoadingScreen } from "./components/LoadingScreen";
+import { LoadingScreen } from "./components/ui/LoadingScreen";
 import { socketManager } from "./utils";
 import { ESocketRefreshModule, EWebsocketType } from "./backend/casaikos-api";
 import { queryClient } from "./api-query/queryClient";

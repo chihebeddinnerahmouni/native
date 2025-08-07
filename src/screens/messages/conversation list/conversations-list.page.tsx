@@ -7,7 +7,7 @@ import { MainLayout } from "../../../layout";
 import { RecentMessageComponent } from "../../../components/messages/conversation item/conversation-item.component";
 import { ConversationListStyle } from "./conversations-list.style";
 import { useChatList } from "../../../api-query/hooks";
-import { LoadingScreen } from "../../../components";
+import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 
 export const ConversationsList = () => {
   const [search, setSearch] = useState("");
