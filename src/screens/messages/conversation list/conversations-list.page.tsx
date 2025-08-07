@@ -23,25 +23,25 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { recentMessagesMock } from "../../../mock/resent-messages.mock";
 import { PageTitle } from "../../../components/ui/texts/Texts.component";
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 import { SearchIcon } from "../../../icons";
 import colors from "../../../constants/colors";
 import { MainLayout } from "../../../layout";
 import { RecentMessageComponent } from "../../../components/messages/conversation item/conversation-item.component";
-import { IRecentMessage } from "../../../utils";
+import { socketManager } from "../../../utils";
 import { ConversationListStyle } from "./conversations-list.style";
-// import { useSocket } from "../../../contexts/socket.context";
+import { useChatList } from "../../../api-query/hooks";
 
 export const ConversationsList = () => {
-  // const { emit } = useSocket();
   const [search, setSearch] = useState("");
   const [selectedTenantId, setSelectedTenantId] = useState<string>();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [recentMessages, setRecentMessages] =
-    useState<IRecentMessage[]>(recentMessagesMock);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [recentMessages, setRecentMessages] =
+  //   useState<IRecentMessage[]>(recentMessagesMock);
+  // const [isLoading, setIsLoading] = useState(false);
+  const { chatList: recentMessages, isLoading } = useChatList();
+  const socket = socketManager.getSocket();
 
   const filteredRecentMessages = useMemo(
     () =>
@@ -53,11 +53,11 @@ export const ConversationsList = () => {
     [search, recentMessages]
   );
 
-  // useEffect(() => {
-  //   if (selectedTenantId) {
-  //     emit("select", selectedTenantId);
-  //   }
-  // }, [selectedTenantId, emit]);
+  useEffect(() => {
+    if (selectedTenantId && socket) {
+      socket.emit("select", selectedTenantId);
+    }
+  }, [selectedTenantId, socket]);
 
   return (
     <MainLayout

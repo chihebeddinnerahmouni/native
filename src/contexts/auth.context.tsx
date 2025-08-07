@@ -93,52 +93,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  // useEffect(() => {
-  //   const socket = socketManager.getSocket();
-
-  //   if (socket && user) {
-  //     const handleConnect = () => {
-  //       socketManager.emit("register", {
-  //         userId: user._id,
-  //         companyId: user.company._id,
-  //       });
-  //     };
-
-  //     const handleDataChanged = (data: {
-  //       module: ESocketRefreshModule;
-  //       moduleId?: string;
-  //     }) => {
-  //       queryClient.invalidateQueries({ queryKey: [data.module] });
-
-  //       if (
-  //         data.module === ESocketRefreshModule.COMPANIES &&
-  //         data.moduleId === user.company._id
-  //       ) {
-  //         verifyToken();
-  //       }
-
-  //       if (
-  //         data.module === ESocketRefreshModule.USERS &&
-  //         data.moduleId === user._id
-  //       ) {
-  //         verifyToken();
-  //       }
-  //     };
-
-  //     if (socket.connected) {
-  //       handleConnect();
-  //     }
-
-  //     socketManager.on(EWebsocketType.Connect, handleConnect);
-  //     socketManager.on(EWebsocketType.REFRESH, handleDataChanged);
-
-  //     return () => {
-  //       socketManager.off(EWebsocketType.Connect, handleConnect);
-  //       socketManager.off(EWebsocketType.REFRESH, handleDataChanged);
-  //     };
-  //   }
-  // }, [user]);
-
   // Initialize auth state on app start
   useEffect(() => {
     verifyToken();

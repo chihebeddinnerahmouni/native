@@ -1566,7 +1566,7 @@ export interface AiSearchPropertiesDto {
 
 export interface MetadataIntents {
   /** The intent type */
-  intent: "SEND_PROPERTY_IMAGES" | "SEND_PROPERTY_PAYMENT_LINK" | "EMPTY";
+  intent: "SEND_PROPERTY_IMAGES" | "SEND_PROPERTY_PAYMENT_LINK" | "NONE";
   /** The ID of the property */
   propertyId?: string;
   /** Flag to show more details */
@@ -2564,6 +2564,24 @@ export class Api<
       }),
   };
   files = {
+    /**
+     * No description
+     *
+     * @tags Files
+     * @name FilesControllerGetSignedUrl
+     * @request GET:/files/signed-url/{fileKey}
+     */
+    filesControllerGetSignedUrl: (
+      fileKey: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<string, any>({
+        path: `/files/signed-url/${fileKey}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
     /**
      * No description
      *

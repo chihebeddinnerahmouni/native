@@ -6,10 +6,11 @@ import {
 } from "../../../components/ui/Profile-icon.component";
 import { useNavigation } from "@react-navigation/native";
 import { ERoute, EScreens, getTimeSince } from "../../../utils";
-import { getIconColorFromId, IRecentMessage } from "../../../utils";
+import { getIconColorFromId } from "../../../utils";
 import { TextBody } from "../../../components/ui/texts/Texts.component";
 import { ConversationItemStyle } from "./conversation-item.style";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ChatListItemDto } from "../../../backend/casaikos-api";
 
 type RootStackParamList = {
   [EScreens.MESSAGES]: {
@@ -24,7 +25,7 @@ export const RecentMessageComponent = ({
   el,
   selectedTenantId,
 }: {
-  el: IRecentMessage;
+  el: ChatListItemDto;
   selectedTenantId?: string;
 }) => {
   const navigation =
@@ -56,7 +57,7 @@ export const RecentMessageComponent = ({
           firstName={el.tenant.firstName ?? ""}
           lastName={el.tenant.lastName ?? ""}
           entity={EntityType.TENANT}
-          isOnline={el.tenant.isOnline}
+          isOnline={true}
           color={getIconColorFromId(el.tenant._id)}
         />
         <View style={ConversationItemStyle.profileContent}>
