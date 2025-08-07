@@ -1,6 +1,6 @@
 export const colors = {
   bgColor: "#fff",
-  emptyBgColor: "#f2f2f2",
+  emptyBgColor: "#f8f9fa",
   emptyBgColor2: "#fbfbfb",
   textColor: "#111827",
   textColor2: "#687588",

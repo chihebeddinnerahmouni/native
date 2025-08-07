@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     // padding: 16,
     paddingBottom: 36,
     backgroundColor: colors.emptyBgColor,
+    // backgroundColor: "#f8f9fa",
   },
   hasPadding: {
     padding: 16,

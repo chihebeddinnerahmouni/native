@@ -16,6 +16,7 @@ type ModalConfig = {
     | "pageSheet"
     | "formSheet"
     | "overFullScreen";
+  slideDirection?: "bottom" | "top" | "left" | "right";
   onDismiss?: () => void;
 };
 
@@ -47,6 +48,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         title={modalConfig?.title}
         animationType={modalConfig?.animationType}
         presentationStyle={modalConfig?.presentationStyle}
+        slideDirection={modalConfig?.slideDirection}
       >
         {modalConfig?.component}
       </Modal>

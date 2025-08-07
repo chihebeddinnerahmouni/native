@@ -34,6 +34,7 @@ export const PropertiesListPage = () => {
   const onClickOpenForm = (property?: Property) => {
     openModal({
       title: property ? "Update Property" : "New Property",
+      slideDirection: "right",
       component: (
         // <PropertyForm selectedProperty={property} closeModal={closeModal} />
         <>
