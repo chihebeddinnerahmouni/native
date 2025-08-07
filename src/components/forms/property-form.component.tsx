@@ -46,13 +46,15 @@ export const PropertyForm = ({
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
     // setValue,
   } = useForm({
     resolver: yupResolver(propertySchema),
+    defaultValues: {
+      isFurnished: true, // Set to true to avoid the transform converting false to undefined
+      isYearly: true, // Set to true to match the useEffect logic
+      isActive: true, // Set to true to match the useEffect logic
+    },
   });
-
-  const values = watch();
 
   const { usersResult } = useUsers({
     select: [EUserSelectFields.FirstName, EUserSelectFields.LastName],
@@ -86,16 +88,17 @@ export const PropertyForm = ({
         ...selectedProperty,
         agentId: selectedProperty.agent?._id,
         ownerId: selectedProperty.owner?._id,
+        isFurnished: selectedProperty.isFurnished ?? true, // Ensure boolean value
       });
     } else {
       reset({
         isActive: true,
         isYearly: true,
+        isFurnished: true, // Set to true to satisfy the validation
       });
     }
   }, [selectedProperty, reset]);
 
-  console.log("PropertyForm values:", values);
   console.log("PropertyForm errors:", errors);
 
   return (
@@ -200,6 +203,7 @@ export const PropertyForm = ({
                   value={value}
                   onChange={onChange}
                   error={errors.propertyType}
+                  required
                 />
               )}
             />
