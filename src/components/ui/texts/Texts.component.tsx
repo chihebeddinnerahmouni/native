@@ -7,6 +7,10 @@ export const PageTitle = (props: React.ComponentProps<typeof Text>) => (
   <Text weight="bold" color={colors.textColor} size={20} {...props} />
 );
 
+export const PageTitle2 = (props: React.ComponentProps<typeof Text>) => (
+  <Text weight="medium" color={colors.textColor} size={16} {...props} />
+);
+
 export const PageSubtitle = (props: React.ComponentProps<typeof Text>) => (
   <Text size={16} color={colors.textColor2} {...props} />
 );

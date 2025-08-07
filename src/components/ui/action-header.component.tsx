@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { PageTitle } from "./texts/Texts.component";
+import { PageTitle2 } from "./texts/Texts.component";
 
 type ActionHeaderProps = {
   title?: string;
@@ -10,7 +10,7 @@ type ActionHeaderProps = {
 export const ActionHeader = ({ title, actions, styles }: ActionHeaderProps) => {
   return (
     <View style={[ActionHeaderStyles.container, styles]}>
-      <PageTitle>{title}</PageTitle>
+      <PageTitle2>{title}</PageTitle2>
       {actions}
     </View>
   );
