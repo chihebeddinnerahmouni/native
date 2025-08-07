@@ -206,6 +206,7 @@ export const Messages = () => {
     }
   }, [selectedTenantId, socket]);
 
+  if (!selectedTenantId) return <Text>No tenant selected</Text>;
   if (isLoading || !selectedTenant) return <LoadingScreen />;
 
   return (

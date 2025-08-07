@@ -11,7 +11,7 @@ export const MessagesNavigator = () => {
   return (
     <MessagesStack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={ERoute.MESSAGES_PAGE}
+      initialRouteName={ERoute.CONVERSATIONS_LIST}
     >
       <MessagesStack.Screen
         name={ERoute.CONVERSATIONS_LIST}
