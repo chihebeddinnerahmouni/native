@@ -373,8 +373,11 @@ export const PropertyForm = ({
       {/* Rent Section */}
       {/* <TitleCard title="Rent" /> */}
 
-      {/*<View style={styles.section}>
-         <RadioGroup
+      <View style={styles.section}>
+        <TextFormSectionTitle style={styles.sectionTitle}>
+          Rent Details
+        </TextFormSectionTitle>
+        {/* <RadioGroup
           label="Active"
           options={[
             { label: "Yes", value: true },
@@ -396,7 +399,7 @@ export const PropertyForm = ({
           error={errors.isYearly?.message}
         /> */}
 
-      {/* {values.isYearly && (
+        {/* {values.isYearly && (
             <RadioGroup
               label="Furnished"
               options={[
@@ -408,49 +411,8 @@ export const PropertyForm = ({
               error={errors.isFurnished?.message}
             />
           )} */}
+      </View>
 
-      {/* <View style={styles.row}>
-          <View style={styles.halfWidth}>
-            <Controller
-                name="deposit"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Deposit"
-                    keyboardType="numeric"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.deposit?.message}
-                  />
-                )}
-              />
-          </View>
-
-          {values.isYearly && (
-              <View style={styles.halfWidth}>
-                <Controller
-                  name="priceYearly"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <FieldText
-                      placeholder="Enter here ..."
-                      label="Yearly Price"
-                      keyboardType="numeric"
-                      value={value?.toString()}
-                      onChangeText={(text) =>
-                        onChange(text ? Number(text) : undefined)
-                      }
-                      error={errors.priceYearly?.message}
-                    />
-                  )}
-                />
-              </View>
-            )}
-        </View>
-      </View>*/}
       <FormRow
         leftChildren={
           <Controller
@@ -682,11 +644,11 @@ const styles = StyleSheet.create({
   //     flex: 1,
   //   },
   section: {
-    marginBottom: 24,
+    // marginBottom: 24,
     gap: 12,
   },
   sectionTitle: {
-    // marginBottom: 12,
+    marginBottom: 12,
   },
   row: {
     flexDirection: "row",
