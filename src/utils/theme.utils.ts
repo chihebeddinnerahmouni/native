@@ -17,7 +17,7 @@ export const getButtonStyles = (
 ) => {
   const colors = {
     primary: predefinedColors.primaryColor,
-    secondary: "#6c757d",
+    secondary: "#E0E4EB",
     success: "#28a745",
     danger: "#dc3545",
     warning: "#ffc107",

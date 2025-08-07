@@ -5,9 +5,10 @@ import {
   ViewStyle,
   TextStyle,
   ActivityIndicator,
+  View,
 } from "react-native";
 import { getButtonStyles, TUIType, TUIVariant } from "../../../utils";
-import { TextBody } from "../texts/Texts.component";
+import { TextButton } from "../texts/Texts.component";
 
 type ButtonProps = {
   type?: TUIType;
@@ -18,6 +19,7 @@ type ButtonProps = {
   loading?: boolean;
   style?: ViewStyle;
   textStyle?: TextStyle;
+  icon?: React.ReactNode;
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -29,6 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   loading = false,
   style,
   textStyle,
+  icon,
 }) => {
   const buttonStyles = getButtonStyles(type, variant, disabled);
 
@@ -64,9 +67,19 @@ export const Button: React.FC<ButtonProps> = ({
           color={buttonStyles.textColor}
           style={styles.loader}
         />
-      ) : null}
-      {typeof children === "string" ? (
-        <TextBody style={textStyleCombined.buttonText}>{children}</TextBody>
+      ) : icon ? (
+        <View style={styles.buttonContent}>
+          {icon}
+          {typeof children === "string" ? (
+            <TextButton style={textStyleCombined.buttonText}>
+              {children}
+            </TextButton>
+          ) : (
+            children
+          )}
+        </View>
+      ) : typeof children === "string" ? (
+        <TextButton style={textStyleCombined.buttonText}>{children}</TextButton>
       ) : (
         children
       )}
@@ -93,5 +106,10 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginRight: 8,
+  },
+  buttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
 });
