@@ -24,6 +24,8 @@ import { usePropertiesMutation } from "../../api-query/hooks";
 import { FieldText } from "../ui/inputs/field-text/field-text.component";
 import { Button } from "../ui/buttons/button.component";
 import Select from "../ui/inputs/select.component";
+import { FormContainer } from "../ui/form/form-items.component";
+import { TextFormSectionTitle } from "../ui/texts/Texts.component";
 // import { Select } from "../ui/Select";
 // import { Textarea } from "../ui/Textarea";
 // import { RadioGroup } from "../ui/RadioGroup";
@@ -100,88 +102,90 @@ export const PropertyForm = ({
   }, [selectedProperty, reset]);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <ScrollView
+    <FormContainer>
+      {/* <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      > */}
+      {/* <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
-      >
+      > */}
+      <Controller
+        name="agentId"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Select
+            placeholder="Select agent"
+            required
+            label="Agent"
+            options={usersResult.items.map((el) => ({
+              label: el.firstName + " " + el.lastName,
+              value: el._id,
+            }))}
+            value={value}
+            //   onValueChange={onChange}
+            //   error={errors.agentId?.message}
+          />
+        )}
+      />
+
+      <Controller
+        name="ownerId"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Select
+            placeholder="Select owner"
+            label="Owner"
+            options={ownersResult.items.map((el) => ({
+              label: el.firstName + " " + el.lastName,
+              value: el._id,
+            }))}
+            value={value}
+            // onValueChange={onChange}
+            // error={errors.ownerId?.message}
+          />
+        )}
+      />
+
+      <TextFormSectionTitle style={styles.sectionTitle}>
+        Property Details
+      </TextFormSectionTitle>
+
+      <View style={styles.section}>
         <Controller
-          name="agentId"
+          name="title"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <Select
-              placeholder="Select agent"
+            <FieldText
+              placeholder="Enter here ..."
+              label="Title"
               required
-              label="Agent"
-              options={usersResult.items.map((el) => ({
-                label: el.firstName + " " + el.lastName,
-                value: el._id,
-              }))}
               value={value}
-              //   onValueChange={onChange}
-              //   error={errors.agentId?.message}
+              onChangeText={onChange}
+              //   error={errors.title?.message}
             />
           )}
         />
 
         {/* <Controller
-          name="ownerId"
+          name="description"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <Select
-              placeholder="Select owner"
-              label="Owner"
-              options={ownersResult.items.map((el) => ({
-                label: el.firstName + " " + el.lastName,
-                value: el._id,
-              }))}
+            <Textarea
+              placeholder="Enter here ..."
+              label="Description"
               value={value}
-              onValueChange={onChange}
-              error={errors.ownerId?.message}
+              onChangeText={onChange}
+              error={errors.description?.message}
             />
           )}
         /> */}
 
-        {/* Property Details */}
-        {/* <TitleCard title="Property Details" /> */}
-
-        <View style={styles.section}>
-          {/* <Controller
-            name="title"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FieldText
-                placeholder="Enter here ..."
-                label="Title"
-                required
-                value={value}
-                onChangeText={onChange}
-                error={errors.title?.message}
-              />
-            )}
-          /> */}
-
-          {/* <Controller
-            name="description"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Textarea
-                placeholder="Enter here ..."
-                label="Description"
-                value={value}
-                onChangeText={onChange}
-                error={errors.description?.message}
-              />
-            )}
-          /> */}
-
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="buildingName"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -195,9 +199,9 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            {/* <View style={styles.halfWidth}>
+          {/* <View style={styles.halfWidth}>
               <Controller
                 name="propertyType"
                 control={control}
@@ -213,11 +217,11 @@ export const PropertyForm = ({
                 )}
               />
             </View> */}
-          </View>
+        </View>
 
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="propertySize"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -233,10 +237,10 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            <View style={styles.halfWidth}>
-              {/* <Controller
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="bedrooms"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -252,12 +256,12 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
           </View>
+        </View>
 
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="bathrooms"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -273,10 +277,10 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            <View style={styles.halfWidth}>
-              {/* <Controller
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="parkingSpaces"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -292,12 +296,12 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
           </View>
+        </View>
 
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="yearBuilt"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -313,10 +317,10 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            <View style={styles.halfWidth}>
-              {/* <Controller
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="balconySize"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -332,12 +336,12 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
           </View>
+        </View>
 
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="tenantType"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -351,10 +355,10 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            <View style={styles.halfWidth}>
-              {/* <Controller
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="maxTenants"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -370,15 +374,15 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
           </View>
         </View>
+      </View>
 
-        {/* Rent Section */}
-        {/* <TitleCard title="Rent" /> */}
+      {/* Rent Section */}
+      {/* <TitleCard title="Rent" /> */}
 
-        <View style={styles.section}>
-          {/* <RadioGroup
+      <View style={styles.section}>
+        {/* <RadioGroup
             label="Active"
             options={[
               { label: "Yes", value: true },
@@ -400,7 +404,7 @@ export const PropertyForm = ({
             error={errors.isYearly?.message}
           /> */}
 
-          {/* {values.isYearly && (
+        {/* {values.isYearly && (
             <RadioGroup
               label="Furnished"
               options={[
@@ -413,9 +417,9 @@ export const PropertyForm = ({
             />
           )} */}
 
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="deposit"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -431,9 +435,9 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            {/* {values.isYearly && (
+          {/* {values.isYearly && (
               <View style={styles.halfWidth}>
                 <Controller
                   name="priceYearly"
@@ -453,14 +457,14 @@ export const PropertyForm = ({
                 />
               </View>
             )} */}
-          </View>
         </View>
+      </View>
 
-        {/* Address Section */}
-        {/* <TitleCard title="Address" /> */}
+      {/* Address Section */}
+      {/* <TitleCard title="Address" /> */}
 
-        <View style={styles.section}>
-          {/* <Controller
+      <View style={styles.section}>
+        {/* <Controller
             name="address.street"
             control={control}
             render={({ field: { onChange, value } }) => (
@@ -474,9 +478,9 @@ export const PropertyForm = ({
             )}
           /> */}
 
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="address.district"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -489,10 +493,10 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            <View style={styles.halfWidth}>
-              {/* <Controller
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="address.city"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -505,12 +509,12 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
           </View>
+        </View>
 
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="address.country"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -523,10 +527,10 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            <View style={styles.halfWidth}>
-              {/* <Controller
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="address.zip"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -539,17 +543,17 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
           </View>
         </View>
+      </View>
 
-        {/* External Links Section */}
-        {/* <TitleCard title="External links" /> */}
+      {/* External Links Section */}
+      {/* <TitleCard title="External links" /> */}
 
-        <View style={styles.section}>
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+      <View style={styles.section}>
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="airbnbId"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -562,10 +566,10 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            <View style={styles.halfWidth}>
-              {/* <Controller
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="bayutLink"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -578,12 +582,12 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
           </View>
+        </View>
 
-          <View style={styles.row}>
-            <View style={styles.halfWidth}>
-              {/* <Controller
+        <View style={styles.row}>
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="dubizzleLink"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -596,10 +600,10 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
+          </View>
 
-            <View style={styles.halfWidth}>
-              {/* <Controller
+          <View style={styles.halfWidth}>
+            {/* <Controller
                 name="propertyfinderLink"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -612,42 +616,46 @@ export const PropertyForm = ({
                   />
                 )}
               /> */}
-            </View>
           </View>
         </View>
+      </View>
 
-        {/* Form Actions */}
-        <View style={styles.formActions}>
-          <Button
-            variant="outlined"
-            onPress={onCancel}
-            style={styles.cancelButton}
-          >
-            Cancel
-          </Button>
-          <Button
-            onPress={handleSubmit(onClickSubmit)}
-            disabled={isSavePending}
-            loading={isSavePending}
-            style={styles.submitButton}
-          >
-            Submit
-          </Button>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      {/* Form Actions */}
+      <View style={styles.formActions}>
+        <Button
+          variant="outlined"
+          onPress={onCancel}
+          style={styles.cancelButton}
+        >
+          Cancel
+        </Button>
+        <Button
+          onPress={handleSubmit(onClickSubmit)}
+          disabled={isSavePending}
+          loading={isSavePending}
+          style={styles.submitButton}
+        >
+          Submit
+        </Button>
+      </View>
+      {/* </ScrollView> */}
+      {/* </KeyboardAvoidingView> */}
+    </FormContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
+  //   container: {
+  //     flex: 1,
+  //   },
+  //   scrollView: {
+  //     flex: 1,
+  //   },
   section: {
     marginBottom: 24,
+  },
+  sectionTitle: {
+    marginBottom: 12,
   },
   row: {
     flexDirection: "row",

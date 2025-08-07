@@ -32,4 +32,8 @@ export const TextButton = (props: React.ComponentProps<typeof Text>) => (
   <Text weight="medium" size={14} {...props} />
 );
 
+export const TextFormSectionTitle = (
+  props: React.ComponentProps<typeof Text>
+) => <Text weight="bold" size={20} color={colors.textColor} {...props} />;
+
 export default Text;
