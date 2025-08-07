@@ -15,7 +15,7 @@ export const RootNavigator = () => {
       screenOptions={{ headerShown: false }}
       initialRouteName={isUserAuthenticated ? EScreens.MESSAGES : EScreens.AUTH}
     >
-      {isUserAuthenticated ? (
+      {!isUserAuthenticated ? (
         <>
           <RootStack.Screen
             name={EScreens.MESSAGES}

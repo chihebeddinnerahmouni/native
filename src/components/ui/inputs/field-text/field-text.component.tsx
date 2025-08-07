@@ -43,6 +43,7 @@ type FieldTextProps = {
   onKeyPress?: TextInputProps["onKeyPress"];
   maxLength?: number;
   startIcon?: ReactNode;
+  flex?: boolean; // Add flex control prop
 };
 
 export const FieldText = ({
@@ -62,6 +63,7 @@ export const FieldText = ({
   onKeyPress,
   maxLength,
   startIcon,
+  flex = false, // Default to false, only use flex when explicitly needed
 }: FieldTextProps) => {
   const [passwordTextVisible, setPasswordTextVisible] = useState(false);
 
@@ -113,7 +115,13 @@ export const FieldText = ({
   }, [value, register?.name, setValue, type]);
 
   return (
-    <View style={[style, styles.container, error && styles.errorContainer]}>
+    <View
+      style={[
+        style,
+        flex ? styles.container : styles.containerNoFlex,
+        error && styles.errorContainer,
+      ]}
+    >
       {label && (
         <TextLabel style={styles.label}>
           {label}
@@ -133,7 +141,7 @@ export const FieldText = ({
           value={inputValue}
           onChangeText={handleTextChange}
           placeholder={placeholder}
-          placeholderTextColor="#999"
+          placeholderTextColor={colors.placeHolderColor}
           editable={!disabled}
           secureTextEntry={type === "password" && !passwordTextVisible}
           onKeyPress={onKeyPress}
@@ -158,8 +166,11 @@ export const FieldText = ({
 
 const styles = StyleSheet.create({
   container: {
-    // width: "auto",
-    // flex: 1,
+    flex: 1, // This ensures it takes available space in flex containers
+    minWidth: 0, // Prevents shrinking below content
+  },
+  containerNoFlex: {
+    // Use this for forms and vertical layouts
   },
   errorContainer: {
     borderColor: colors.errorColor,

@@ -1,14 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { useAuth } from "../../../contexts";
 import { ERoute, getIconColorFromId, socketManager } from "../../../utils";
@@ -342,6 +334,7 @@ export const Messages = () => {
           value={message}
           onChangeText={(text) => setMessage(text)}
           disabled={!leadConversation.isMe}
+          flex={true}
         />
 
         <TouchableOpacity

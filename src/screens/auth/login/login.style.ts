@@ -11,12 +11,6 @@ export const LoginStyles = StyleSheet.create({
   },
   formContainer: {
     marginTop: 32,
-    // height: 330,
-    // flex: 1,
-    backgroundColor: "red",
-    // display: "flex",
-    // flexDirection: "column",
-    // justifyContent: "flex-start",
-    // gap: 16,
+    gap: 16, // Add consistent spacing between form elements
   },
 });

@@ -78,19 +78,17 @@ export const MessagesStyles = StyleSheet.create({
   inputArea: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     padding: 16,
     backgroundColor: colors.bgColor,
     borderTopWidth: 1,
     borderTopColor: colors.borderColor,
+    gap: 8, // Add gap between elements
   },
   attachButton: {
     padding: 8,
-    marginRight: 8,
   },
   sendButton: {
     padding: 8,
-    marginLeft: 8,
   },
   disabledButton: {
     opacity: 0.5,

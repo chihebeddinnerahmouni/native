@@ -11,6 +11,7 @@ export const colors = {
   blackColor: "#000",
   successColor: "#3D9456",
   errorColor: "#FA2B37",
+  placeHolderColor: "#999",
 };
 
 export const Dark_theme_colors = {
@@ -24,6 +25,9 @@ export const Dark_theme_colors = {
   primaryLight: "#28303e",
   borderColor: "#333333",
   blackColor: "#ffffff",
+  successColor: "#3D9456",
+  errorColor: "#FA2B37",
+  placeHolderColor: "#999",
 };
 
 export default colors;
