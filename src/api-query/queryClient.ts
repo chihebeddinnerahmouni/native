@@ -18,3 +18,7 @@ queryClient.getQueryCache().subscribe((event) => {
     errorHandler(event.query.state.error);
   }
 });
+
+export enum EQueryKeys {
+  CHAT_LIST = "chat-list",
+}

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChatListItemDto } from "../../../backend/casaikos-api";
 import { getChatListHandler } from "../../api/messages.api";
+import { EQueryKeys } from "../../queryClient";
 
 type IResponse = {
   chatList: ChatListItemDto[];
@@ -9,7 +10,7 @@ type IResponse = {
 
 export const useChatList = (): IResponse => {
   const { data: chatList, isLoading } = useQuery({
-    queryKey: ["chat-list"],
+    queryKey: [EQueryKeys.CHAT_LIST],
     queryFn: () => getChatListHandler(),
     select: (data) =>
       [...data].sort(

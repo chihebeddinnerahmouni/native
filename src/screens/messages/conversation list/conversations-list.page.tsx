@@ -1,20 +1,13 @@
 import React, { useMemo, useState } from "react";
-import {
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { PageTitle } from "../../../components/ui/texts/Texts.component";
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 import { SearchIcon } from "../../../icons";
-import colors from "../../../constants/colors";
 import { MainLayout } from "../../../layout";
 import { RecentMessageComponent } from "../../../components/messages/conversation item/conversation-item.component";
-// import { socketManager } from "../../../utils";
 import { ConversationListStyle } from "./conversations-list.style";
 import { useChatList } from "../../../api-query/hooks";
+import { LoadingScreen } from "../../../components";
 
 export const ConversationsList = () => {
   const [search, setSearch] = useState("");
@@ -30,6 +23,8 @@ export const ConversationsList = () => {
       ),
     [search, recentMessages]
   );
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <MainLayout
@@ -52,28 +47,26 @@ export const ConversationsList = () => {
           />
         )}
 
-        {isLoading ? (
+        {/* {isLoading ? (
           <View style={ConversationListStyle.noItems}>
             <ActivityIndicator size="large" color={colors.primaryColor} />
           </View>
-        ) : (
-          <ScrollView
-            style={ConversationListStyle.messagesList}
-            showsVerticalScrollIndicator={false}
-          >
-            {filteredRecentMessages.length ? (
-              filteredRecentMessages.map((el) => (
-                <RecentMessageComponent key={el.tenant._id} el={el} />
-              ))
-            ) : (
-              <View style={ConversationListStyle.noItems}>
-                <Text style={ConversationListStyle.noItemsText}>
-                  No results
-                </Text>
-              </View>
-            )}
-          </ScrollView>
-        )}
+        ) : ( */}
+        <ScrollView
+          style={ConversationListStyle.messagesList}
+          showsVerticalScrollIndicator={false}
+        >
+          {filteredRecentMessages.length ? (
+            filteredRecentMessages.map((el) => (
+              <RecentMessageComponent key={el.tenant._id} el={el} />
+            ))
+          ) : (
+            <View style={ConversationListStyle.noItems}>
+              <Text style={ConversationListStyle.noItemsText}>No results</Text>
+            </View>
+          )}
+        </ScrollView>
+        {/* )} */}
       </View>
     </MainLayout>
   );

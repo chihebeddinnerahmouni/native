@@ -46,6 +46,7 @@ import colors from "../../../constants/colors";
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 import { MessageItem } from "../../../components/messages/message item/message-item.component";
 import { MessagesStyles } from "./messages.style";
+import { EQueryKeys, queryClient } from "../../../api-query/queryClient";
 
 export type TLeadConversation = {
   type: EChatAgentType;
@@ -132,6 +133,9 @@ export const Messages = () => {
       return;
     }
     sendWhatsappRequest(selectedTenant?._id ?? "", message, attachment);
+    queryClient.invalidateQueries({
+      queryKey: [EQueryKeys.CHAT_LIST],
+    });
     setAttachment(null);
     setMessage("");
   };
