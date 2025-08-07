@@ -13,6 +13,7 @@ import { PropertiesListStyles } from "./property-list.style";
 import { useModal } from "../../../contexts";
 import { Property } from "../../../backend/casaikos-api";
 import { Text } from "react-native-svg";
+import { PropertyForm } from "../../../components/forms";
 
 export const PropertiesListPage = () => {
   const { openModal, closeModal } = useModal();
@@ -36,10 +37,7 @@ export const PropertiesListPage = () => {
       title: property ? "Update Property" : "New Property",
       slideDirection: "right",
       component: (
-        // <PropertyForm selectedProperty={property} closeModal={closeModal} />
-        <>
-          <Text>Property Form</Text>
-        </>
+        <PropertyForm selectedProperty={property} closeModal={closeModal} />
       ),
       onDismiss: () => {
         // console.log("Modal dismissed");
