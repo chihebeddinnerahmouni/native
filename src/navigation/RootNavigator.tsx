@@ -4,6 +4,7 @@ import { AuthNavigator } from "./Auth-navigator";
 import { MessagesNavigator } from "./messages-navigator";
 import { EScreens } from "../utils";
 import { useAuth } from "../contexts";
+import { PropertiesNavigator } from "./Properties-navigator";
 
 const RootStack = createNativeStackNavigator();
 
@@ -13,13 +14,19 @@ export const RootNavigator = () => {
   return (
     <RootStack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={isUserAuthenticated ? EScreens.MESSAGES : EScreens.AUTH}
+      initialRouteName={
+        isUserAuthenticated ? EScreens.PROPERTIES : EScreens.AUTH
+      }
     >
       {isUserAuthenticated ? (
         <>
           <RootStack.Screen
             name={EScreens.MESSAGES}
             component={MessagesNavigator}
+          />
+          <RootStack.Screen
+            name={EScreens.PROPERTIES}
+            component={PropertiesNavigator}
           />
         </>
       ) : (
