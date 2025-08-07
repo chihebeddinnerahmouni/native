@@ -48,6 +48,7 @@ import { MessageItem } from "../../../components/messages/message item/message-i
 import { MessagesStyles } from "./messages.style";
 import { EQueryKeys, queryClient } from "../../../api-query/queryClient";
 import { showErrorAlert } from "../../../components/ui/alerts/alerts.component";
+import { LoadingScreen } from "../../../components";
 
 export type TLeadConversation = {
   type: EChatAgentType;
@@ -222,20 +223,7 @@ export const Messages = () => {
     }
   }, [selectedTenantId, socket]);
 
-  if (!selectedTenant) {
-    return (
-      <SafeAreaView style={MessagesStyles.container}>
-        <View style={MessagesStyles.noConversation}>
-          <Text style={MessagesStyles.noConversationTitle}>
-            No conversation selected
-          </Text>
-          <Text style={MessagesStyles.noConversationSubtitle}>
-            Please select an item on the left to view.
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
+  if (isLoading || !selectedTenant) return <LoadingScreen />;
 
   return (
     // <SafeAreaView style={MessagesStyles.container}>
@@ -325,29 +313,19 @@ export const Messages = () => {
         style={MessagesStyles.messagesContainer}
         showsVerticalScrollIndicator={false}
       >
-        {isLoading ? (
-          <View style={MessagesStyles.loadingContainer}>
-            <ActivityIndicator size="large" color="#007bff" />
-          </View>
+        {messagesResult.length ? (
+          messagesResult.map((el) => (
+            <MessageItem
+              key={el._id}
+              message={el}
+              selectedTenant={selectedTenant}
+              onDownloadFile={handleDownloadFile}
+            />
+          ))
         ) : (
-          <>
-            {messagesResult.length ? (
-              messagesResult.map((el) => (
-                <MessageItem
-                  key={el._id}
-                  message={el}
-                  selectedTenant={selectedTenant}
-                  onDownloadFile={handleDownloadFile}
-                />
-              ))
-            ) : (
-              <View style={MessagesStyles.noMessages}>
-                <Text style={MessagesStyles.noMessagesText}>
-                  No messages yet
-                </Text>
-              </View>
-            )}
-          </>
+          <View style={MessagesStyles.noMessages}>
+            <Text style={MessagesStyles.noMessagesText}>No messages yet</Text>
+          </View>
         )}
       </ScrollView>
 
