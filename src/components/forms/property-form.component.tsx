@@ -102,17 +102,11 @@ export const PropertyForm = ({
     }
   }, [selectedProperty, reset]);
 
+  console.log("PropertyForm values:", values);
+  console.log("PropertyForm errors:", errors);
+
   return (
     <FormContainer>
-      {/* <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      > */}
-      {/* <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-      > */}
       <Controller
         name="agentId"
         control={control}
@@ -126,8 +120,8 @@ export const PropertyForm = ({
               value: el._id,
             }))}
             value={value}
-            //   onValueChange={onChange}
-            //   error={errors.agentId?.message}
+            onChange={onChange}
+            error={errors.agentId}
           />
         )}
       />
@@ -144,8 +138,8 @@ export const PropertyForm = ({
               value: el._id,
             }))}
             value={value}
-            // onValueChange={onChange}
-            // error={errors.ownerId?.message}
+            onChange={onChange}
+            error={errors.ownerId}
           />
         )}
       />
@@ -164,7 +158,7 @@ export const PropertyForm = ({
               required
               value={value}
               onChangeText={onChange}
-              //   error={errors.title?.message}
+              error={errors.title}
             />
           )}
         />
@@ -178,7 +172,7 @@ export const PropertyForm = ({
               label="Description"
               value={value}
               onChangeText={onChange}
-              //   error={errors.description?.message}
+              error={errors.description}
             />
           )}
         />
@@ -195,6 +189,7 @@ export const PropertyForm = ({
                   required
                   value={value}
                   onChangeText={onChange}
+                  error={errors.buildingName}
                 />
               )}
             />
@@ -209,52 +204,14 @@ export const PropertyForm = ({
                   label="Property Type"
                   options={propertyTypesOptions}
                   value={value}
-                  //   onValueChange={onChange}
+                  onChange={onChange}
+                  error={errors.propertyType}
                 />
               )}
             />
           }
         />
 
-        {/* <View style={styles.row}>
-          <View style={styles.halfWidth}>
-            <Controller
-                name="propertySize"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Property Size (Sqft)"
-                    keyboardType="numeric"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.propertySize?.message}
-                  />
-                )}
-              />
-          </View>
-
-          <View style={styles.halfWidth}>
-            <Controller
-                name="bedrooms"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Bedrooms Number"
-                    keyboardType="numeric"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.bedrooms?.message}
-                  />
-                )}
-              />
-          </View>
-        </View> */}
         <FormRow
           rightChildren={
             <Controller
@@ -269,7 +226,7 @@ export const PropertyForm = ({
                   onChangeText={(text) =>
                     onChange(text ? Number(text) : undefined)
                   }
-                  //   error={errors.bedrooms?.message}
+                  error={errors.bedrooms}
                 />
               )}
             />
@@ -287,7 +244,7 @@ export const PropertyForm = ({
                   onChangeText={(text) =>
                     onChange(text ? Number(text) : undefined)
                   }
-                  //   error={errors.propertySize?.message}
+                  error={errors.propertySize}
                 />
               )}
             />
@@ -416,30 +373,30 @@ export const PropertyForm = ({
       {/* Rent Section */}
       {/* <TitleCard title="Rent" /> */}
 
-      <View style={styles.section}>
-        {/* <RadioGroup
-            label="Active"
-            options={[
-              { label: "Yes", value: true },
-              { label: "No", value: false },
-            ]}
-            value={values.isActive}
-            onChange={(value) => setValue("isActive", value)}
-            error={errors.isActive?.message}
-          />
+      {/*<View style={styles.section}>
+         <RadioGroup
+          label="Active"
+          options={[
+            { label: "Yes", value: true },
+            { label: "No", value: false },
+          ]}
+          value={values.isActive}
+          onChange={(value) => setValue("isActive", value)}
+          error={errors.isActive?.message}
+        />
 
-          <RadioGroup
-            label="Rent Type"
-            options={[
-              { label: "Yearly", value: true },
-              { label: "Flexible", value: false },
-            ]}
-            value={values.isYearly}
-            onChange={(value) => setValue("isYearly", value)}
-            error={errors.isYearly?.message}
-          /> */}
+        <RadioGroup
+          label="Rent Type"
+          options={[
+            { label: "Yearly", value: true },
+            { label: "Flexible", value: false },
+          ]}
+          value={values.isYearly}
+          onChange={(value) => setValue("isYearly", value)}
+          error={errors.isYearly?.message}
+        /> */}
 
-        {/* {values.isYearly && (
+      {/* {values.isYearly && (
             <RadioGroup
               label="Furnished"
               options={[
@@ -452,9 +409,9 @@ export const PropertyForm = ({
             />
           )} */}
 
-        <View style={styles.row}>
+      {/* <View style={styles.row}>
           <View style={styles.halfWidth}>
-            {/* <Controller
+            <Controller
                 name="deposit"
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -469,10 +426,10 @@ export const PropertyForm = ({
                     error={errors.deposit?.message}
                   />
                 )}
-              /> */}
+              />
           </View>
 
-          {/* {values.isYearly && (
+          {values.isYearly && (
               <View style={styles.halfWidth}>
                 <Controller
                   name="priceYearly"
@@ -491,9 +448,47 @@ export const PropertyForm = ({
                   )}
                 />
               </View>
-            )} */}
+            )}
         </View>
-      </View>
+      </View>*/}
+      <FormRow
+        leftChildren={
+          <Controller
+            name="deposit"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FieldText
+                placeholder="Enter here ..."
+                label="Deposit"
+                type="number"
+                value={value?.toString()}
+                onChangeText={(text) =>
+                  onChange(text ? Number(text) : undefined)
+                }
+                error={errors.deposit}
+              />
+            )}
+          />
+        }
+        rightChildren={
+          <Controller
+            name="priceYearly"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FieldText
+                placeholder="Enter here ..."
+                label="Yearly Price"
+                type="number"
+                value={value?.toString()}
+                onChangeText={(text) =>
+                  onChange(text ? Number(text) : undefined)
+                }
+                error={errors.priceYearly}
+              />
+            )}
+          />
+        }
+      />
 
       {/* Address Section */}
       {/* <TitleCard title="Address" /> */}
