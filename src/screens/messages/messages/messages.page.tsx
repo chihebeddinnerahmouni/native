@@ -187,50 +187,21 @@ export const Messages = () => {
   useEffect(() => {
     const messageHandler = (messageData: SocketMessageEvent) => {
       const { tenant } = messageData;
-      console.log("=== SOCKET MESSAGE RECEIVED ===");
-      console.log("Message data:", messageData);
-      console.log("Tenant ID from socket:", tenant._id);
-      console.log("Current selected tenant:", selectedTenantId);
+      if (selectedTenantId !== tenant._id) return;
 
-      if (selectedTenantId !== tenant._id) {
-        console.log("Message is not for current tenant, ignoring");
-        return;
-      }
-
-      console.log("Message is for current tenant, refetching messages");
       refetchMessages();
       markChatAsRead({
         tenantId: selectedTenantId || "",
       });
     };
 
-    console.log("=== SOCKET SETUP ===");
-    console.log("Setting up socket listener for tenant:", selectedTenantId);
-    console.log("EWebsocketType.Message value:", EWebsocketType.Message);
-
     const socket = socketManager.getSocket();
 
     if (socket && selectedTenantId) {
-      console.log("Socket connected:", socket.connected);
-      console.log("Socket ID:", socket.id);
-
-      // Register the message listener
       socketManager.on(EWebsocketType.Message, messageHandler);
-
-      console.log(
-        "Socket listener registered for event:",
-        EWebsocketType.Message
-      );
-    } else {
-      console.warn("Socket not available or no tenant selected");
-      console.warn("Socket:", !!socket);
-      console.warn("selectedTenantId:", selectedTenantId);
     }
 
-    // Cleanup function
     return () => {
-      console.log("=== SOCKET CLEANUP ===");
-      console.log("Removing socket listener");
       if (socket) {
         socketManager.off(EWebsocketType.Message, messageHandler);
       }
