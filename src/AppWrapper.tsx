@@ -74,7 +74,6 @@ export const AppWrapper: React.FC = () => {
     }
   }, [user, verifyToken]);
 
-  // Show loading screen while fonts are loading or auth is being verified
   if (!fontsLoaded || isLoading) {
     return <LoadingScreen />;
   }

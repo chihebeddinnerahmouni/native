@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export enum EScreens {
-  MESSAGES = "Messages",
+  // Authentication
   AUTH = "Auth",
+
+  // Main App Sections
+  MESSAGES = "Messages",
+  // PROPERTIES = "Properties",
+  // OWNERS = "Owners",
+  // SETTINGS = "Settings",
+  // Add more main sections as you build them
 }
 
 export enum ERoute {
