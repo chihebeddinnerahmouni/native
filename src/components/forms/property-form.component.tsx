@@ -26,6 +26,7 @@ import { Button } from "../ui/buttons/button.component";
 import Select from "../ui/inputs/select.component";
 import { FormContainer } from "../ui/form/form-items.component";
 import { TextFormSectionTitle } from "../ui/texts/Texts.component";
+import { Textarea } from "../ui/inputs/field-text/textarea.component";
 // import { Select } from "../ui/Select";
 // import { Textarea } from "../ui/Textarea";
 // import { RadioGroup } from "../ui/RadioGroup";
@@ -149,11 +150,10 @@ export const PropertyForm = ({
         )}
       />
 
-      <TextFormSectionTitle style={styles.sectionTitle}>
-        Property Details
-      </TextFormSectionTitle>
-
       <View style={styles.section}>
+        <TextFormSectionTitle style={styles.sectionTitle}>
+          Property Details
+        </TextFormSectionTitle>
         <Controller
           name="title"
           control={control}
@@ -169,7 +169,7 @@ export const PropertyForm = ({
           )}
         />
 
-        {/* <Controller
+        <Controller
           name="description"
           control={control}
           render={({ field: { onChange, value } }) => (
@@ -178,10 +178,10 @@ export const PropertyForm = ({
               label="Description"
               value={value}
               onChangeText={onChange}
-              error={errors.description?.message}
+              //   error={errors.description?.message}
             />
           )}
-        /> */}
+        />
 
         <View style={styles.row}>
           <View style={styles.halfWidth}>
@@ -653,9 +653,10 @@ const styles = StyleSheet.create({
   //   },
   section: {
     marginBottom: 24,
+    gap: 12,
   },
   sectionTitle: {
-    marginBottom: 12,
+    // marginBottom: 12,
   },
   row: {
     flexDirection: "row",
