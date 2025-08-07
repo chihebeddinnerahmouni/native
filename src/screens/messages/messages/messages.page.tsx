@@ -67,14 +67,14 @@ export const Messages = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [message, setMessage] = useState("");
   const [attachment, setAttachment] = useState<RNFile | null>(null);
-  const [isUpdatingLead, setIsUpdatingLead] = useState(false);
-  const [isLeadShown, setIsLeadShown] = useState(false);
+  // const [isUpdatingLead, setIsUpdatingLead] = useState(false);
   const socket = socketManager.getSocket();
 
   const { tenant: selectedTenant } = useSingleTenant({
     tenantId: selectedTenantId || "",
   });
   const { markAsRead, markChatAsRead } = useMessagesMutation();
+  const { updateLeadConversation, isUpdatingLead } = useMessagesMutation();
 
   const {
     messagesResult,
@@ -138,22 +138,6 @@ export const Messages = () => {
     }
   };
 
-  const updateLeadConversation = async () => {
-    setIsUpdatingLead(true);
-    try {
-      // Call your lead update API here
-      // await updateLeadConversationAPI({
-      //   leadConversation,
-      //   selectedTenantId: selectedTenant?._id ?? '',
-      //   userId: user?._id ?? '',
-      // });
-    } catch (error) {
-      console.error("Failed to update lead:", error);
-    } finally {
-      setIsUpdatingLead(false);
-    }
-  };
-
   const handleAttachFile = () => {
     //     const result = await DocumentPicker.getDocumentAsync({
     //       type: '*/*',
@@ -193,6 +177,9 @@ export const Messages = () => {
       if (selectedTenantId !== tenant._id) return;
 
       refetchMessages();
+      queryClient.invalidateQueries({
+        queryKey: [EQueryKeys.CHAT_LIST],
+      });
       markChatAsRead({
         tenantId: selectedTenantId || "",
       });
@@ -247,58 +234,58 @@ export const Messages = () => {
         </View>
       }
       HeaderRight={
-        <TouchableOpacity
-          onPress={() => {
-            setIsLeadShown((prev) => !prev);
-          }}
-        >
+        <TouchableOpacity>
           <AlertIcon size={24} color={colors.textColor} />
         </TouchableOpacity>
       }
       hasPadding={false}
     >
-      {isLeadShown && (
-        <View style={MessagesStyles.leadContainer}>
-          <View style={MessagesStyles.leadDetails}>
-            <View style={MessagesStyles.leadInfos}>
-              <TextBody style={MessagesStyles.leadName}>
-                {leadConversation.isMe
-                  ? "You have "
-                  : leadConversation.type === EChatAgentType.AgentTookLead
-                    ? `${leadConversation.leadAgent?.firstName} ${leadConversation.leadAgent?.lastName} has `
-                    : "AI has "}
-                the lead
-              </TextBody>
-              <TextBody style={MessagesStyles.leadDescription}>
-                {!leadConversation.isMe
-                  ? "You can take the lead in the conversation."
-                  : "You can release the lead in the conversation."}
-              </TextBody>
-            </View>
+      <View style={MessagesStyles.leadContainer}>
+        <View style={MessagesStyles.leadDetails}>
+          <View style={MessagesStyles.leadInfos}>
+            <TextBody style={MessagesStyles.leadName}>
+              {leadConversation.isMe
+                ? "You have "
+                : leadConversation.type === EChatAgentType.AgentTookLead
+                  ? `${leadConversation.leadAgent?.firstName} ${leadConversation.leadAgent?.lastName} has `
+                  : "AI has "}
+              the lead
+            </TextBody>
+            <TextBody style={MessagesStyles.leadDescription}>
+              {!leadConversation.isMe
+                ? "You can take the lead in the conversation."
+                : "You can release the lead in the conversation."}
+            </TextBody>
           </View>
-
-          <Button
-            variant={leadConversation.isMe ? "outlined" : "contained"}
-            disabled={isUpdatingLead}
-            onPress={updateLeadConversation}
-            style={MessagesStyles.leadButton}
-          >
-            {leadConversation.isMe ? (
-              <>
-                <ReleaseLeadIcon size={16} />
-                <TextButton style={MessagesStyles.buttonText}>
-                  Release the lead
-                </TextButton>
-              </>
-            ) : (
-              <>
-                <TakeLeadIcon size={16} />
-                <Text style={MessagesStyles.buttonText}>Take the lead</Text>
-              </>
-            )}
-          </Button>
         </View>
-      )}
+
+        <Button
+          variant={leadConversation.isMe ? "outlined" : "contained"}
+          disabled={isUpdatingLead}
+          style={MessagesStyles.leadButton}
+          onPress={() => {
+            updateLeadConversation({
+              leadConversation,
+              selectedTenantId: selectedTenant?._id ?? "",
+              userId: user?._id ?? "",
+            });
+          }}
+        >
+          {leadConversation.isMe ? (
+            <>
+              <ReleaseLeadIcon size={16} />
+              <TextButton style={MessagesStyles.buttonText}>
+                Release the lead
+              </TextButton>
+            </>
+          ) : (
+            <>
+              <TakeLeadIcon size={16} />
+              <Text style={MessagesStyles.buttonText}>Take the lead</Text>
+            </>
+          )}
+        </Button>
+      </View>
 
       <ScrollView
         ref={scrollViewRef}

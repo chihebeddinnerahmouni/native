@@ -31,7 +31,7 @@ export const MessagesStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 16,
-    backgroundColor: colors.emptyBgColor2,
+    backgroundColor: colors.bgColor,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderColor,
   },
