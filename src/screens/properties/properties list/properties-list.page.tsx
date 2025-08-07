@@ -10,8 +10,12 @@ import { PropertyCard } from "../../../components/ui/cards/property card/propert
 import { LoadingScreen } from "../../../components";
 import { colors } from "../../../constants/colors";
 import { PropertiesListStyles } from "./property-list.style";
+import { useModal } from "../../../contexts";
+import { Property } from "../../../backend/casaikos-api";
+import { Text } from "react-native-svg";
 
 export const PropertiesListPage = () => {
+  const { openModal, closeModal } = useModal();
   const { propertiesResult, isLoading } = useProperties({
     // pagination: {
     //   page: currentPage,
@@ -26,6 +30,21 @@ export const PropertiesListPage = () => {
     //   sortDirection,
     // },
   });
+
+  const onClickOpenForm = (property?: Property) => {
+    openModal({
+      title: property ? "Update Property" : "New Property",
+      component: (
+        // <PropertyForm selectedProperty={property} closeModal={closeModal} />
+        <>
+          <Text>Property Form</Text>
+        </>
+      ),
+      onDismiss: () => {
+        // console.log("Modal dismissed");
+      },
+    });
+  };
 
   if (isLoading) return <LoadingScreen />;
 
@@ -51,7 +70,7 @@ export const PropertiesListPage = () => {
             variant="contained"
             icon={<PlusIcon color={colors.bgColor} />}
             onPress={() => {
-              // Handle add property action
+              onClickOpenForm();
             }}
           >
             Add Property
