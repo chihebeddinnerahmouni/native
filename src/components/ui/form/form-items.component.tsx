@@ -7,6 +7,8 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import { Button } from "../buttons/button.component";
+import { useModal } from "../../../contexts";
 
 export const FormContainer = ({
   children,
@@ -16,20 +18,21 @@ export const FormContainer = ({
   style?: ViewStyle;
 }) => {
   return (
-    <View style={[formStyles.formContainer, style]}>
-      <KeyboardAvoidingView
-        style={formStyles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <KeyboardAvoidingView
+      style={[formStyles.keyboardAvoidingView, style]}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
+      <ScrollView
+        style={formStyles.scrollView}
+        contentContainerStyle={formStyles.scrollViewContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        nestedScrollEnabled={true}
       >
-        <ScrollView
-          style={formStyles.scrollView}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-        >
-          {children}
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </View>
+        <View style={formStyles.formContainer}>{children}</View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -50,6 +53,41 @@ export const FormRow = ({
   );
 };
 
+export const FormActions = ({
+  onPress,
+  isLoading,
+  style,
+}: {
+  onPress: () => void;
+  style?: ViewStyle;
+  isLoading: boolean;
+}) => {
+  const { closeModal } = useModal();
+
+  const onCancel = () => {
+    closeModal();
+  };
+  return (
+    <View style={[formStyles.formActions, style]}>
+      <Button
+        variant="outlined"
+        onPress={onCancel}
+        style={formStyles.cancelButton}
+      >
+        Cancel
+      </Button>
+      <Button
+        onPress={onPress}
+        disabled={isLoading}
+        loading={isLoading}
+        style={formStyles.submitButton}
+      >
+        Submit
+      </Button>
+    </View>
+  );
+};
+
 const formStyles = StyleSheet.create({
   formContainer: {
     flexDirection: "column",
@@ -62,12 +100,32 @@ const formStyles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
+  },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 12,
   },
   halfWidth: {
+    flex: 1,
+  },
+  formActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 12,
+    paddingTop: 24,
+    marginTop: 24,
+    borderTopWidth: 1,
+    borderTopColor: "#e0e0e0",
+    backgroundColor: "white",
+  },
+  cancelButton: {
+    flex: 1,
+  },
+  submitButton: {
     flex: 1,
   },
 });

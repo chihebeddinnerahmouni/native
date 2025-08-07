@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -15,16 +9,19 @@ import {
   Property,
 } from "../../backend/casaikos-api";
 import { extractAirBnbId, propertySchema } from "../../utils";
-import { propertyTypesOptions, tenantTypesOptions } from "../../constants/data";
+import { propertyTypesOptions } from "../../constants/data";
 import { useUsers } from "../../api-query/hooks";
 import { useOwners } from "../../api-query/hooks";
 import { usePropertiesMutation } from "../../api-query/hooks";
 
 // Form Components
 import { FieldText } from "../ui/inputs/field-text/field-text.component";
-import { Button } from "../ui/buttons/button.component";
 import Select from "../ui/inputs/select.component";
-import { FormContainer, FormRow } from "../ui/form/form-items.component";
+import {
+  FormActions,
+  FormContainer,
+  FormRow,
+} from "../ui/form/form-items.component";
 import { TextFormSectionTitle } from "../ui/texts/Texts.component";
 import { Textarea } from "../ui/inputs/field-text/textarea.component";
 // import { Select } from "../ui/Select";
@@ -50,7 +47,7 @@ export const PropertyForm = ({
     formState: { errors },
     reset,
     watch,
-    setValue,
+    // setValue,
   } = useForm({
     resolver: yupResolver(propertySchema),
   });
@@ -66,10 +63,6 @@ export const PropertyForm = ({
   });
 
   const { saveProperty, isLoading: isSavePending } = usePropertiesMutation();
-
-  const onCancel = () => {
-    closeModal();
-  };
 
   const onClickSubmit = () => {
     const values = getValues();
@@ -107,23 +100,43 @@ export const PropertyForm = ({
 
   return (
     <FormContainer>
-      <Controller
-        name="ownerId"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <Select
-            placeholder="Select owner"
-            label="Owner"
-            options={ownersResult.items.map((el) => ({
-              label: el.firstName + " " + el.lastName,
-              value: el._id,
-            }))}
-            value={value}
-            onChange={onChange}
-            error={errors.ownerId}
-          />
-        )}
-      />
+      <View style={styles.section}>
+        <Controller
+          name="agentId"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              placeholder="Select agent"
+              label="Agent"
+              options={usersResult.items.map((el) => ({
+                label: el.firstName + " " + el.lastName,
+                value: el._id,
+              }))}
+              value={value}
+              onChange={onChange}
+              error={errors.agentId}
+            />
+          )}
+        />
+
+        <Controller
+          name="ownerId"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              placeholder="Select owner"
+              label="Owner"
+              options={ownersResult.items.map((el) => ({
+                label: el.firstName + " " + el.lastName,
+                value: el._id,
+              }))}
+              value={value}
+              onChange={onChange}
+              error={errors.ownerId}
+            />
+          )}
+        />
+      </View>
 
       <View style={styles.section}>
         <TextFormSectionTitle style={styles.sectionTitle}>
@@ -587,49 +600,20 @@ export const PropertyForm = ({
         </View>
       </View> */}
 
-      <View style={styles.formActions}>
-        <Button
-          variant="outlined"
-          onPress={onCancel}
-          style={styles.cancelButton}
-        >
-          Cancel
-        </Button>
-        <Button
-          onPress={handleSubmit(onClickSubmit)}
-          disabled={isSavePending}
-          loading={isSavePending}
-          style={styles.submitButton}
-        >
-          Submit
-        </Button>
-      </View>
+      <FormActions
+        onPress={handleSubmit(onClickSubmit)}
+        isLoading={isSavePending}
+      />
     </FormContainer>
   );
 };
 
 const styles = StyleSheet.create({
   section: {
-    marginBottom: 24,
     gap: 12,
   },
   sectionTitle: {
     // marginBottom: 12,
-  },
-  formActions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 12,
-    paddingTop: 24,
-    marginTop: 24,
-    borderTopWidth: 1,
-    borderTopColor: "#e0e0e0",
-  },
-  cancelButton: {
-    flex: 1,
-  },
-  submitButton: {
-    flex: 1,
   },
 });
 
