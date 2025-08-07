@@ -45,12 +45,10 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.bgColor,
-    // backgroundColor: "red",
   },
   header: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    // backgroundColor: "red",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

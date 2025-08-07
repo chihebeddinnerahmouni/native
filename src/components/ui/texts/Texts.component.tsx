@@ -16,6 +16,10 @@ export const TextBody = (props: React.ComponentProps<typeof Text>) => (
   <PreText {...props} />
 );
 
+export const TextTitle = (props: React.ComponentProps<typeof Text>) => (
+  <Text weight="medium" size={16} color={colors.textColor} {...props} />
+);
+
 export const TextLabel = (props: React.ComponentProps<typeof Text>) => (
   <Text weight="medium" size={14} {...props} />
 );

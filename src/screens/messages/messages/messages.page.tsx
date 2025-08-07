@@ -3,7 +3,12 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { useAuth } from "../../../contexts";
-import { ERoute, getIconColorFromId, socketManager } from "../../../utils";
+import {
+  ERoute,
+  EScreens,
+  getIconColorFromId,
+  socketManager,
+} from "../../../utils";
 import {
   EChatAgentType,
   EWebsocketType,
@@ -22,7 +27,7 @@ import {
   EntityType,
   ProfileIcon,
 } from "../../../components/ui/Profile-icon.component";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import {
   useMessages,
   useMessagesMutation,
@@ -53,6 +58,7 @@ type MessagesStackParamList = {
   [ERoute.MESSAGES_PAGE]: {
     tenantId: string;
   };
+  [EScreens.MESSAGES]: { screen: ERoute.MESSAGES_PAGE };
 };
 
 type MessagesRouteProp = RouteProp<
@@ -67,8 +73,8 @@ export const Messages = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [message, setMessage] = useState("");
   const [attachment, setAttachment] = useState<RNFile | null>(null);
-  // const [isUpdatingLead, setIsUpdatingLead] = useState(false);
   const socket = socketManager.getSocket();
+  const navigator = useNavigation();
 
   const { tenant: selectedTenant } = useSingleTenant({
     tenantId: selectedTenantId || "",
@@ -165,9 +171,7 @@ export const Messages = () => {
 
   useEffect(() => {
     if (messagesResult.length) {
-      // setTimeout(() => back
       scrollToBottom();
-      // }, 100);
     }
   }, [messagesResult]);
 
@@ -225,16 +229,20 @@ export const Messages = () => {
             <TextBody style={MessagesStyles.profileName}>
               {selectedTenant.firstName} {selectedTenant.lastName}
             </TextBody>
-            <Text
+            <TextBody
               style={[MessagesStyles.profileStatus, MessagesStyles.connected]}
             >
               connected
-            </Text>
+            </TextBody>
           </View>
         </View>
       }
       HeaderRight={
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigator.navigate(ERoute.MESSAGES_DETAILS as never);
+          }}
+        >
           <AlertIcon size={24} color={colors.textColor} />
         </TouchableOpacity>
       }

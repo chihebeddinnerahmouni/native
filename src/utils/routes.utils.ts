@@ -18,6 +18,7 @@ export enum ERoute {
   RESET_PASSWORD = "reset-password",
   CONVERSATIONS_LIST = "conversations-list",
   MESSAGES_PAGE = "messages-page",
+  MESSAGES_DETAILS = "messages-details",
 }
 
 export const NavigateAfterLogin = (navigation: any) => {
