@@ -49,11 +49,6 @@ export const PropertyForm = ({
     // setValue,
   } = useForm({
     resolver: yupResolver(propertySchema),
-    defaultValues: {
-      isFurnished: true, // Set to true to avoid the transform converting false to undefined
-      isYearly: true, // Set to true to match the useEffect logic
-      isActive: true, // Set to true to match the useEffect logic
-    },
   });
 
   const { usersResult } = useUsers({
@@ -92,13 +87,11 @@ export const PropertyForm = ({
     } else {
       reset({
         isActive: true,
-        isYearly: true,
-        isFurnished: true, // Set to true to satisfy the validation
+        isYearly: false,
+        isFurnished: false,
       });
     }
   }, [selectedProperty, reset]);
-
-  console.log("PropertyForm errors:", errors);
 
   return (
     <FormContainer>
