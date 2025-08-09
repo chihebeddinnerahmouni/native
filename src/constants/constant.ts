@@ -1,4 +1,3 @@
-// utils/images.js
-import noImagePlaceholder from "../../assets/images/image-not-available.png";
+import noImagePlaceholder from "../../assets/images/property-image.png";
 
 export { noImagePlaceholder };

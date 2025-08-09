@@ -5,19 +5,28 @@ import colors from "../../../constants/colors";
 type CardComponentProps = {
   children: React.ReactNode;
   style?: ViewStyle;
+  havePadding?: boolean;
 };
 
-export const CardComponent = ({ children, style }: CardComponentProps) => {
-  return <View style={[CardStyles.container, style]}>{children}</View>;
+export const CardComponent = ({
+  children,
+  style,
+  havePadding = true,
+}: CardComponentProps) => {
+  return (
+    <View
+      style={[CardStyles.container, style, havePadding && CardStyles.padding]}
+    >
+      {children}
+    </View>
+  );
 };
 
 const CardStyles = StyleSheet.create({
   container: {
     backgroundColor: colors.bgColor,
     borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 9,
-    gap: 16,
+    // gap: 16,
     //Android
     elevation: 1,
     //iOS
@@ -28,5 +37,9 @@ const CardStyles = StyleSheet.create({
     },
     shadowOpacity: 0.08,
     shadowRadius: 11.85,
+  },
+  padding: {
+    paddingVertical: 12,
+    paddingHorizontal: 9,
   },
 });
