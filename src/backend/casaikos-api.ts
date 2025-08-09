@@ -89,17 +89,14 @@ export enum EModuleNames {
   Notes = "notes",
 }
 
-export enum EChatMessageType {
-  AgentTookLead = "AgentTookLead",
-  AiTookLead = "AiTookLead",
-}
-
 export enum EWebsocketType {
-  Select = "select",
-  Message = "message",
-  Notification = "notification",
-  Email = "email",
-  Connect = "connect",
+  SELECT = "SELECT",
+  MESSAGE = "MESSAGE",
+  MESSAGE_READ = "MESSAGE_READ",
+  AI_TRANSCRIPTION = "AI_TRANSCRIPTION",
+  NOTIFICATION = "NOTIFICATION",
+  EMAIL = "EMAIL",
+  CONNECT = "CONNECT",
   REFRESH = "REFRESH",
 }
 
@@ -153,6 +150,7 @@ export enum ESocketRefreshModule {
   PAYMENTS = "PAYMENTS",
   TASKS = "TASKS",
   MESSAGES = "MESSAGES",
+  AI_SUMMARY = "AI_SUMMARY",
 }
 
 export enum ENotificationType {
@@ -314,6 +312,13 @@ export enum EWhatsappMessageType {
   Document = "document",
   Image = "image",
   Audio = "audio",
+}
+
+export enum WhatsappMessageType {
+  Text = "text",
+  Image = "image",
+  Document = "document",
+  Template = "template",
 }
 
 export enum EUserSelectFields {
@@ -553,9 +558,14 @@ export interface ResetPasswordDto {
 export interface SendMessageDto {
   /** Tenant id */
   tenantId: string;
-  message: string;
+  message?: string;
+  templateName?: string;
+  type?: WhatsappMessageType;
+  links: string[];
   /** @format binary */
   file: File;
+  /** If true, the message is only visible internally to agents */
+  isInternal: boolean;
 }
 
 export interface Metadata {
@@ -645,21 +655,7 @@ export interface HostedFile {
   timestamp: string;
 }
 
-export interface WhatsappChat {
-  _id: string;
-  message: string;
-  hostedFile?: HostedFile;
-  /** @format date-time */
-  timestamp: string;
-  isRead?: boolean;
-  whatsappMessageType?: EWhatsappMessageType;
-  aiTranscriptionOfFile: string;
-  isReply: boolean;
-  type?: EChatAgentType;
-  agent?: User;
-  isAiRecommendationOn: boolean;
-  tenant: object;
-}
+export type ReadBy = object;
 
 export interface Passport {
   passportNumber?: string;
@@ -711,6 +707,27 @@ export interface Tenant {
   files?: FileHosted[];
 }
 
+export interface WhatsappChat {
+  _id: string;
+  message: string;
+  hostedFile?: HostedFile;
+  /** @format date-time */
+  timestamp: string;
+  readBy: ReadBy[];
+  whatsappMessageType?: EWhatsappMessageType;
+  aiTranscriptionOfFile?: string;
+  isReply: boolean;
+  type?: EChatAgentType;
+  agent?: User;
+  isAiRecommendationOn: boolean;
+  tenant: Tenant;
+  /**
+   * If true, this message is only visible internally to agents
+   * @default false
+   */
+  isInternal: boolean;
+}
+
 export interface ChatListItemDto {
   tenant: Tenant;
   lastMessage: string;
@@ -718,10 +735,6 @@ export interface ChatListItemDto {
   lastMessageTimestamp: string;
   unreadMessagesCount: number;
   isReply: boolean;
-}
-
-export interface ReadChatDto {
-  tenantId: string;
 }
 
 export interface UpdateConversationLeadDto {
@@ -1430,28 +1443,8 @@ export interface UpdateEnquiryDto {
   vat?: number;
 }
 
-export interface SocketMessageEvent {
-  tenant: Tenant;
-  agent?: User;
-  isReply: boolean;
-  type: EChatMessageType;
-  isRecommended: boolean;
-  message?: string;
-  file?: HostedFile;
-  files?: HostedFile[];
-}
-
-export interface SocketEmailEvent {
-  userId: string;
-  from: string;
-  subject: string;
-  messageId: string;
-}
-
 export interface SampleDto {
   websocketType: EWebsocketType;
-  socketMessageEvent: SocketMessageEvent;
-  socketEmailEvent: SocketEmailEvent;
   socketRefreshModule: ESocketRefreshModule;
 }
 
@@ -1566,7 +1559,7 @@ export interface AiSearchPropertiesDto {
 
 export interface MetadataIntents {
   /** The intent type */
-  intent: "SEND_PROPERTY_IMAGES" | "SEND_PROPERTY_PAYMENT_LINK" | "NONE";
+  intent: "SEND_PROPERTY_IMAGES" | "SEND_PROPERTY_PAYMENT_LINK" | "EMPTY";
   /** The ID of the property */
   propertyId?: string;
   /** Flag to show more details */
@@ -1581,7 +1574,7 @@ export interface AiResponseDto {
   /** The ID of the company */
   companyId: string;
   /** The text message content */
-  text: string;
+  text?: string;
   /** Metadata containing intents and additional data */
   metadata: MetadataIntents;
 }
@@ -1600,6 +1593,14 @@ export interface UpdateTenantDataDto {
 
 export interface UpdateWhatsappViaAiDto {
   aiTranscriptionOfFile: string;
+}
+
+export interface AiSummary {
+  company: Company;
+  tenant: Tenant;
+  text: string;
+  /** @format date-time */
+  updatedAt: string;
 }
 
 export interface CreateTaskDto {
@@ -2525,19 +2526,17 @@ export class Api<
      *
      * @tags Whatsapp
      * @name WhatsappControllerMarkChatAsRead
-     * @request POST:/whatsapp/read-chat
+     * @request POST:/whatsapp/read-chat/{tenantId}
      * @secure
      */
     whatsappControllerMarkChatAsRead: (
-      data: ReadChatDto,
+      tenantId: string,
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/whatsapp/read-chat`,
+        path: `/whatsapp/read-chat/${tenantId}`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         ...params,
       }),
 
@@ -4975,6 +4974,24 @@ export class Api<
       this.request<void, any>({
         path: `/ai/${fileKey}`,
         method: "GET",
+        ...params,
+      }),
+  };
+  aiSummary = {
+    /**
+     * No description
+     *
+     * @name AiSummaryControllerFindByTenant
+     * @request GET:/ai-summary/{tenantId}
+     */
+    aiSummaryControllerFindByTenant: (
+      tenantId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<AiSummary, any>({
+        path: `/ai-summary/${tenantId}`,
+        method: "GET",
+        format: "json",
         ...params,
       }),
   };

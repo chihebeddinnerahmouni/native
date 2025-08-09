@@ -74,7 +74,6 @@ export const PropertyForm = ({
         ...values,
         airbnbId,
         priceYearly: values.isYearly ? Number(values.priceYearly) : undefined,
-        isFurnished: values.isFurnished ?? false,
       } as CreatePropertyDto,
       selectedProperty,
     }).then(() => {
