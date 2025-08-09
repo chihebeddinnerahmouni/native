@@ -27,15 +27,14 @@ import {
 } from "../../../icons";
 import { Badge } from "../../../components/ui/badge.component";
 import { Property } from "../../../backend/casaikos-api";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Clipboard,
-  Alert,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import * as Clipboard from "expo-clipboard";
 import { propertyDetailsStyle } from "../../../screens/properties/property details/property-details.style";
 import colors from "../../../constants/colors";
+import {
+  showErrorAlert,
+  showSuccessAlert,
+} from "../../ui/alerts/alerts.component";
 
 type IProps = {
   property: Property;
@@ -49,13 +48,13 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
           <TextTitle numberOfLines={1}>{property.title}</TextTitle>
           <PropertyLocation address={property.address} />
           <PropertyIndicators property={property} />
-          {/* <TextBody>
+          <TextBody>
             {property.description || "No description available."}
-          </TextBody> */}
+          </TextBody>
         </View>
       </CardComponent>
 
-      {/* <CardComponent>
+      <CardComponent>
         <View style={propertyDetailsStyle.section}>
           <TextTitle
             numberOfLines={1}
@@ -121,7 +120,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
             value={property.address?.zip || "-"}
           />
         </View>
-      </CardComponent> 
+      </CardComponent>
       <CardComponent>
         <View style={propertyDetailsStyle.section}>
           <TextTitle
@@ -166,7 +165,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
             value="2*"
           />
         </View>
-      </CardComponent>*/}
+      </CardComponent>
       <CardComponent>
         <View style={propertyDetailsStyle.section}>
           <TextTitle
@@ -179,7 +178,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
             icon={<AirbnbIcon />}
             label="Airbnb"
             // value={property.airbnbId || "-"}
-            value="http://192.168.20.122:5000/"
+            value="http://192.168.20.122:5000/*"
           />
         </View>
       </CardComponent>
@@ -198,11 +197,14 @@ const ExternalLink = ({
 }) => {
   const copyToClipboard = async () => {
     try {
-      Clipboard.setString(value);
-      Alert.alert("Copied!", "Link copied to clipboard");
+      await Clipboard.setStringAsync(value);
+      showSuccessAlert("Copied!", "Link copied to clipboard");
     } catch (error) {
-      console.error("Failed to copy to clipboard:", error);
-      Alert.alert("Error", "Failed to copy link");
+      console.error("Clipboard error:", error);
+      showErrorAlert(
+        "Error",
+        "Failed to copy link. Please try restarting the app."
+      );
     }
   };
 
