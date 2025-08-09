@@ -63,7 +63,7 @@ export const PropertyForm = ({
 
   const handleNextStep = () => {
     if (currentStep === 1) {
-      // Create property on first step
+      // Step 1: Create new property OR update existing property
       const values = getValues();
       const airbnbId = extractAirBnbId(values.airbnbId?.trim() || "", "rooms");
       saveProperty({
@@ -72,13 +72,14 @@ export const PropertyForm = ({
           airbnbId,
           priceYearly: values.isYearly ? Number(values.priceYearly) : undefined,
         } as CreatePropertyDto,
-        selectedProperty: undefined,
-      }).then((newProperty) => {
-        setCreatedProperty(newProperty);
+        selectedProperty,
+      }).then((property) => {
+        if (!selectedProperty) {
+          setCreatedProperty(property);
+        }
         setCurrentStep(2);
       });
     } else if (currentStep < 4) {
-      // Update property on steps 2 and 3
       const values = getValues();
       const propertyToUpdate = createdProperty || selectedProperty;
 
@@ -100,7 +101,6 @@ export const PropertyForm = ({
   };
 
   const handleFinalSubmit = () => {
-    // Final step - update and close
     const values = getValues();
     const propertyToUpdate = createdProperty || selectedProperty;
 
