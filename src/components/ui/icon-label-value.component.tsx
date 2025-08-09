@@ -6,7 +6,7 @@ import colors from "../../constants/colors";
 type IconLabelValueProps = {
   icon?: ReactNode;
   label?: string;
-  value: string | number;
+  value: string | number | ReactNode;
   labelStyle?: object;
   valueStyle?: object;
   containerStyle?: object;
@@ -21,14 +21,18 @@ export const IconLabelValue: React.FC<IconLabelValueProps> = ({
   containerStyle,
 }) => {
   return (
-    <View style={[styles.container, styles.horizontal, containerStyle]}>
-      {icon && <View style={styles.iconContainer}>{icon}</View>}
-
-      <View style={styles.textContainerHorizontal}>
+    <View style={[styles.container, containerStyle]}>
+      <View style={styles.leftSection}>
+        {icon && <View style={styles.iconContainer}>{icon}</View>}
         {label && (
           <TextBody style={[styles.label, labelStyle]}>{label}</TextBody>
         )}
-        <TextBody style={[styles.value, valueStyle]}>{value}</TextBody>
+      </View>
+
+      <View style={styles.centerSection}>
+        <TextBody style={[styles.value, valueStyle]} numberOfLines={1}>
+          {value}
+        </TextBody>
       </View>
     </View>
   );
@@ -38,19 +42,20 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
   },
-  horizontal: {
+  leftSection: {
     flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  centerSection: {
+    flex: 1,
+    alignItems: "flex-start",
   },
   iconContainer: {
     marginRight: 8,
-    marginBottom: 4,
-  },
-  textContainerHorizontal: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
   label: {
     fontSize: 14,

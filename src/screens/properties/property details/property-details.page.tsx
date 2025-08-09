@@ -14,6 +14,15 @@ import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { TabsComponent } from "../../../components/ui/tabs.component";
 import { PropertyLocation } from "../../../components/properties/property-location.component";
 import { PropertyIndicators } from "../../../components/properties/property-indicators.component";
+import { IconLabelValue } from "../../../components/ui/icon-label-value.component";
+import {
+  BuildingIcon,
+  EmailIcon,
+  PropertyIcon,
+  StatusIcon,
+  UserIcon,
+} from "../../../icons";
+import { Badge } from "../../../components/ui/badge.component";
 
 export enum EPropertyTabs {
   GENERAL = "GENERAL",
@@ -93,6 +102,7 @@ export const PropertyDetailsPage = () => {
             setSelectedTab={setSelectedTab}
           />
         </CardComponent>
+
         <CardComponent>
           <View style={propertyDetailsStyle.section}>
             <TextTitle numberOfLines={1}>{property.title}</TextTitle>
@@ -101,6 +111,45 @@ export const PropertyDetailsPage = () => {
             {/* <TextBody>
               {property.description || "No description available."}
             </TextBody> */}
+          </View>
+        </CardComponent>
+
+        <CardComponent>
+          <View style={propertyDetailsStyle.section}>
+            <TextTitle
+              numberOfLines={1}
+              style={propertyDetailsStyle.borderBottom}
+            >
+              Property Details
+            </TextTitle>
+            <IconLabelValue
+              icon={<PropertyIcon />}
+              label="Name"
+              value={property.title || "-"}
+            />
+            <IconLabelValue
+              icon={<EmailIcon />}
+              label="Owner Email"
+              value={property.owner?.email || "-"}
+            />
+            <IconLabelValue
+              icon={<UserIcon />}
+              label="Owner"
+              value={
+                property.owner?.firstName + " " + property.owner?.lastName ||
+                "-"
+              }
+            />
+            <IconLabelValue
+              icon={<BuildingIcon />}
+              label="Property Type"
+              value={property.propertyType || "-"}
+            />
+            <IconLabelValue
+              icon={<StatusIcon />}
+              label="Status"
+              value={<Badge type="success" text="Available*" />}
+            />
           </View>
         </CardComponent>
       </View>
@@ -122,5 +171,10 @@ export const propertyDetailsStyle = StyleSheet.create({
   section: {
     flexDirection: "column",
     gap: 12,
+  },
+  borderBottom: {
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
 });

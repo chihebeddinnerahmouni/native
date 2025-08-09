@@ -691,3 +691,250 @@ export const DotsIcon = ({
     />
   </Svg>
 );
+
+export const PropertyIcon = ({
+  title = "Property",
+  size = 16,
+  color = colors.textColor,
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M4.46635 12.0002H2.76636C1.81302 12.0002 1.33301 11.5201 1.33301 10.5668V2.76685C1.33301 1.81351 1.81302 1.3335 2.76636 1.3335H5.63302C6.58635 1.3335 7.06633 1.81351 7.06633 2.76685V4.00016"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M11.5801 5.61332V13.0533C11.5801 14.1267 11.0468 14.6667 9.97347 14.6667H6.08012C5.00679 14.6667 4.4668 14.1267 4.4668 13.0533V5.61332C4.4668 4.53999 5.00679 4 6.08012 4H9.97347C11.0468 4 11.5801 4.53999 11.5801 5.61332Z"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.93359 4.00016V2.76685C8.93359 1.81351 9.41357 1.3335 10.3669 1.3335H13.2336C14.1869 1.3335 14.6669 1.81351 14.6669 2.76685V10.5668C14.6669 11.5201 14.1869 12.0002 13.2336 12.0002H11.5802"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M6.66699 7.3335H9.33366"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M6.66699 9.3335H9.33366"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8 14.6665V12.6665"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const BuildingIcon = ({
+  title = "Building",
+  size = 16,
+  color = colors.textColor,
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M8.33348 14.6668H2.72014C1.94681 14.6668 1.31348 14.0468 1.31348 13.2868V3.39348C1.31348 1.64682 2.61348 0.853485 4.20681 1.63348L7.16681 3.08682C7.80681 3.40015 8.33348 4.23348 8.33348 4.94015V14.6668Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M14.6463 10.0401V12.5601C14.6463 14.0001 13.9797 14.6668 12.5397 14.6668H8.33301V6.94678L8.64634 7.01344L11.6463 7.68678L12.9997 7.98678C13.8797 8.18011 14.5997 8.63344 14.6397 9.91344C14.6463 9.95344 14.6463 9.99344 14.6463 10.0401Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M3.66699 6H5.98033"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M3.66699 8.6665H5.98033"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M11.6465 7.68652V9.83318C11.6465 10.6599 10.9732 11.3332 10.1465 11.3332C9.31982 11.3332 8.64648 10.6599 8.64648 9.83318V7.01318L11.6465 7.68652Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M14.6398 9.91343C14.5998 10.7001 13.9465 11.3334 13.1465 11.3334C12.3198 11.3334 11.6465 10.6601 11.6465 9.83343V7.68677L12.9998 7.98677C13.8798 8.1801 14.5998 8.63343 14.6398 9.91343Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const StatusIcon = ({
+  title = "Status",
+  size = 16,
+  color = colors.textColor,
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M14 4.66659V11.3333C14 13.3333 13 14.6666 10.6667 14.6666H5.33333C3 14.6666 2 13.3333 2 11.3333V4.66659C2 2.66659 3 1.33325 5.33333 1.33325H10.6667C13 1.33325 14 2.66659 14 4.66659Z"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M10.3337 1.33325V6.57324C10.3337 6.86658 9.98697 7.01324 9.77364 6.81991L8.22701 5.39327C8.10034 5.27327 7.90031 5.27327 7.77364 5.39327L6.22701 6.81991C6.01368 7.01324 5.66699 6.86658 5.66699 6.57324V1.33325H10.3337Z"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.83301 9.33325H11.6663"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M6 12H11.6667"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const MapIcon = ({
+  title = "Map",
+  size = 16,
+  color = colors.textColor,
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M1.52637 5.18673V11.6734C1.52637 12.9401 2.42637 13.4601 3.5197 12.8334L5.08637 11.9401C5.42637 11.7467 5.99303 11.7267 6.34637 11.9067L9.84637 13.6601C10.1997 13.8334 10.7664 13.8201 11.1064 13.6267L13.993 11.9734C14.3597 11.7601 14.6664 11.2401 14.6664 10.8134V4.32673C14.6664 3.06007 13.7664 2.54007 12.673 3.16673L11.1064 4.06007C10.7664 4.2534 10.1997 4.2734 9.84637 4.0934L6.34637 2.34673C5.99303 2.1734 5.42637 2.18673 5.08637 2.38007L2.1997 4.0334C1.82637 4.24673 1.52637 4.76673 1.52637 5.18673Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M5.70703 2.66675V11.3334"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M10.4863 4.41333V13.3333"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const MediaIcon = ({
+  title = "Media",
+  size = 16,
+  color = colors.textColor,
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M14.6663 5.99993V9.99993C14.6663 11.6666 14.333 12.8333 13.5863 13.5866L9.33301 9.33326L14.4863 4.17993C14.6063 4.7066 14.6663 5.3066 14.6663 5.99993Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M14.4863 4.17992L4.17967 14.4866C2.173 14.0266 1.33301 12.6399 1.33301 9.99992V5.99992C1.33301 2.66659 2.66634 1.33325 5.99967 1.33325H9.99967C12.6397 1.33325 14.0263 2.17325 14.4863 4.17992Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M13.5864 13.5866C12.833 14.3333 11.6664 14.6666 9.99969 14.6666H5.99969C5.30636 14.6666 4.70635 14.6066 4.17969 14.4866L9.33303 9.33325L13.5864 13.5866Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M4.16018 5.31998C4.61351 3.36665 7.54685 3.36665 8.00018 5.31998C8.26018 6.46665 7.54017 7.43998 6.90684 8.03998C6.44684 8.47998 5.72019 8.47998 5.25352 8.03998C4.62019 7.43998 3.89351 6.46665 4.16018 5.31998Z"
+      stroke={color}
+    />
+    <Path
+      d="M6.06307 5.80013H6.06906"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
