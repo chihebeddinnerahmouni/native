@@ -8,8 +8,10 @@ import { PropertyLocation } from "../../../components/properties/property-locati
 import { PropertyIndicators } from "../../../components/properties/property-indicators.component";
 import { IconLabelValue } from "../../../components/ui/icon-label-value.component";
 import {
+  AirbnbIcon,
   BuildingIcon,
   CalendarIcon,
+  CopyIcon,
   EmailIcon,
   GroupOfUsersIcon,
   HashtagIcon,
@@ -25,8 +27,15 @@ import {
 } from "../../../icons";
 import { Badge } from "../../../components/ui/badge.component";
 import { Property } from "../../../backend/casaikos-api";
-import { View } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Clipboard,
+  Alert,
+} from "react-native";
 import { propertyDetailsStyle } from "../../../screens/properties/property details/property-details.style";
+import colors from "../../../constants/colors";
 
 type IProps = {
   property: Property;
@@ -46,7 +55,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
         </View>
       </CardComponent>
 
-      <CardComponent>
+      {/* <CardComponent>
         <View style={propertyDetailsStyle.section}>
           <TextTitle
             numberOfLines={1}
@@ -112,7 +121,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
             value={property.address?.zip || "-"}
           />
         </View>
-      </CardComponent>
+      </CardComponent> 
       <CardComponent>
         <View style={propertyDetailsStyle.section}>
           <TextTitle
@@ -157,7 +166,78 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
             value="2*"
           />
         </View>
+      </CardComponent>*/}
+      <CardComponent>
+        <View style={propertyDetailsStyle.section}>
+          <TextTitle
+            numberOfLines={1}
+            style={propertyDetailsStyle.borderBottom}
+          >
+            external links
+          </TextTitle>
+          <ExternalLink
+            icon={<AirbnbIcon />}
+            label="Airbnb"
+            // value={property.airbnbId || "-"}
+            value="http://192.168.20.122:5000/"
+          />
+        </View>
       </CardComponent>
     </>
   );
 };
+
+const ExternalLink = ({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) => {
+  const copyToClipboard = async () => {
+    try {
+      Clipboard.setString(value);
+      Alert.alert("Copied!", "Link copied to clipboard");
+    } catch (error) {
+      console.error("Failed to copy to clipboard:", error);
+      Alert.alert("Error", "Failed to copy link");
+    }
+  };
+
+  return (
+    <View style={externalLinksStyle.container}>
+      <View style={externalLinksStyle.topSection}>
+        {icon}
+        <TextBody numberOfLines={1}>{label}</TextBody>
+      </View>
+      <View style={externalLinksStyle.bottomSection}>
+        <TextBody numberOfLines={1}>{value}</TextBody>
+        <TouchableOpacity onPress={copyToClipboard}>
+          <CopyIcon color={colors.primaryColor} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const externalLinksStyle = StyleSheet.create({
+  container: {
+    padding: 12,
+    borderBlockColor: colors.borderColor,
+    borderWidth: 1,
+    borderRadius: 12,
+  },
+  topSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 8,
+  },
+  bottomSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+});
