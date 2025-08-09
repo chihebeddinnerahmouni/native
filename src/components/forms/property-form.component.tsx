@@ -61,23 +61,9 @@ export const PropertyForm = ({
 
   const { saveProperty, isLoading: isSavePending } = usePropertiesMutation();
 
-  const onClickSubmit = () => {
-    const values = getValues();
-    const airbnbId = extractAirBnbId(values.airbnbId?.trim() || "", "rooms");
-    saveProperty({
-      CreatePropertyDto: {
-        ...values,
-        airbnbId,
-        priceYearly: values.isYearly ? Number(values.priceYearly) : undefined,
-      } as CreatePropertyDto,
-      selectedProperty,
-    }).then(() => {
-      closeModal();
-    });
-  };
-
   const handleNextStep = () => {
     if (currentStep === 1) {
+      // Create property on first step
       const values = getValues();
       const airbnbId = extractAirBnbId(values.airbnbId?.trim() || "", "rooms");
       saveProperty({
@@ -86,13 +72,24 @@ export const PropertyForm = ({
           airbnbId,
           priceYearly: values.isYearly ? Number(values.priceYearly) : undefined,
         } as CreatePropertyDto,
-        selectedProperty: undefined, // Create new property
+        selectedProperty: undefined,
       }).then((newProperty) => {
         setCreatedProperty(newProperty);
         setCurrentStep(2);
       });
     } else if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
+      // Update property on steps 2 and 3
+      const values = getValues();
+      const propertyToUpdate = createdProperty || selectedProperty;
+
+      if (propertyToUpdate) {
+        saveProperty({
+          CreatePropertyDto: values as CreatePropertyDto,
+          selectedProperty: propertyToUpdate,
+        }).then(() => {
+          setCurrentStep(currentStep + 1);
+        });
+      }
     }
   };
 
@@ -102,27 +99,22 @@ export const PropertyForm = ({
     }
   };
 
-  const handleStepSubmit = () => {
-    if (currentStep === 4) {
-      // Final step - close modal
-      closeModal();
-    } else {
-      // Update property with current step data
-      const values = getValues();
-      const propertyToUpdate = createdProperty || selectedProperty;
+  const handleFinalSubmit = () => {
+    // Final step - update and close
+    const values = getValues();
+    const propertyToUpdate = createdProperty || selectedProperty;
 
-      if (propertyToUpdate) {
-        saveProperty({
-          CreatePropertyDto: values as CreatePropertyDto,
-          selectedProperty: propertyToUpdate,
-        }).then(() => {
-          if (currentStep === 4) {
-            closeModal();
-          } else {
-            setCurrentStep(currentStep + 1);
-          }
-        });
-      }
+    if (propertyToUpdate) {
+      const airbnbId = extractAirBnbId(values.airbnbId?.trim() || "", "rooms");
+      saveProperty({
+        CreatePropertyDto: {
+          ...values,
+          airbnbId,
+        } as CreatePropertyDto,
+        selectedProperty: propertyToUpdate,
+      }).then(() => {
+        closeModal();
+      });
     }
   };
 
@@ -661,8 +653,8 @@ export const PropertyForm = ({
               currentStep === 1
                 ? handleSubmit(handleNextStep)
                 : currentStep === 4
-                  ? handleSubmit(onClickSubmit)
-                  : handleSubmit(handleStepSubmit)
+                  ? handleSubmit(handleFinalSubmit)
+                  : handleSubmit(handleNextStep)
             }
             loading={isSavePending}
             style={styles.nextButton}

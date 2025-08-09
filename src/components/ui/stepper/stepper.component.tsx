@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
     paddingVertical: 20,
-    backgroundColor: colors.bgColor,
+    backgroundColor: colors.emptyBgColor,
   },
   stepsContainer: {
     flexDirection: "row",
