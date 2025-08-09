@@ -99,7 +99,23 @@ export const PropertiesListPage = () => {
             key={property._id}
             property={property}
             onPress={() => {
-              // Handle property card press
+              // Handle property card press (view details)
+            }}
+            onEdit={(property: Property) => {
+              openModal({
+                title: "Edit Property",
+                component: (
+                  <PropertyForm
+                    selectedProperty={property}
+                    closeModal={closeModal}
+                  />
+                ),
+                presentationStyle: "formSheet",
+              });
+            }}
+            onDelete={(property: Property) => {
+              console.log("Delete property:", property.title);
+              // TODO: Implement delete functionality
             }}
           />
         ))}
