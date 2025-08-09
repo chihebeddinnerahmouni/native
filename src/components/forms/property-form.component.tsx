@@ -17,7 +17,11 @@ import { usePropertiesMutation } from "../../api-query/hooks";
 // Form Components
 import { FieldText } from "../ui/inputs/field-text/field-text.component";
 import Select from "../ui/inputs/select.component";
-import { FormContainer, FormRow } from "../ui/form/form-items.component";
+import {
+  FormActions,
+  FormContainer,
+  FormRow,
+} from "../ui/form/form-items.component";
 import { TextFormSectionTitle } from "../ui/texts/Texts.component";
 import { Textarea } from "../ui/inputs/field-text/textarea.component";
 import { Stepper } from "../ui/stepper/stepper.component";
@@ -63,7 +67,6 @@ export const PropertyForm = ({
 
   const handleNextStep = () => {
     if (currentStep === 1) {
-      // Step 1: Create new property OR update existing property
       const values = getValues();
       const airbnbId = extractAirBnbId(values.airbnbId?.trim() || "", "rooms");
       saveProperty({
@@ -648,7 +651,7 @@ export const PropertyForm = ({
             </Button>
           )}
 
-          <Button
+          {/* <Button
             onPress={
               currentStep === 1
                 ? handleSubmit(handleNextStep)
@@ -664,7 +667,18 @@ export const PropertyForm = ({
               : currentStep === 4
                 ? "Finish"
                 : "Next"}
-          </Button>
+          </Button> */}
+          <FormActions
+            isLoading={isSavePending}
+            submitText={currentStep === 4 ? "Finish" : "Next"}
+            onPress={
+              currentStep === 1
+                ? handleSubmit(handleNextStep)
+                : currentStep === 4
+                  ? handleSubmit(handleFinalSubmit)
+                  : handleSubmit(handleNextStep)
+            }
+          />
         </View>
       </FormContainer>
     </ScrollView>
@@ -691,10 +705,6 @@ const styles = StyleSheet.create({
   prevButton: {
     flex: 1,
     marginRight: 6,
-  },
-  nextButton: {
-    flex: 2,
-    marginLeft: 6,
   },
 });
 

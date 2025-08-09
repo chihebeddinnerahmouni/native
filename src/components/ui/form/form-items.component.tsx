@@ -57,10 +57,14 @@ export const FormActions = ({
   onPress,
   isLoading,
   style,
+  cancelText = "Cancel",
+  submitText = "Submit",
 }: {
   onPress: () => void;
   style?: ViewStyle;
   isLoading: boolean;
+  cancelText?: string;
+  submitText?: string;
 }) => {
   const { closeModal } = useModal();
 
@@ -74,7 +78,7 @@ export const FormActions = ({
         onPress={onCancel}
         style={formStyles.cancelButton}
       >
-        Cancel
+        {cancelText}
       </Button>
       <Button
         onPress={onPress}
@@ -82,7 +86,7 @@ export const FormActions = ({
         loading={isLoading}
         style={formStyles.submitButton}
       >
-        Submit
+        {submitText}
       </Button>
     </View>
   );
@@ -113,6 +117,7 @@ const formStyles = StyleSheet.create({
     flex: 1,
   },
   formActions: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 12,
