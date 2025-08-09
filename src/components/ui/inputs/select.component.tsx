@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
+  ScrollView,
   TextInput,
 } from "react-native";
 import { Controller, FieldError, UseFormRegisterReturn } from "react-hook-form";
@@ -229,42 +229,46 @@ export const Select = ({
             )}
 
             {/* Options List */}
-            <FlatList
-              data={filteredOptions}
-              keyExtractor={(item) => item.value.toString()}
+            <ScrollView
               style={styles.optionsList}
               showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={[
-                    styles.option,
-                    item.value === compSelectedValue && styles.selectedOption,
-                    item.isDisabled && styles.disabledOption,
-                  ]}
-                  onPress={() => !item.isDisabled && onValueChange(item.value)}
-                  disabled={item.isDisabled}
-                >
-                  <Text
+              nestedScrollEnabled={true}
+            >
+              {filteredOptions.length > 0 ? (
+                filteredOptions.map((item) => (
+                  <TouchableOpacity
+                    key={item.value.toString()}
                     style={[
-                      styles.optionText,
-                      item.value === compSelectedValue &&
-                        styles.selectedOptionText,
-                      item.isDisabled && styles.disabledOptionText,
+                      styles.option,
+                      item.value === compSelectedValue && styles.selectedOption,
+                      item.isDisabled && styles.disabledOption,
                     ]}
+                    onPress={() =>
+                      !item.isDisabled && onValueChange(item.value)
+                    }
+                    disabled={item.isDisabled}
                   >
-                    {item.label}
-                  </Text>
-                  {item.value === compSelectedValue && (
-                    <Feather name="check" size={20} color="#007bff" />
-                  )}
-                </TouchableOpacity>
-              )}
-              ListEmptyComponent={() => (
+                    <Text
+                      style={[
+                        styles.optionText,
+                        item.value === compSelectedValue &&
+                          styles.selectedOptionText,
+                        item.isDisabled && styles.disabledOptionText,
+                      ]}
+                    >
+                      {item.label}
+                    </Text>
+                    {item.value === compSelectedValue && (
+                      <Feather name="check" size={20} color="#007bff" />
+                    )}
+                  </TouchableOpacity>
+                ))
+              ) : (
                 <View style={styles.emptyContainer}>
                   <Text style={styles.emptyText}>No options found</Text>
                 </View>
               )}
-            />
+            </ScrollView>
           </View>
         </Modal>
       </>
