@@ -147,7 +147,7 @@ export const Modal = ({
         return {
           ...baseStyle,
           borderRadius: 20,
-          width: "85%" as const,
+          width: "100%" as const,
           height: "100%" as const,
           maxHeight: "100%" as const,
         };

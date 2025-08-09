@@ -15,22 +15,34 @@ import { propertyCardStyles } from "./property-card.style";
 import colors from "../../../../constants/colors";
 import { useModal } from "../../../../contexts";
 import { OptionsMenu } from "../../menu/options-menu.component";
+import { PropertyForm } from "../../../forms";
 
 interface PropertyCardProps {
   property: Property;
   onPress?: () => void;
-  onEdit?: (property: Property) => void;
   onDelete?: (property: Property) => void;
 }
 
 export const PropertyCard = ({
   property,
   onPress,
-  onEdit,
   onDelete,
 }: PropertyCardProps) => {
   const propertyImageUrl = property.images?.[0]?.fileKey;
   const { openModal, closeModal } = useModal();
+
+  const onClickOpenForm = (property: Property) => {
+    openModal({
+      title: "Update Property",
+      slideDirection: "right",
+      component: (
+        <PropertyForm selectedProperty={property} closeModal={closeModal} />
+      ),
+      onDismiss: () => {
+        // console.log("Modal dismissed");
+      },
+    });
+  };
 
   const handleOptionsPress = () => {
     openModal({
@@ -42,7 +54,7 @@ export const PropertyCard = ({
               label: "Edit Property",
               onPress: () => {
                 closeModal();
-                onEdit?.(property);
+                onClickOpenForm(property);
               },
             },
             {

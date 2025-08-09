@@ -40,13 +40,11 @@ export const PropertiesListPage = () => {
     setCurrentPage(page);
   };
 
-  const onClickOpenForm = (property?: Property) => {
+  const onClickOpenForm = () => {
     openModal({
-      title: property ? "Update Property" : "New Property",
+      title: "New Property",
       slideDirection: "right",
-      component: (
-        <PropertyForm selectedProperty={property} closeModal={closeModal} />
-      ),
+      component: <PropertyForm closeModal={closeModal} />,
       onDismiss: () => {
         // console.log("Modal dismissed");
       },
@@ -98,12 +96,7 @@ export const PropertiesListPage = () => {
           <PropertyCard
             key={property._id}
             property={property}
-            onPress={() => {
-              // Handle property card press (view details)
-            }}
-            onEdit={(property: Property) => {
-              onClickOpenForm(property);
-            }}
+            onPress={() => {}}
             onDelete={(property: Property) => {
               console.log("Delete property:", property.title);
               // TODO: Implement delete functionality
