@@ -1,24 +1,15 @@
 import React, { useMemo, useState } from "react";
-import {
-  Image,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { MainLayout } from "../../../layout";
-import {
-  PageTitle2,
-  TextBody,
-} from "../../../components/ui/texts/Texts.component";
+import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
 import { CardComponent } from "../../../components/ui/cards/card.component";
 import { noImagePlaceholder } from "../../../constants/constant";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import { useSingleProperty } from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
-import colors from "../../../constants/colors";
+import { TabsComponent } from "../../../components/ui/tabs.component";
 
-enum EPropertyTabs {
+export enum EPropertyTabs {
   GENERAL = "GENERAL",
   AMENITIES = "AMENITIES",
   AVAILABILITY = "AVAILABILITY",
@@ -61,9 +52,7 @@ const tabs = [
 ];
 
 export const PropertyDetailsPage = () => {
-  const [selectedTab, setSelectedTab] = useState<EPropertyTabs>(
-    EPropertyTabs.GENERAL
-  );
+  const [selectedTab, setSelectedTab] = useState<string>(EPropertyTabs.GENERAL);
 
   const route =
     useRoute<
@@ -91,28 +80,11 @@ export const PropertyDetailsPage = () => {
             style={propertyDetailsStyle.imageContainer}
             resizeMode="cover"
           />
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={propertyDetailsStyle.tabsScrollContainer}
-          >
-            {tabs.map((tab) => (
-              <TouchableOpacity
-                key={tab.title}
-                onPress={() => setSelectedTab(tab.title)}
-              >
-                <TextBody
-                  style={[
-                    propertyDetailsStyle.tabText,
-                    selectedTab === tab.title &&
-                      propertyDetailsStyle.selectedTabText,
-                  ]}
-                >
-                  {tab.title}
-                </TextBody>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <TabsComponent
+            tabs={tabs}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+          />
         </CardComponent>
       </View>
     </MainLayout>
@@ -129,18 +101,5 @@ export const propertyDetailsStyle = StyleSheet.create({
     height: 207,
     overflow: "hidden",
     objectFit: "cover",
-  },
-  tabsScrollContainer: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  tabText: {
-    fontSize: 14,
-    fontWeight: "400",
-    color: colors.textColor2,
-  },
-  selectedTabText: {
-    color: colors.primaryColor,
   },
 });
