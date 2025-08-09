@@ -1,13 +1,7 @@
 import React from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Property } from "../../../../backend/casaikos-api";
-import {
-  BedIcon,
-  LocationIcon,
-  BathIcon,
-  SqftIcon,
-  DotsIcon,
-} from "../../../../icons";
+import { DotsIcon } from "../../../../icons";
 import { Badge } from "../../badge.component";
 import { noImagePlaceholder } from "../../../../constants/constant";
 import { TextBody } from "../../texts/Texts.component";
@@ -16,6 +10,8 @@ import colors from "../../../../constants/colors";
 import { useModal } from "../../../../contexts";
 import { OptionsMenu } from "../../menu/options-menu.component";
 import { PropertyForm } from "../../../forms";
+import { PropertyLocation } from "../../../properties/property-location.component";
+import { PropertyIndicators } from "../../../properties/property-indicators.component";
 
 interface PropertyCardProps {
   property: Property;
@@ -108,36 +104,8 @@ export const PropertyCard = ({
           {property.title}
         </TextBody>
 
-        <View style={propertyCardStyles.propertyLocation}>
-          <LocationIcon size={16} color={colors.textColor2} />
-          <TextBody style={propertyCardStyles.locationText} numberOfLines={2}>
-            {property.address?.street}, {property.address?.city},{" "}
-            {property.address?.country}
-          </TextBody>
-        </View>
-
-        <View style={propertyCardStyles.propertyInfosContainer}>
-          <View style={propertyCardStyles.propertyInfoItem}>
-            <BedIcon size={16} color={colors.textColor2} />
-            <TextBody style={propertyCardStyles.infoText}>
-              {property.bedrooms || 0}
-            </TextBody>
-          </View>
-
-          <View style={propertyCardStyles.propertyInfoItem}>
-            <BathIcon size={16} color={colors.textColor2} />
-            <TextBody style={propertyCardStyles.infoText}>
-              {property.bathrooms || 0}
-            </TextBody>
-          </View>
-
-          <View style={propertyCardStyles.propertyInfoItem}>
-            <SqftIcon size={16} color={colors.textColor2} />
-            <TextBody style={propertyCardStyles.infoText}>
-              {property.propertySize || 0} Sq Ft
-            </TextBody>
-          </View>
-        </View>
+        <PropertyLocation address={property.address} />
+        <PropertyIndicators property={property} />
       </View>
     </TouchableOpacity>
   );

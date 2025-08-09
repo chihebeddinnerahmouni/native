@@ -1,13 +1,19 @@
 import React, { useMemo, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { MainLayout } from "../../../layout";
-import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
+import {
+  PageTitle2,
+  TextBody,
+  TextTitle,
+} from "../../../components/ui/texts/Texts.component";
 import { CardComponent } from "../../../components/ui/cards/card.component";
 import { noImagePlaceholder } from "../../../constants/constant";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import { useSingleProperty } from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { TabsComponent } from "../../../components/ui/tabs.component";
+import { PropertyLocation } from "../../../components/properties/property-location.component";
+import { PropertyIndicators } from "../../../components/properties/property-indicators.component";
 
 export enum EPropertyTabs {
   GENERAL = "GENERAL",
@@ -54,11 +60,12 @@ const tabs = [
 export const PropertyDetailsPage = () => {
   const [selectedTab, setSelectedTab] = useState<string>(EPropertyTabs.GENERAL);
 
-  const route =
-    useRoute<
-      RouteProp<{ PropertyDetails: { propertyId: string } }, "PropertyDetails">
-    >();
-  const selectedPropertyId = route.params?.propertyId;
+  //   const route =
+  //     useRoute<
+  //       RouteProp<{ PropertyDetails: { propertyId: string } }, "PropertyDetails">
+  //     >();
+  //   const selectedPropertyId = route.params?.propertyId;
+  const selectedPropertyId = "68973230d46a4ad48b02eec4";
   const param = useMemo(
     () => ({ propertyId: selectedPropertyId || "" }),
     [selectedPropertyId]
@@ -67,7 +74,7 @@ export const PropertyDetailsPage = () => {
   const propertyImageUrl = property?.images?.[0]?.fileKey;
 
   if (isLoading) return <LoadingScreen />;
-  if (propertyError) return <View>Error loading property</View>;
+  if (propertyError || !property) return <View>Error loading property</View>;
 
   return (
     <MainLayout HeaderLeft={<PageTitle2>detail Property</PageTitle2>}>
@@ -86,6 +93,16 @@ export const PropertyDetailsPage = () => {
             setSelectedTab={setSelectedTab}
           />
         </CardComponent>
+        <CardComponent>
+          <View style={propertyDetailsStyle.section}>
+            <TextTitle numberOfLines={1}>{property.title}</TextTitle>
+            <PropertyLocation address={property.address} />
+            <PropertyIndicators property={property} />
+            {/* <TextBody>
+              {property.description || "No description available."}
+            </TextBody> */}
+          </View>
+        </CardComponent>
       </View>
     </MainLayout>
   );
@@ -101,5 +118,9 @@ export const propertyDetailsStyle = StyleSheet.create({
     height: 207,
     overflow: "hidden",
     objectFit: "cover",
+  },
+  section: {
+    flexDirection: "column",
+    gap: 12,
   },
 });

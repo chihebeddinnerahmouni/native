@@ -52,30 +52,4 @@ export const propertyCardStyles = StyleSheet.create({
     fontWeight: "500",
     color: colors.textColor,
   },
-  propertyLocation: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    width: "100%",
-  },
-  locationText: {
-    fontSize: 14,
-    color: colors.textColor2,
-    marginLeft: 4,
-    flex: 1,
-  },
-  propertyInfosContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    gap: 24,
-  },
-  propertyInfoItem: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  infoText: {
-    fontSize: 14,
-    color: colors.textColor2,
-    marginLeft: 4,
-  },
 });
