@@ -1,13 +1,14 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import colors from "../../../constants/colors";
 
 type CardComponentProps = {
   children: React.ReactNode;
+  style?: ViewStyle;
 };
 
-export const CardComponent = ({ children }: CardComponentProps) => {
-  return <View style={CardStyles.container}>{children}</View>;
+export const CardComponent = ({ children, style }: CardComponentProps) => {
+  return <View style={[CardStyles.container, style]}>{children}</View>;
 };
 
 const CardStyles = StyleSheet.create({

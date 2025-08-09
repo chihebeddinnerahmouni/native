@@ -190,12 +190,12 @@ export const Messages = () => {
     };
 
     if (socket && selectedTenantId) {
-      socketManager.on(EWebsocketType.Message, messageHandler);
+      socketManager.on(EWebsocketType.MESSAGE, messageHandler);
     }
 
     return () => {
       if (socket) {
-        socketManager.off(EWebsocketType.Message, messageHandler);
+        socketManager.off(EWebsocketType.MESSAGE, messageHandler);
       }
     };
   }, [selectedTenantId, refetchMessages, markChatAsRead, socket]);

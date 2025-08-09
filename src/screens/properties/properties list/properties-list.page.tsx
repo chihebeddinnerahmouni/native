@@ -99,7 +99,6 @@ export const PropertiesListPage = () => {
             onPress={() => {}}
             onDelete={(property: Property) => {
               console.log("Delete property:", property.title);
-              // TODO: Implement delete functionality
             }}
           />
         ))}
