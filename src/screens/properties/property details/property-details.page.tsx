@@ -1,28 +1,14 @@
 import React, { useMemo, useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, View } from "react-native";
 import { MainLayout } from "../../../layout";
-import {
-  PageTitle2,
-  TextBody,
-  TextTitle,
-} from "../../../components/ui/texts/Texts.component";
+import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
 import { CardComponent } from "../../../components/ui/cards/card.component";
 import { noImagePlaceholder } from "../../../constants/constant";
-import { useRoute, RouteProp } from "@react-navigation/native";
 import { useSingleProperty } from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { TabsComponent } from "../../../components/ui/tabs.component";
-import { PropertyLocation } from "../../../components/properties/property-location.component";
-import { PropertyIndicators } from "../../../components/properties/property-indicators.component";
-import { IconLabelValue } from "../../../components/ui/icon-label-value.component";
-import {
-  BuildingIcon,
-  EmailIcon,
-  PropertyIcon,
-  StatusIcon,
-  UserIcon,
-} from "../../../icons";
-import { Badge } from "../../../components/ui/badge.component";
+import { PropertyGeneralComponent } from "../../../components/properties/property details/property-general.component";
+import { propertyDetailsStyle } from "./property-details.style";
 
 export enum EPropertyTabs {
   GENERAL = "GENERAL",
@@ -102,79 +88,10 @@ export const PropertyDetailsPage = () => {
             setSelectedTab={setSelectedTab}
           />
         </CardComponent>
-
-        <CardComponent>
-          <View style={propertyDetailsStyle.section}>
-            <TextTitle numberOfLines={1}>{property.title}</TextTitle>
-            <PropertyLocation address={property.address} />
-            <PropertyIndicators property={property} />
-            {/* <TextBody>
-              {property.description || "No description available."}
-            </TextBody> */}
-          </View>
-        </CardComponent>
-
-        <CardComponent>
-          <View style={propertyDetailsStyle.section}>
-            <TextTitle
-              numberOfLines={1}
-              style={propertyDetailsStyle.borderBottom}
-            >
-              Property Details
-            </TextTitle>
-            <IconLabelValue
-              icon={<PropertyIcon />}
-              label="Name"
-              value={property.title || "-"}
-            />
-            <IconLabelValue
-              icon={<EmailIcon />}
-              label="Owner Email"
-              value={property.owner?.email || "-"}
-            />
-            <IconLabelValue
-              icon={<UserIcon />}
-              label="Owner"
-              value={
-                property.owner?.firstName + " " + property.owner?.lastName ||
-                "-"
-              }
-            />
-            <IconLabelValue
-              icon={<BuildingIcon />}
-              label="Property Type"
-              value={property.propertyType || "-"}
-            />
-            <IconLabelValue
-              icon={<StatusIcon />}
-              label="Status"
-              value={<Badge type="success" text="Available*" />}
-            />
-          </View>
-        </CardComponent>
+        {selectedTab === EPropertyTabs.GENERAL && (
+          <PropertyGeneralComponent property={property} />
+        )}
       </View>
     </MainLayout>
   );
 };
-
-export const propertyDetailsStyle = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    gap: 16,
-  },
-  imageContainer: {
-    width: "100%",
-    height: 207,
-    overflow: "hidden",
-    objectFit: "cover",
-  },
-  section: {
-    flexDirection: "column",
-    gap: 12,
-  },
-  borderBottom: {
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-});

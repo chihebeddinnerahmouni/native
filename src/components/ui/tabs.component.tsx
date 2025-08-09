@@ -20,7 +20,7 @@ export const TabsComponent = ({
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={[propertyDetailsStyle.tabsScrollContainer, style]}
+      contentContainerStyle={[tabStyles.tabsScrollContainer, style]}
     >
       {tabs.map((tab) => (
         <TouchableOpacity
@@ -29,8 +29,8 @@ export const TabsComponent = ({
         >
           <TextBody
             style={[
-              propertyDetailsStyle.tabText,
-              selectedTab === tab.title && propertyDetailsStyle.selectedTabText,
+              tabStyles.tabText,
+              selectedTab === tab.title && tabStyles.selectedTabText,
             ]}
           >
             {tab.title}
@@ -41,7 +41,7 @@ export const TabsComponent = ({
   );
 };
 
-export const propertyDetailsStyle = StyleSheet.create({
+export const tabStyles = StyleSheet.create({
   tabsScrollContainer: {
     paddingVertical: 12,
     paddingHorizontal: 20,
