@@ -1,43 +1,68 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { colors } from "../../../constants/colors";
+import { TextBody } from "../texts/Texts.component";
 
 export type PaginationProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  showPageNumbers?: number; // Number of page numbers to show
   disabled?: boolean;
+  pageSize: number;
+  totalItems: number;
 };
 
 export const Pagination = ({
   currentPage,
   totalPages,
   onPageChange,
-  showPageNumbers = 5,
   disabled = false,
+  pageSize,
+  totalItems,
 }: PaginationProps) => {
   if (totalPages <= 1) return null;
 
   const getVisiblePages = () => {
     const pages: number[] = [];
-    const halfVisible = Math.floor(showPageNumbers / 2);
-    let start = Math.max(1, currentPage - halfVisible);
-    let end = Math.min(totalPages, currentPage + halfVisible);
 
-    // Adjust if we're near the beginning or end
-    if (currentPage <= halfVisible) {
-      end = Math.min(totalPages, showPageNumbers);
-    }
-    if (currentPage + halfVisible >= totalPages) {
-      start = Math.max(1, totalPages - showPageNumbers + 1);
-    }
+    if (totalPages <= 3) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const prevPage = currentPage - 1;
+      const nextPage = currentPage + 1;
 
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
+      if (prevPage >= 1) {
+        pages.push(prevPage);
+      }
+
+      pages.push(currentPage);
+
+      if (nextPage <= totalPages) {
+        pages.push(nextPage);
+      }
     }
 
     return pages;
+  };
+
+  const shouldShowFirstPage = () => {
+    return totalPages > 3 && visiblePages[0] > 1;
+  };
+
+  const shouldShowLastPage = () => {
+    return totalPages > 3 && visiblePages[visiblePages.length - 1] < totalPages;
+  };
+
+  const shouldShowLeftEllipsis = () => {
+    return totalPages > 3 && visiblePages[0] > 2;
+  };
+
+  const shouldShowRightEllipsis = () => {
+    return (
+      totalPages > 3 && visiblePages[visiblePages.length - 1] < totalPages - 1
+    );
   };
 
   const visiblePages = getVisiblePages();
@@ -50,168 +75,186 @@ export const Pagination = ({
   };
 
   return (
-    <View style={styles.container}>
-      {/* Previous Button */}
-      <TouchableOpacity
-        style={[
-          styles.button,
-          styles.navButton,
-          (currentPage === 1 || disabled) && styles.disabledButton,
-        ]}
-        onPress={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1 || disabled}
-      >
-        <Text
-          style={[
-            styles.buttonText,
-            styles.navButtonText,
-            (currentPage === 1 || disabled) && styles.disabledText,
-          ]}
-        >
-          Previous
-        </Text>
-      </TouchableOpacity>
-
-      {/* First page and ellipsis if needed */}
-      {visiblePages[0] > 1 && (
-        <>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handlePageChange(1)}
-            disabled={disabled}
-          >
-            <Text style={styles.buttonText}>1</Text>
-          </TouchableOpacity>
-          {visiblePages[0] > 2 && (
-            <View style={styles.ellipsis}>
-              <Text style={styles.ellipsisText}>...</Text>
-            </View>
-          )}
-        </>
-      )}
-
-      {/* Visible page numbers */}
-      {visiblePages.map((page) => (
+    <>
+      <View style={styles.paginationInfo}>
+        <TextBody style={styles.paginationText}>
+          Showing {(currentPage - 1) * pageSize + 1} to{" "}
+          {Math.min(currentPage * pageSize, totalItems)} of {totalItems}{" "}
+          properties
+        </TextBody>
+      </View>
+      <View style={styles.container}>
         <TouchableOpacity
-          key={page}
           style={[
             styles.button,
-            page === currentPage && styles.activeButton,
-            disabled && styles.disabledButton,
+            styles.navButton,
+            (currentPage === 1 || disabled) && styles.disabledButton,
           ]}
-          onPress={() => handlePageChange(page)}
-          disabled={disabled}
+          onPress={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1 || disabled}
         >
-          <Text
+          <TextBody
             style={[
               styles.buttonText,
-              page === currentPage && styles.activeButtonText,
-              disabled && styles.disabledText,
+              styles.navButtonText,
+              (currentPage === 1 || disabled) && styles.disabledText,
             ]}
           >
-            {page}
-          </Text>
+            Previous
+          </TextBody>
         </TouchableOpacity>
-      ))}
 
-      {/* Last page and ellipsis if needed */}
-      {visiblePages[visiblePages.length - 1] < totalPages && (
-        <>
-          {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
-            <View style={styles.ellipsis}>
-              <Text style={styles.ellipsisText}>...</Text>
-            </View>
-          )}
+        {shouldShowFirstPage() && (
+          <>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handlePageChange(1)}
+              disabled={disabled}
+            >
+              <TextBody style={styles.buttonText}>1</TextBody>
+            </TouchableOpacity>
+            {shouldShowLeftEllipsis() && (
+              <View style={styles.ellipsis}>
+                <TextBody style={styles.ellipsisText}>...</TextBody>
+              </View>
+            )}
+          </>
+        )}
+
+        {visiblePages.map((page) => (
           <TouchableOpacity
-            style={styles.button}
-            onPress={() => handlePageChange(totalPages)}
+            key={page}
+            style={[
+              styles.button,
+              page === currentPage && styles.activeButton,
+              disabled && styles.disabledButton,
+            ]}
+            onPress={() => handlePageChange(page)}
             disabled={disabled}
           >
-            <Text style={styles.buttonText}>{totalPages}</Text>
+            <TextBody
+              style={[
+                styles.buttonText,
+                page === currentPage && styles.activeButtonText,
+                disabled && styles.disabledText,
+              ]}
+            >
+              {page}
+            </TextBody>
           </TouchableOpacity>
-        </>
-      )}
+        ))}
 
-      {/* Next Button */}
-      <TouchableOpacity
-        style={[
-          styles.button,
-          styles.navButton,
-          (currentPage === totalPages || disabled) && styles.disabledButton,
-        ]}
-        onPress={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages || disabled}
-      >
-        <Text
+        {shouldShowLastPage() && (
+          <>
+            {shouldShowRightEllipsis() && (
+              <View style={styles.ellipsis}>
+                <TextBody style={styles.ellipsisText}>...</TextBody>
+              </View>
+            )}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handlePageChange(totalPages)}
+              disabled={disabled}
+            >
+              <TextBody style={styles.buttonText}>{totalPages}</TextBody>
+            </TouchableOpacity>
+          </>
+        )}
+
+        <TouchableOpacity
           style={[
-            styles.buttonText,
-            styles.navButtonText,
-            (currentPage === totalPages || disabled) && styles.disabledText,
+            styles.button,
+            styles.navButton,
+            (currentPage === totalPages || disabled) && styles.disabledButton,
           ]}
+          onPress={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages || disabled}
         >
-          Next
-        </Text>
-      </TouchableOpacity>
-    </View>
+          <TextBody
+            style={[
+              styles.buttonText,
+              styles.navButtonText,
+              (currentPage === totalPages || disabled) && styles.disabledText,
+            ]}
+          >
+            Next
+          </TextBody>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  paginationInfo: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    alignItems: "center",
+  },
+  paginationText: {
+    fontSize: 14,
+    color: colors.textColor2,
+    fontWeight: "500",
+  },
   container: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    gap: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    gap: 6,
+    flexWrap: "wrap",
+    minHeight: 50,
   },
   button: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: colors.borderColor || "#e0e0e0",
-    backgroundColor: colors.bgColor || "#fff",
-    minWidth: 40,
+    borderColor: colors.borderColor,
+    backgroundColor: colors.bgColor,
+    minWidth: 36,
+    height: 36,
     alignItems: "center",
     justifyContent: "center",
   },
   navButton: {
-    paddingHorizontal: 16,
-    minWidth: 80,
+    paddingHorizontal: 12,
+    minWidth: 70,
   },
   activeButton: {
-    backgroundColor: colors.primaryColor || "#007bff",
-    borderColor: colors.primaryColor || "#007bff",
+    backgroundColor: colors.primaryColor,
+    borderColor: colors.primaryColor,
   },
   disabledButton: {
-    backgroundColor: "#f5f5f5",
-    borderColor: "#e0e0e0",
+    backgroundColor: colors.emptyBgColor,
+    borderColor: colors.borderColor,
   },
   buttonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: colors.textColor || "#333",
+    color: colors.textColor,
   },
   navButtonText: {
     fontSize: 14,
     fontWeight: "600",
   },
   activeButtonText: {
-    color: "#fff",
+    color: colors.bgColor,
   },
   disabledText: {
-    color: "#999",
+    color: colors.textColor2,
   },
   ellipsis: {
-    paddingHorizontal: 8,
-    paddingVertical: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 6,
     alignItems: "center",
     justifyContent: "center",
+    minWidth: 24,
   },
   ellipsisText: {
     fontSize: 14,
-    color: "#999",
+    color: colors.textColor2,
     fontWeight: "bold",
   },
 });
