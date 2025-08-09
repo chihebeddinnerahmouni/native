@@ -9,6 +9,7 @@ import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { TabsComponent } from "../../../components/ui/tabs.component";
 import { PropertyGeneralComponent } from "../../../components/properties/property details/property-general.component";
 import { propertyDetailsStyle } from "./property-details.style";
+import { AmenitiesComponent } from "../../../components/properties/property details/property-amenities.component";
 
 export enum EPropertyTabs {
   GENERAL = "GENERAL",
@@ -53,7 +54,9 @@ const tabs = [
 ];
 
 export const PropertyDetailsPage = () => {
-  const [selectedTab, setSelectedTab] = useState<string>(EPropertyTabs.GENERAL);
+  const [selectedTab, setSelectedTab] = useState<string>(
+    EPropertyTabs.AMENITIES
+  );
 
   //   const route =
   //     useRoute<
@@ -90,6 +93,9 @@ export const PropertyDetailsPage = () => {
         </CardComponent>
         {selectedTab === EPropertyTabs.GENERAL && (
           <PropertyGeneralComponent property={property} />
+        )}
+        {selectedTab === EPropertyTabs.AMENITIES && (
+          <AmenitiesComponent property={property} />
         )}
       </View>
     </MainLayout>
