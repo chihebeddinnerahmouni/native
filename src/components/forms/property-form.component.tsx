@@ -41,8 +41,6 @@ export const PropertyForm = ({
   const [currentStep, setCurrentStep] = useState(1);
   const [createdProperty, setCreatedProperty] = useState<Property | null>(null);
 
-  const stepTitles = ["Basic Info", "Details", "Address", "Images"];
-
   const {
     control,
     getValues,
@@ -80,7 +78,6 @@ export const PropertyForm = ({
 
   const handleNextStep = () => {
     if (currentStep === 1) {
-      // Create property on first step
       const values = getValues();
       const airbnbId = extractAirBnbId(values.airbnbId?.trim() || "", "rooms");
       saveProperty({
@@ -643,11 +640,7 @@ export const PropertyForm = ({
 
   return (
     <ScrollView style={styles.container}>
-      <Stepper
-        currentStep={currentStep}
-        totalSteps={4}
-        stepTitles={stepTitles}
-      />
+      <Stepper currentStep={currentStep} totalSteps={4} />
 
       <FormContainer>
         {renderCurrentStep()}
