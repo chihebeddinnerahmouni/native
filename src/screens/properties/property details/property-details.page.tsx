@@ -12,15 +12,15 @@ import { propertyDetailsStyle } from "./property-details.style";
 import { AmenitiesComponent } from "../../../components/properties/property details/property-amenities.component";
 
 export enum EPropertyTabs {
-  GENERAL = "GENERAL",
-  AMENITIES = "AMENITIES",
-  AVAILABILITY = "AVAILABILITY",
-  TARGETS = "TARGETS",
-  MEDIA = "MEDIA",
-  DOCUMENTS = "DOCUMENTS",
-  NOTES = "NOTES",
-  COMPLIANCES = "COMPLIANCES",
-  FACILITIES = "FACILITIES",
+  GENERAL = "General",
+  AMENITIES = "Amenities",
+  AVAILABILITY = "Availability",
+  TARGETS = "Targets",
+  MEDIA = "Media",
+  DOCUMENTS = "Documents",
+  NOTES = "Notes",
+  COMPLIANCES = "Compliances",
+  FACILITIES = "Facilities",
 }
 
 const tabs = [
@@ -75,7 +75,7 @@ export const PropertyDetailsPage = () => {
   if (propertyError || !property) return <View>Error loading property</View>;
 
   return (
-    <MainLayout HeaderLeft={<PageTitle2>detail Property</PageTitle2>}>
+    <MainLayout HeaderLeft={<PageTitle2>Detail Property</PageTitle2>}>
       <View style={propertyDetailsStyle.container}>
         <CardComponent havePadding={false}>
           <Image
