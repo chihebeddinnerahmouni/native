@@ -25,13 +25,6 @@ import {
 import { TextFormSectionTitle } from "../ui/texts/Texts.component";
 import { Textarea } from "../ui/inputs/field-text/textarea.component";
 import { Stepper } from "../ui/stepper/stepper.component";
-import { Button } from "../ui/buttons/button.component";
-// import { Select } from "../ui/Select";
-// import { Textarea } from "../ui/Textarea";
-// import { RadioGroup } from "../ui/RadioGroup";
-// import { Button } from "../ui/Button";
-// import { TitleCard } from "../ui/TitleCard";
-// import { FormContainer } from "../ui/FormContainer";
 
 type PropertyFormProps = {
   selectedProperty?: Property;
@@ -176,9 +169,7 @@ export const PropertyForm = ({
         )}
       />
 
-      <TextFormSectionTitle style={styles.sectionTitle}>
-        Property Details
-      </TextFormSectionTitle>
+      <TextFormSectionTitle>Property Details</TextFormSectionTitle>
 
       <Controller
         name="title"
@@ -284,9 +275,7 @@ export const PropertyForm = ({
         }
       />
 
-      <TextFormSectionTitle style={styles.sectionTitle}>
-        Rent Details
-      </TextFormSectionTitle>
+      <TextFormSectionTitle>Rent Details</TextFormSectionTitle>
 
       <FormRow
         leftChildren={
@@ -331,9 +320,7 @@ export const PropertyForm = ({
 
   const renderStep2 = () => (
     <View style={styles.section}>
-      <TextFormSectionTitle style={styles.sectionTitle}>
-        Property Details
-      </TextFormSectionTitle>
+      <TextFormSectionTitle>Property Details</TextFormSectionTitle>
 
       <FormRow
         leftChildren={
@@ -413,9 +400,7 @@ export const PropertyForm = ({
         }
       />
 
-      <TextFormSectionTitle style={styles.sectionTitle}>
-        Tenant Information
-      </TextFormSectionTitle>
+      <TextFormSectionTitle>Tenant Information</TextFormSectionTitle>
 
       <FormRow
         leftChildren={
@@ -458,9 +443,7 @@ export const PropertyForm = ({
 
   const renderStep3 = () => (
     <View style={styles.section}>
-      <TextFormSectionTitle style={styles.sectionTitle}>
-        Address
-      </TextFormSectionTitle>
+      <TextFormSectionTitle>Address</TextFormSectionTitle>
 
       <Controller
         name="address.street"
@@ -546,9 +529,7 @@ export const PropertyForm = ({
 
   const renderStep4 = () => (
     <View style={styles.section}>
-      <TextFormSectionTitle style={styles.sectionTitle}>
-        Platform Links
-      </TextFormSectionTitle>
+      <TextFormSectionTitle>Platform Links</TextFormSectionTitle>
 
       <FormRow
         leftChildren={
@@ -641,36 +622,16 @@ export const PropertyForm = ({
         {renderCurrentStep()}
 
         <View style={styles.actionButtons}>
-          {currentStep > 1 && (
-            <Button
-              variant="outlined"
-              onPress={handlePrevStep}
-              style={styles.prevButton}
-            >
-              Previous
-            </Button>
-          )}
-
-          {/* <Button
-            onPress={
-              currentStep === 1
-                ? handleSubmit(handleNextStep)
-                : currentStep === 4
-                  ? handleSubmit(handleFinalSubmit)
-                  : handleSubmit(handleNextStep)
-            }
-            loading={isSavePending}
-            style={styles.nextButton}
-          >
-            {currentStep === 1
-              ? "Create & Next"
-              : currentStep === 4
-                ? "Finish"
-                : "Next"}
-          </Button> */}
           <FormActions
             isLoading={isSavePending}
             submitText={currentStep === 4 ? "Finish" : "Next"}
+            onCancelPress={() => {
+              if (currentStep > 1) {
+                handlePrevStep();
+              } else {
+                closeModal();
+              }
+            }}
             onPress={
               currentStep === 1
                 ? handleSubmit(handleNextStep)
@@ -692,19 +653,12 @@ const styles = StyleSheet.create({
   section: {
     gap: 12,
   },
-  sectionTitle: {
-    // marginBottom: 12,
-  },
   actionButtons: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 20,
     gap: 12,
-  },
-  prevButton: {
-    flex: 1,
-    marginRight: 6,
   },
 });
 

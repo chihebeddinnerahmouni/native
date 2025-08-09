@@ -11,7 +11,6 @@ import {
 } from "../../api/properties.api";
 import { CreatePropertyDto, Property } from "../../../backend/casaikos-api";
 import { errorHandler } from "../../../utils/errors.utils";
-import { showSuccessAlert } from "../../../components/ui/alerts/alerts.component";
 // import { uploadPropertyNotesHandler } from "../../../utils";
 
 type SavePropertyVariables = {
@@ -84,9 +83,6 @@ export const usePropertiesMutation = (): IResponse => {
         return selectedProperty
           ? updateProperty(selectedProperty._id, CreatePropertyDto)
           : createProperty(CreatePropertyDto);
-      },
-      onSuccess: () => {
-        showSuccessAlert("Success", "Property saved successfully");
       },
       onError: errorHandler,
     });

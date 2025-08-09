@@ -59,17 +59,23 @@ export const FormActions = ({
   style,
   cancelText = "Cancel",
   submitText = "Submit",
+  onCancelPress,
 }: {
   onPress: () => void;
   style?: ViewStyle;
   isLoading: boolean;
   cancelText?: string;
   submitText?: string;
+  onCancelPress?: () => void;
 }) => {
   const { closeModal } = useModal();
 
   const onCancel = () => {
-    closeModal();
+    if (onCancelPress) {
+      onCancelPress();
+    } else {
+      closeModal();
+    }
   };
   return (
     <View style={[formStyles.formActions, style]}>
