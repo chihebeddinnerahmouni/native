@@ -1,14 +1,14 @@
 import React from "react";
-import { TextBody, TextTitle } from "../../ui/texts/Texts.component";
+import { TextBody } from "../../ui/texts/Texts.component";
 import { CardComponent } from "../../ui/cards/card.component";
-import { PropertyLocation } from "../property-location.component";
-import { PropertyIndicators } from "../property-indicators.component";
 import { Property } from "../../../backend/casaikos-api";
 import { StyleSheet, View } from "react-native";
 import { ActionHeader } from "../../ui/action-header.component";
 import { Button } from "../../ui/buttons/button.component";
 import { EditIcon } from "../../../icons";
 import colors from "../../../constants/colors";
+import { amenitiesList } from "../../../utils";
+import { NoItemsFound } from "../../ui/noItemsFound";
 
 type IProps = {
   property: Property;
@@ -35,9 +35,17 @@ export const AmenitiesComponent = ({ property }: IProps) => {
             }
           />
           <View style={amenitiesStyle.amenitiesList}>
-            {property.amenities?.map((amenity) => (
-              <AmenityComponent key={amenity} amenity={amenity} />
-            ))}
+            {property.amenities && property.amenities.length > 0 ? (
+              amenitiesList
+                ?.filter((amenity) =>
+                  property.amenities?.includes(amenity.title)
+                )
+                ?.map((amenity) => (
+                  <AmenityComponent key={amenity.title} amenity={amenity} />
+                ))
+            ) : (
+              <NoItemsFound message="No amenities listed for this property" />
+            )}
           </View>
         </View>
       </CardComponent>
@@ -45,9 +53,14 @@ export const AmenitiesComponent = ({ property }: IProps) => {
   );
 };
 
-const AmenityComponent = ({ amenity }: { amenity: string }) => (
+const AmenityComponent = ({
+  amenity,
+}: {
+  amenity: { Icon: React.FC; title: string };
+}) => (
   <View style={amenityCompStyles.amenityContainer}>
-    <TextBody>{amenity}</TextBody>
+    <amenity.Icon />
+    <TextBody>{amenity.title}</TextBody>
   </View>
 );
 
@@ -62,6 +75,10 @@ const amenityCompStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderColor,
     backgroundColor: colors.bgColor,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
   },
 });
 
