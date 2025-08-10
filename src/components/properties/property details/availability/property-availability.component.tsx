@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { CardComponent } from "../../../ui/cards/card.component";
 import {
   Availability,
@@ -9,11 +9,17 @@ import {
 import { StyleSheet, View } from "react-native";
 import { ActionHeader } from "../../../ui/action-header.component";
 import colors from "../../../../constants/colors";
-import { isDateInRangeForMonth } from "../../../../utils";
+import {
+  getCalendarByMonthAndYear,
+  isDateInRangeForMonth,
+} from "../../../../utils";
 import { useModal } from "../../../../contexts";
 import { AmenitiesForm } from "../../../forms/property/amenities.form";
 import { TargetGroup } from "./targets.component";
 import AvailabilityCalendar from "./calendar.component";
+import Select from "../../../ui/inputs/select.component";
+import { monthsList } from "../../../../constants/data";
+import { FieldText } from "../../../ui/inputs/field-text/field-text.component";
 
 type IProps = {
   availabilities: Availability[];
@@ -90,6 +96,12 @@ export const AvailabilitiesComponent = ({
     };
   }, [availabilities, targets, selectedMonth, selectedYear]);
 
+  useEffect(() => {
+    if (selectedYear && selectedMonth >= 0) {
+      setWeeksDays(getCalendarByMonthAndYear(selectedMonth, selectedYear));
+    }
+  }, [selectedMonth, selectedYear]);
+
   return (
     <>
       <CardComponent>
@@ -117,6 +129,24 @@ export const AvailabilitiesComponent = ({
           <ActionHeader
             title="Available appointments"
             styles={availabilitiesStyle.actionsHeader}
+          />
+          <Select
+            placeholder="Select date"
+            options={monthsList}
+            // className="month-input"
+            value={selectedMonth}
+            onChange={(value) => setSelectedMonth(Number(value))}
+          />
+          <FieldText
+            // className="month-input"
+            type="number"
+            placeholder="Select Year"
+            min={2000}
+            onChangeText={(value) => {
+              if (value.length <= 4) setSelectedYear(Number(value) ?? 2000);
+            }}
+            value={selectedYear}
+            maxLength={4}
           />
           <AvailabilityCalendar
             weeksDay={weeksDay}

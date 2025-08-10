@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface ITargetRange {
   from: Date;
   to: Date;
@@ -22,65 +23,65 @@ export function getTimeSince(lastDate: Date | string) {
   else return seconds + "s";
 }
 
-// export const getCalendarByMonthAndYear = (month: number, year: number) => {
-//   const weeks: any[] = [];
-//   const firstDayOfMonth = new Date(year, month - 1, 1);
-//   const lastDayOfMonth = new Date(year, month, 0);
-//   const daysInMonth = lastDayOfMonth.getDate();
-//   let startingDay = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+export const getCalendarByMonthAndYear = (month: number, year: number) => {
+  const weeks: any[] = [];
+  const firstDayOfMonth = new Date(year, month - 1, 1);
+  const lastDayOfMonth = new Date(year, month, 0);
+  const daysInMonth = lastDayOfMonth.getDate();
+  let startingDay = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
 
-//   // Adjust startingDay to start from Monday (0 for Monday, 1 for Tuesday, ..., 6 for Sunday)
-//   startingDay = startingDay === 0 ? 6 : startingDay - 1;
+  // Adjust startingDay to start from Monday (0 for Monday, 1 for Tuesday, ..., 6 for Sunday)
+  startingDay = startingDay === 0 ? 6 : startingDay - 1;
 
-//   let currentWeek = [];
-//   const currentMonth = month; // Adjust month index to start from 1
-//   const currentYear = year;
+  let currentWeek = [];
+  const currentMonth = month; // Adjust month index to start from 1
+  const currentYear = year;
 
-//   // Add days from the previous month to fill the gap at the beginning of the current month
-//   const previousMonthLastDay = new Date(year, month, 0).getDate();
-//   const previousMonthFirstDayOfWeek = previousMonthLastDay - startingDay + 1;
-//   for (let i = previousMonthFirstDayOfWeek; i <= previousMonthLastDay; i++) {
-//     currentWeek.push({
-//       day: i,
-//       isCurrentMonth: false,
-//       week: weeks.length + 1,
-//       month: currentMonth === 1 ? 12 : currentMonth - 1,
-//       year: currentMonth === 1 ? year - 1 : year,
-//     });
-//   }
+  // Add days from the previous month to fill the gap at the beginning of the current month
+  const previousMonthLastDay = new Date(year, month, 0).getDate();
+  const previousMonthFirstDayOfWeek = previousMonthLastDay - startingDay + 1;
+  for (let i = previousMonthFirstDayOfWeek; i <= previousMonthLastDay; i++) {
+    currentWeek.push({
+      day: i,
+      isCurrentMonth: false,
+      week: weeks.length + 1,
+      month: currentMonth === 1 ? 12 : currentMonth - 1,
+      year: currentMonth === 1 ? year - 1 : year,
+    });
+  }
 
-//   // Add days of the current month
-//   for (let day = 1; day <= daysInMonth; day++) {
-//     currentWeek.push({
-//       day: day,
-//       isCurrentMonth: true,
-//       week: weeks.length + 1,
-//       month: currentMonth,
-//       year: currentYear,
-//     });
-//     // If we've reached Sunday or the last day of the month, push the current week and start a new one
-//     if (currentWeek.length === 7 || day === daysInMonth) {
-//       weeks.push(currentWeek);
-//       currentWeek = [];
-//     }
-//   }
+  // Add days of the current month
+  for (let day = 1; day <= daysInMonth; day++) {
+    currentWeek.push({
+      day: day,
+      isCurrentMonth: true,
+      week: weeks.length + 1,
+      month: currentMonth,
+      year: currentYear,
+    });
+    // If we've reached Sunday or the last day of the month, push the current week and start a new one
+    if (currentWeek.length === 7 || day === daysInMonth) {
+      weeks.push(currentWeek);
+      currentWeek = [];
+    }
+  }
 
-//   // Add days from the next month to fill the gap at the end of the current month
-//   currentWeek = weeks[weeks.length - 1];
-//   const remainingDays = 7 - currentWeek.length;
+  // Add days from the next month to fill the gap at the end of the current month
+  currentWeek = weeks[weeks.length - 1];
+  const remainingDays = 7 - currentWeek.length;
 
-//   for (let i = 1; i <= remainingDays; i++) {
-//     currentWeek.push({
-//       day: i,
-//       isCurrentMonth: false,
-//       week: weeks.length + 1,
-//       month: currentMonth === 12 ? 1 : currentMonth + 1,
-//       year: currentMonth === 12 ? year + 1 : year,
-//     });
-//   }
+  for (let i = 1; i <= remainingDays; i++) {
+    currentWeek.push({
+      day: i,
+      isCurrentMonth: false,
+      week: weeks.length + 1,
+      month: currentMonth === 12 ? 1 : currentMonth + 1,
+      year: currentMonth === 12 ? year + 1 : year,
+    });
+  }
 
-//   return weeks;
-// };
+  return weeks;
+};
 
 // function getOrdinalIndicator(day: number): string {
 //   if (day >= 11 && day <= 13) {
