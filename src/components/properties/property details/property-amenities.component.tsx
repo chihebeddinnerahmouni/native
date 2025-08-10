@@ -55,7 +55,12 @@ export const AmenitiesComponent = ({ property }: IProps) => {
                   property.amenities?.includes(amenity.title)
                 )
                 ?.map((amenity) => (
-                  <AmenityComponent key={amenity.title} amenity={amenity} />
+                  <View
+                    key={amenity.title}
+                    style={amenitiesStyle.amenityContainer}
+                  >
+                    <AmenityComponent amenity={amenity} />
+                  </View>
                 ))
             ) : (
               <NoItemsFound message="No amenities listed for this property" />
@@ -78,5 +83,10 @@ const amenitiesStyle = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
+  },
+  amenityContainer: {
+    flex: 1,
+    minWidth: "45%",
+    maxWidth: "48%",
   },
 });

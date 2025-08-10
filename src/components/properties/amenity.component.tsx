@@ -20,9 +20,6 @@ const amenityCompStyles = StyleSheet.create({
   amenityContainer: {
     paddingHorizontal: 24,
     paddingVertical: 12,
-    // flex: 1,
-    // minWidth: "45%",
-    // maxWidth: "48%",
     borderRadius: 8,
     borderWidth: 1,
     borderColor: colors.borderColor,
