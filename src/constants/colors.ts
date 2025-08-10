@@ -11,6 +11,7 @@ export const colors = {
   blackColor: "#000",
   successColor: "#3D9456",
   errorColor: "#FA2B37",
+  warningColor: "#FBBF24",
   placeHolderColor: "#999",
 };
 

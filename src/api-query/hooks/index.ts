@@ -8,3 +8,7 @@ export * from "./owners/useOwners";
 export * from "./properties/useProperties.query";
 export * from "./properties/usePropertiesMutation.query";
 export * from "./properties/useSingleProperty";
+export * from "./properties/availabilities/useAvailabilities.query";
+export * from "./properties/availabilities/useAvailabilitiesMutation.query";
+export * from "./properties/targets/useTargets.query";
+export * from "./properties/targets/useTargetsMutation.query";

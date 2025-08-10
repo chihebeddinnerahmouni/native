@@ -1,3 +1,8 @@
+interface ITargetRange {
+  from: Date;
+  to: Date;
+}
+
 export function getTimeSince(lastDate: Date | string) {
   const currentDateTime: number = new Date().getTime();
   const lastDateTime: number = new Date(lastDate).getTime();
@@ -116,81 +121,81 @@ export function getTimeSince(lastDate: Date | string) {
 //   to: Date;
 // }
 
-// export function isRangeIntersectionExists(
-//   targetRange: ITargetRange,
-//   ranges: ITargetRange[]
-// ): boolean {
-//   const targetRangeFrom = targetRange.from.getTime();
-//   const targetRangeTo = targetRange.to.getTime();
+export function isRangeIntersectionExists(
+  targetRange: ITargetRange,
+  ranges: ITargetRange[]
+): boolean {
+  const targetRangeFrom = targetRange.from.getTime();
+  const targetRangeTo = targetRange.to.getTime();
 
-//   for (const range of ranges) {
-//     const rangeFrom = range.from.getTime();
-//     const rangeTo = range.to.getTime();
+  for (const range of ranges) {
+    const rangeFrom = range.from.getTime();
+    const rangeTo = range.to.getTime();
 
-//     if (
-//       (targetRangeFrom >= rangeFrom && targetRangeFrom <= rangeTo) ||
-//       (targetRangeTo >= rangeFrom && targetRangeTo <= rangeTo)
-//     ) {
-//       return true;
-//     }
+    if (
+      (targetRangeFrom >= rangeFrom && targetRangeFrom <= rangeTo) ||
+      (targetRangeTo >= rangeFrom && targetRangeTo <= rangeTo)
+    ) {
+      return true;
+    }
 
-//     if (
-//       rangeFrom >= targetRangeFrom &&
-//       rangeFrom <= targetRangeTo &&
-//       rangeTo >= targetRangeFrom &&
-//       rangeTo <= targetRangeTo
-//     ) {
-//       return true;
-//     }
-//   }
-//   return false;
-// }
+    if (
+      rangeFrom >= targetRangeFrom &&
+      rangeFrom <= targetRangeTo &&
+      rangeTo >= targetRangeFrom &&
+      rangeTo <= targetRangeTo
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
 
-// export const isDateIncluded = (
-//   dateToCheck: Date,
-//   startDate: Date,
-//   endDate?: Date
-// ) => {
-//   if (!endDate) {
-//     return dateToCheck.getTime() === startDate.getTime();
-//   } else {
-//     return (
-//       dateToCheck.getTime() >= startDate.getTime() &&
-//       dateToCheck.getTime() <= endDate.getTime()
-//     );
-//   }
-// };
+export const isDateIncluded = (
+  dateToCheck: Date,
+  startDate: Date,
+  endDate?: Date
+) => {
+  if (!endDate) {
+    return dateToCheck.getTime() === startDate.getTime();
+  } else {
+    return (
+      dateToCheck.getTime() >= startDate.getTime() &&
+      dateToCheck.getTime() <= endDate.getTime()
+    );
+  }
+};
 
-// export function isDateInRangeForMonth(
-//   date1: Date,
-//   date2: Date | undefined,
-//   targetMonth: number,
-//   targetYear: number
-// ) {
-//   const startTargetPeriod = new Date(
-//     Date.UTC(targetYear, targetMonth, 1, 0, 0, 0)
-//   );
-//   const endTargetPeriod = new Date(startTargetPeriod);
-//   endTargetPeriod.setMonth(endTargetPeriod.getMonth() + 1);
-//   endTargetPeriod.setMilliseconds(endTargetPeriod.getMilliseconds() - 1);
+export function isDateInRangeForMonth(
+  date1: Date,
+  date2: Date | undefined,
+  targetMonth: number,
+  targetYear: number
+) {
+  const startTargetPeriod = new Date(
+    Date.UTC(targetYear, targetMonth, 1, 0, 0, 0)
+  );
+  const endTargetPeriod = new Date(startTargetPeriod);
+  endTargetPeriod.setMonth(endTargetPeriod.getMonth() + 1);
+  endTargetPeriod.setMilliseconds(endTargetPeriod.getMilliseconds() - 1);
 
-//   if (!date2) {
-//     return isDateIncluded(date1, startTargetPeriod, endTargetPeriod);
-//   }
+  if (!date2) {
+    return isDateIncluded(date1, startTargetPeriod, endTargetPeriod);
+  }
 
-//   return isRangeIntersectionExists(
-//     {
-//       from: startTargetPeriod,
-//       to: endTargetPeriod,
-//     },
-//     [
-//       {
-//         from: date1,
-//         to: date2,
-//       },
-//     ]
-//   );
-// }
+  return isRangeIntersectionExists(
+    {
+      from: startTargetPeriod,
+      to: endTargetPeriod,
+    },
+    [
+      {
+        from: date1,
+        to: date2,
+      },
+    ]
+  );
+}
 
 // export function calculateDaysDifference(date1: Date, date2: Date) {
 //   // Convert both dates to milliseconds

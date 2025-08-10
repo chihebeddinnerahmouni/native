@@ -4,13 +4,17 @@ import { MainLayout } from "../../../layout";
 import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
 import { CardComponent } from "../../../components/ui/cards/card.component";
 import { noImagePlaceholder } from "../../../constants/constant";
-import { useSingleProperty } from "../../../api-query/hooks";
+import {
+  useAvailabilities,
+  useSingleProperty,
+  useTargets,
+} from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { TabsComponent } from "../../../components/ui/tabs.component";
 import { PropertyGeneralComponent } from "../../../components/properties/property details/property-general.component";
 import { propertyDetailsStyle } from "./property-details.style";
 import { AmenitiesComponent } from "../../../components/properties/property details/property-amenities.component";
-import { AvailabilitiesComponent } from "../../../components/properties/property details/property-availability.component";
+import { AvailabilitiesComponent } from "../../../components/properties/property details/availability/property-availability.component";
 
 export enum EPropertyTabs {
   GENERAL = "General",
@@ -56,7 +60,7 @@ const tabs = [
 
 export const PropertyDetailsPage = () => {
   const [selectedTab, setSelectedTab] = useState<string>(
-    EPropertyTabs.AMENITIES
+    EPropertyTabs.AVAILABILITY
   );
 
   //   const route =
@@ -70,6 +74,9 @@ export const PropertyDetailsPage = () => {
     [selectedPropertyId]
   );
   const { property, isLoading, propertyError } = useSingleProperty(param);
+  const { availabilities } = useAvailabilities(param);
+  const { targets } = useTargets(param);
+
   const propertyImageUrl = property?.images?.[0]?.fileKey;
 
   if (isLoading) return <LoadingScreen />;
@@ -99,7 +106,10 @@ export const PropertyDetailsPage = () => {
           <AmenitiesComponent property={property} />
         )}
         {selectedTab === EPropertyTabs.AVAILABILITY && (
-          <AvailabilitiesComponent property={property} />
+          <AvailabilitiesComponent
+            availabilities={availabilities}
+            targets={targets}
+          />
         )}
       </View>
     </MainLayout>

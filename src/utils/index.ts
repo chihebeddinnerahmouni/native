@@ -9,13 +9,13 @@ export * from "./socket.utils";
 export * from "./utils";
 export * from "./notes.utils";
 export * from "./property.utils";
+export * from "./currency.utils";
 //
 export * from "./validators/auth.validator";
 export * from "./validators/properties.validator";
 // export * from "./pagination";
 // export * from "./files.utils";
 // export * from "./template-campaign.utils";
-// export * from "./currency.utils";
 // export * from "./validators";
 // export * from "./status.utils";
 // export * from "./notifications.utils";
