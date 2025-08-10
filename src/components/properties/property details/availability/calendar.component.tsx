@@ -205,7 +205,11 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   };
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.container}
+    >
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
@@ -299,6 +303,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
 const styles = StyleSheet.create({
   container: {
     minWidth: "100%",
+    marginTop: 10,
   },
   header: {
     flexDirection: "row",
