@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { use, useEffect, useMemo, useState } from "react";
 import { CardComponent } from "../../../ui/cards/card.component";
 import {
   Availability,
@@ -20,6 +20,7 @@ import AvailabilityCalendar from "./calendar.component";
 import Select from "../../../ui/inputs/select.component";
 import { monthsList } from "../../../../constants/data";
 import { FieldText } from "../../../ui/inputs/field-text/field-text.component";
+import { useAvailabilitiesMutation } from "../../../../api-query/hooks";
 
 type IProps = {
   availabilities: Availability[];
@@ -42,6 +43,7 @@ export const AvailabilitiesComponent = ({
       year: number;
     }[][]
   >([]);
+  const { deleteAvailabilityById } = useAvailabilitiesMutation();
 
   const onClickOpenForm = (property: Property) => {
     openModal({
@@ -52,6 +54,10 @@ export const AvailabilitiesComponent = ({
       ),
     });
   };
+
+  // const deleteAvailability = (availabilityId: string) => {
+  //   deleteAvailabilityById(availabilityId);
+  // };
 
   const monthlySummary = useMemo(() => {
     const lastDayMonth = new Date(selectedYear, selectedMonth, 0);
@@ -152,7 +158,7 @@ export const AvailabilitiesComponent = ({
             weeksDay={weeksDay}
             availabilities={availabilities}
             onCreateAvailability={() => {}}
-            onRemoveAvailability={() => {}}
+            // onRemoveAvailability={() => deleteAvailability(availability.id)}
             onViewRentedInfo={() => {}}
           />
         </View>

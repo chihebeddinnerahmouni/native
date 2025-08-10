@@ -11,6 +11,7 @@ import { Availability } from "../../../../backend/casaikos-api";
 import { formatCurrency } from "../../../../utils";
 import { useConfirmationAlert } from "../../../../hooks/useConfirmationAlert";
 import { showInfoAlert } from "../../../ui/alerts/alerts.component";
+import { useAvailabilitiesMutation } from "../../../../api-query/hooks";
 
 // Types
 // interface Availability {
@@ -38,7 +39,7 @@ interface AvailabilityCalendarProps {
   weeksDay: AvailabilityDay[][];
   availabilities: Availability[];
   onCreateAvailability: (day: Date) => void;
-  onRemoveAvailability: (item: Availability) => void;
+  // onRemoveAvailability: () => void;
   onViewRentedInfo: (availability: Availability) => void;
 }
 
@@ -147,9 +148,10 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   weeksDay,
   availabilities,
   onCreateAvailability,
-  onRemoveAvailability,
+  // onRemoveAvailability,
 }) => {
   const { showConfirmationAlert } = useConfirmationAlert();
+  const { deleteAvailabilityById } = useAvailabilitiesMutation();
 
   const onClickSlot = (day: AvailabilityDay, availability?: Availability) => {
     const selectedDay = new Date(Date.UTC(day.year, day.month - 1, day.day));
@@ -164,7 +166,8 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         title: "Remove Availability",
         message: "Are you sure you want to remove this availability?",
         confirmText: "Remove",
-        onConfirm: () => onRemoveAvailability(availability),
+        // onConfirm: () => onRemoveAvailability(),
+        onConfirm: () => deleteAvailabilityById(availability._id),
       });
       return;
     }
