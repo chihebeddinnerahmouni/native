@@ -10,6 +10,7 @@ import { TabsComponent } from "../../../components/ui/tabs.component";
 import { PropertyGeneralComponent } from "../../../components/properties/property details/property-general.component";
 import { propertyDetailsStyle } from "./property-details.style";
 import { AmenitiesComponent } from "../../../components/properties/property details/property-amenities.component";
+import { AvailabilitiesComponent } from "../../../components/properties/property details/property-availability.component";
 
 export enum EPropertyTabs {
   GENERAL = "General",
@@ -96,6 +97,9 @@ export const PropertyDetailsPage = () => {
         )}
         {selectedTab === EPropertyTabs.AMENITIES && (
           <AmenitiesComponent property={property} />
+        )}
+        {selectedTab === EPropertyTabs.AVAILABILITY && (
+          <AvailabilitiesComponent property={property} />
         )}
       </View>
     </MainLayout>
