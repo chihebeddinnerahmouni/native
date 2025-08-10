@@ -1,5 +1,4 @@
 import React from "react";
-import { TextBody } from "../../ui/texts/Texts.component";
 import { CardComponent } from "../../ui/cards/card.component";
 import { Property } from "../../../backend/casaikos-api";
 import { StyleSheet, View } from "react-native";
@@ -9,16 +8,32 @@ import { EditIcon } from "../../../icons";
 import colors from "../../../constants/colors";
 import { amenitiesList } from "../../../utils";
 import { NoItemsFound } from "../../ui/noItemsFound";
+import { useModal } from "../../../contexts";
+import { AmenitiesForm } from "../../forms/property/amenities.form";
+import { AmenityComponent } from "../amenity.component";
 
 type IProps = {
   property: Property;
 };
 
 export const AmenitiesComponent = ({ property }: IProps) => {
+  const { openModal } = useModal();
+
+  const onClickOpenForm = (property: Property) => {
+    openModal({
+      title: "Update Amenities",
+      slideDirection: "right",
+      component: <AmenitiesForm property={property} />,
+      onDismiss: () => {
+        // console.log("Modal dismissed");
+      },
+    });
+  };
+
   return (
     <>
       <CardComponent>
-        <View style={amenitiesStyle.container}>
+        <View>
           <ActionHeader
             title="Amenities"
             styles={amenitiesStyle.actionsHeader}
@@ -27,7 +42,7 @@ export const AmenitiesComponent = ({ property }: IProps) => {
                 variant="contained"
                 icon={<EditIcon color={colors.bgColor} />}
                 onPress={() => {
-                  // onClickOpenForm();
+                  onClickOpenForm(property);
                 }}
               >
                 Edit Amenities
@@ -53,39 +68,7 @@ export const AmenitiesComponent = ({ property }: IProps) => {
   );
 };
 
-const AmenityComponent = ({
-  amenity,
-}: {
-  amenity: { Icon: React.FC; title: string };
-}) => (
-  <View style={amenityCompStyles.amenityContainer}>
-    <amenity.Icon />
-    <TextBody>{amenity.title}</TextBody>
-  </View>
-);
-
-const amenityCompStyles = StyleSheet.create({
-  amenityContainer: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    flex: 1,
-    minWidth: "45%",
-    maxWidth: "48%",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.borderColor,
-    backgroundColor: colors.bgColor,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-});
-
 const amenitiesStyle = StyleSheet.create({
-  container: {
-    // padding: 16,
-  },
   actionsHeader: {
     paddingBottom: 12,
     borderColor: colors.borderColor,
