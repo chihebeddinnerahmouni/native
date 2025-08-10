@@ -13,6 +13,7 @@ import { isDateInRangeForMonth } from "../../../../utils";
 import { useModal } from "../../../../contexts";
 import { AmenitiesForm } from "../../../forms/property/amenities.form";
 import { TargetGroup } from "./targets.component";
+import AvailabilityCalendar from "./calendar.component";
 
 type IProps = {
   availabilities: Availability[];
@@ -109,6 +110,13 @@ export const AvailabilitiesComponent = ({
             styles={availabilitiesStyle.actionsHeader}
           />
           <TargetGroup monthlySummary={monthlySummary} />
+          <AvailabilityCalendar
+            weeksDay={[]}
+            availabilities={availabilities}
+            // onCreateAvailability={() => {}}
+            // onRemoveAvailability={() => {}}
+            // formatCurrency={() => {}}
+          />
         </View>
       </CardComponent>
     </>
