@@ -10,6 +10,7 @@ import colors from "../../../../constants/colors";
 import { Availability } from "../../../../backend/casaikos-api";
 import { formatCurrency } from "../../../../utils";
 import { useConfirmationAlert } from "../../../../hooks/useConfirmationAlert";
+import ConfirmationModal from "../../../ui/modal/ConfirmationModal";
 import { showInfoAlert } from "../../../ui/alerts/alerts.component";
 import { useAvailabilitiesMutation } from "../../../../api-query/hooks";
 
@@ -39,7 +40,6 @@ interface AvailabilityCalendarProps {
   weeksDay: AvailabilityDay[][];
   availabilities: Availability[];
   onCreateAvailability: (day: Date) => void;
-  // onRemoveAvailability: () => void;
   onViewRentedInfo: (availability: Availability) => void;
 }
 
@@ -148,9 +148,9 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   weeksDay,
   availabilities,
   onCreateAvailability,
-  // onRemoveAvailability,
 }) => {
-  const { showConfirmationAlert } = useConfirmationAlert();
+  const { showConfirmationAlert, modalState, hideModal } =
+    useConfirmationAlert();
   const { deleteAvailabilityById } = useAvailabilitiesMutation();
 
   const onClickSlot = (day: AvailabilityDay, availability?: Availability) => {
@@ -166,8 +166,11 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         title: "Remove Availability",
         message: "Are you sure you want to remove this availability?",
         confirmText: "Remove",
-        // onConfirm: () => onRemoveAvailability(),
-        onConfirm: () => deleteAvailabilityById(availability._id),
+        onConfirm: async () => {
+          await deleteAvailabilityById(availability._id);
+        },
+        useCustomModal: true,
+        loadingText: "Removing...",
       });
       return;
     }
@@ -299,6 +302,23 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
           })}
         </View>
       </View>
+
+      {/* Custom Confirmation Modal */}
+      {modalState.visible && modalState.config && (
+        <ConfirmationModal
+          visible={modalState.visible}
+          title={modalState.config.title}
+          message={modalState.config.message}
+          confirmText={modalState.config.confirmText}
+          cancelText={modalState.config.cancelText}
+          onConfirm={modalState.config.onConfirm}
+          onCancel={() => {
+            modalState.config?.onCancel?.();
+            hideModal();
+          }}
+          loadingText={modalState.config.loadingText}
+        />
+      )}
     </ScrollView>
   );
 };

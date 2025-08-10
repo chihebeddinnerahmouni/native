@@ -1,38 +1,66 @@
 import { Alert } from "react-native";
+import { useState } from "react";
 
 interface ConfirmationAlertConfig {
   title: string;
   message: string;
   confirmText?: string;
   cancelText?: string;
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
   onCancel?: () => void;
+  useCustomModal?: boolean;
+  loadingText?: string;
+}
+
+interface ModalState {
+  visible: boolean;
+  config: ConfirmationAlertConfig | null;
 }
 
 export const useConfirmationAlert = () => {
-  const showConfirmationAlert = ({
-    title,
-    message,
-    confirmText = "Confirm",
-    cancelText = "Cancel",
-    onConfirm,
-    onCancel,
-  }: ConfirmationAlertConfig) => {
-    Alert.alert(title, message, [
-      {
-        text: cancelText,
-        style: "cancel",
-        onPress: onCancel,
-      },
-      {
-        text: confirmText,
-        style: "destructive",
-        onPress: onConfirm,
-      },
-    ]);
+  const [modalState, setModalState] = useState<ModalState>({
+    visible: false,
+    config: null,
+  });
+
+  const showConfirmationAlert = (config: ConfirmationAlertConfig) => {
+    if (config.useCustomModal) {
+      setModalState({
+        visible: true,
+        config,
+      });
+    } else {
+      Alert.alert(config.title, config.message, [
+        {
+          text: config.cancelText || "Cancel",
+          style: "cancel",
+          onPress: config.onCancel,
+        },
+        {
+          text: config.confirmText || "Confirm",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await config.onConfirm();
+            } catch (error) {
+              console.error("Error in confirmation action:", error);
+            }
+          },
+        },
+      ]);
+    }
+  };
+
+  const hideModal = () => {
+    setModalState({
+      visible: false,
+      config: null,
+    });
   };
 
   return {
     showConfirmationAlert,
+    modalState,
+    hideModal,
   };
 };
