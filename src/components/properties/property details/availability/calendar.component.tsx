@@ -5,11 +5,12 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  Alert,
 } from "react-native";
 import colors from "../../../../constants/colors";
 import { Availability } from "../../../../backend/casaikos-api";
 import { formatCurrency } from "../../../../utils";
+import { useConfirmationAlert } from "../../../../hooks/useConfirmationAlert";
+import { showInfoAlert } from "../../../ui/alerts/alerts.component";
 
 // Types
 // interface Availability {
@@ -148,6 +149,8 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   onCreateAvailability,
   onRemoveAvailability,
 }) => {
+  const { showConfirmationAlert } = useConfirmationAlert();
+
   const onClickSlot = (day: AvailabilityDay, availability?: Availability) => {
     const selectedDay = new Date(Date.UTC(day.year, day.month - 1, day.day));
 
@@ -157,26 +160,19 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
     }
 
     if (availability.status === EAvailabilityStatus.AVAILABLE) {
-      Alert.alert(
-        "Remove Availability",
-        "Are you sure you want to remove this availability?",
-        [
-          { text: "Cancel", style: "cancel" },
-          {
-            text: "Remove",
-            style: "destructive",
-            onPress: () => onRemoveAvailability(availability),
-          },
-        ]
-      );
+      showConfirmationAlert({
+        title: "Remove Availability",
+        message: "Are you sure you want to remove this availability?",
+        confirmText: "Remove",
+        onConfirm: () => onRemoveAvailability(availability),
+      });
       return;
     }
 
     if (availability.status === EAvailabilityStatus.RENTED) {
-      Alert.alert(
+      showInfoAlert(
         "Rented Availability",
-        "This slot is currently rented. You cannot modify it directly.\n\nPlease contact the tenant for more information or to make changes.",
-        [{ text: "OK" }]
+        "This slot is currently rented. You cannot modify it directly.\n\nPlease contact the tenant for more information or to make changes."
       );
     }
   };

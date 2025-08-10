@@ -15,3 +15,20 @@ export const showSuccessAlert = (title: string, message: string) => {
     text2: message,
   });
 };
+
+export const showInfoAlert = (
+  title: string,
+  message: string,
+  onPress?: () => void
+) => {
+  Toast.show({
+    type: "info",
+    text1: title,
+    text2: message,
+    onPress: () => {
+      if (onPress) {
+        onPress();
+      }
+    },
+  });
+};
