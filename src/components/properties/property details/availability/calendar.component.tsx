@@ -8,14 +8,16 @@ import {
   Alert,
 } from "react-native";
 import colors from "../../../../constants/colors";
+import { Availability } from "../../../../backend/casaikos-api";
+import { formatCurrency } from "../../../../utils";
 
 // Types
-interface Availability {
-  _id: string;
-  date: string;
-  status: EAvailabilityStatus;
-  rate?: number;
-}
+// interface Availability {
+//   _id: string;
+//   date: string;
+//   status: EAvailabilityStatus;
+//   rate?: number;
+// }
 
 enum EAvailabilityStatus {
   AVAILABLE = "AVAILABLE",
@@ -37,7 +39,6 @@ interface AvailabilityCalendarProps {
   onCreateAvailability: (day: Date) => void;
   onRemoveAvailability: (item: Availability) => void;
   onViewRentedInfo: (availability: Availability) => void;
-  formatCurrency: (amount?: number) => string;
 }
 
 // Constants
@@ -146,7 +147,6 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   availabilities,
   onCreateAvailability,
   onRemoveAvailability,
-  formatCurrency,
 }) => {
   const onClickSlot = (day: AvailabilityDay, availability?: Availability) => {
     const selectedDay = new Date(Date.UTC(day.year, day.month - 1, day.day));

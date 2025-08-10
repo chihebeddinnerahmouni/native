@@ -27,6 +27,15 @@ export const AvailabilitiesComponent = ({
   const { openModal, closeModal } = useModal();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [weeksDay, setWeeksDays] = useState<
+    {
+      day: number;
+      isCurrentMonth: boolean;
+      week: number;
+      month: number;
+      year: number;
+    }[][]
+  >([]);
 
   const onClickOpenForm = (property: Property) => {
     openModal({
@@ -109,13 +118,12 @@ export const AvailabilitiesComponent = ({
             title="Available appointments"
             styles={availabilitiesStyle.actionsHeader}
           />
-          <TargetGroup monthlySummary={monthlySummary} />
           <AvailabilityCalendar
-            weeksDay={[]}
+            weeksDay={weeksDay}
             availabilities={availabilities}
-            // onCreateAvailability={() => {}}
-            // onRemoveAvailability={() => {}}
-            // formatCurrency={() => {}}
+            onCreateAvailability={() => {}}
+            onRemoveAvailability={() => {}}
+            onViewRentedInfo={() => {}}
           />
         </View>
       </CardComponent>
