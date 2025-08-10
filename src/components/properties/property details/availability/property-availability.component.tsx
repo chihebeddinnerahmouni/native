@@ -99,10 +99,7 @@ export const AvailabilitiesComponent = ({
             //   </Button>
             // }
           />
-          <TargetGroup
-            monthlySummary={monthlySummary}
-            // formatCurrency={formatCurrency}
-          />
+          <TargetGroup monthlySummary={monthlySummary} />
         </View>
       </CardComponent>
       <CardComponent>
@@ -110,22 +107,8 @@ export const AvailabilitiesComponent = ({
           <ActionHeader
             title="Available appointments"
             styles={availabilitiesStyle.actionsHeader}
-            // actions={
-            //   <Button
-            //     variant="contained"
-            //     icon={<EditIcon color={colors.bgColor} />}
-            //     onPress={() => {
-            //       onClickOpenForm(property);
-            //     }}
-            //   >
-            //     Edit Amenities
-            //   </Button>
-            // }
           />
-          <TargetGroup
-            monthlySummary={monthlySummary}
-            // formatCurrency={formatCurrency}
-          />
+          <TargetGroup monthlySummary={monthlySummary} />
         </View>
       </CardComponent>
     </>
