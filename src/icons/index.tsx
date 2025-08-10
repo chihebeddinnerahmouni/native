@@ -1520,3 +1520,328 @@ export const GymIcon = ({
     />
   </Svg>
 );
+
+export const GardenIcon = ({
+  title = "Garden",
+  size = 25,
+  color = "#2664EB",
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={(size * 24) / 25}
+    viewBox="0 0 25 24"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M16.75 5L19.75 8L17.75 9L21.75 13L18.75 14L22.75 18H13.75"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M15.75 21V18"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.75 13L6.75 11"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.75 12L10.75 10"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.75 21V8"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M6.57419 15.9999C6.13666 15.9743 5.71006 15.8532 5.3244 15.645C4.93873 15.4367 4.60337 15.1466 4.3419 14.7948C4.08043 14.4431 3.8992 14.0383 3.81097 13.609C3.72274 13.1797 3.72964 12.7363 3.83119 12.3099C3.46867 12.008 3.18245 11.6249 2.99579 11.1916C2.80912 10.7583 2.72728 10.2872 2.75689 9.81631C2.78651 9.34547 2.92675 8.88825 3.16624 8.48177C3.40572 8.0753 3.73769 7.73104 4.13519 7.47695C3.78656 6.8576 3.66914 6.1346 3.80385 5.43676C3.93856 4.73891 4.31665 4.11156 4.87076 3.66648C5.42486 3.22139 6.11899 2.98749 6.82946 3.00644C7.53993 3.02539 8.2206 3.29596 8.75019 3.76995C9.2799 3.29671 9.96035 3.02678 10.6704 3.0082C11.3805 2.98962 12.0741 3.22359 12.6279 3.66848C13.1816 4.11336 13.5595 4.7403 13.6944 5.4377C13.8292 6.1351 13.7122 6.85772 13.3642 7.47695C13.7618 7.73096 14.0938 8.07515 14.3334 8.48158C14.573 8.88801 14.7133 9.34521 14.743 9.81606C14.7727 10.2869 14.691 10.7581 14.5044 11.1914C14.3178 11.6248 14.0317 12.008 13.6692 12.3099C13.7742 12.7507 13.7779 13.2096 13.6802 13.652C13.5825 14.0945 13.3858 14.5091 13.1049 14.8646C12.824 15.2202 12.4662 15.5075 12.0584 15.705C11.6506 15.9025 11.2033 16.005 10.7502 16.0049H6.75019L6.57419 15.9999Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const MailServiceIcon = ({
+  title = "Mail Service",
+  size = 25,
+  color = "#2664EB",
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={(size * 24) / 25}
+    viewBox="0 0 25 24"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M2.25 8.49976C2.25 4.99976 4.25 3.49976 7.25 3.49976H17.25C20.25 3.49976 22.25 4.99976 22.25 8.49976V15.4998C22.25 18.9998 20.25 20.4998 17.25 20.4998H7.25"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M17.25 9L14.12 11.5C13.09 12.32 11.4 12.32 10.37 11.5L7.25 9"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M2.25 16.5H8.25"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M2.25 12.4998H5.25"
+      stroke={color}
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const LaundryIcon = ({
+  title = "Laundry",
+  size = 25,
+  color = "#2664EB",
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={(size * 24) / 25}
+    viewBox="0 0 25 24"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M5.75 5C5.75 4.46957 5.96071 3.96086 6.33579 3.58579C6.71086 3.21071 7.21957 3 7.75 3H17.75C18.2804 3 18.7891 3.21071 19.1642 3.58579C19.5393 3.96086 19.75 4.46957 19.75 5V19C19.75 19.5304 19.5393 20.0391 19.1642 20.4142C18.7891 20.7893 18.2804 21 17.75 21H7.75C7.21957 21 6.71086 20.7893 6.33579 20.4142C5.96071 20.0391 5.75 19.5304 5.75 19V5Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.75 14C8.75 15.0609 9.17143 16.0783 9.92157 16.8284C10.6717 17.5786 11.6891 18 12.75 18C13.8109 18 14.8283 17.5786 15.5784 16.8284C16.3286 16.0783 16.75 15.0609 16.75 14C16.75 12.9391 16.3286 11.9217 15.5784 11.1716C14.8283 10.4214 13.8109 10 12.75 10C11.6891 10 10.6717 10.4214 9.92157 11.1716C9.17143 11.9217 8.75 12.9391 8.75 14Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.75 6H8.76"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M11.75 6H11.76"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M14.75 6H16.75"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8.75 14C10.083 13.333 11.417 13.333 12.75 14C14.083 14.667 15.417 14.667 16.75 14"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const TvIcon = ({
+  title = "TV",
+  size = 25,
+  color = "#2664EB",
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={(size * 24) / 25}
+    viewBox="0 0 25 24"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M6.69 2H17.8C21.36 2 22.25 2.89 22.25 6.44V12.77C22.25 16.33 21.36 17.21 17.81 17.21H6.69C3.14 17.22 2.25 16.33 2.25 12.78V6.44C2.25 2.89 3.14 2 6.69 2Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12.25 17.22V22"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M2.25 13H22.25"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M7.75 22H16.75"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const SwimmingIcon = ({
+  title = "Swimming Pool",
+  size = 25,
+  color = "#2664EB",
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={(size * 24) / 25}
+    viewBox="0 0 25 24"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M15.75 9C15.75 9.26522 15.8554 9.51957 16.0429 9.70711C16.2304 9.89464 16.4848 10 16.75 10C17.0152 10 17.2696 9.89464 17.4571 9.70711C17.6446 9.51957 17.75 9.26522 17.75 9C17.75 8.73478 17.6446 8.48043 17.4571 8.29289C17.2696 8.10536 17.0152 8 16.75 8C16.4848 8 16.2304 8.10536 16.0429 8.29289C15.8554 8.48043 15.75 8.73478 15.75 9Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M6.75 11L10.75 9L14.25 12L12.75 14"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M3.75 16.75C4.06129 16.9048 4.40249 16.9901 4.75 17C5.1395 17.0082 5.52512 16.9214 5.87358 16.7472C6.22203 16.573 6.52283 16.3165 6.75 16C6.97717 15.6835 7.27797 15.4271 7.62642 15.2529C7.97488 15.0787 8.3605 14.9919 8.75 15C9.1395 14.9919 9.52512 15.0787 9.87358 15.2529C10.222 15.4271 10.5228 15.6835 10.75 16C10.9772 16.3165 11.278 16.573 11.6264 16.7472C11.9749 16.9214 12.3605 17.0082 12.75 17C13.1395 17.0082 13.5251 16.9214 13.8736 16.7472C14.222 16.573 14.5228 16.3165 14.75 16C14.9772 15.6835 15.278 15.4271 15.6264 15.2529C15.9749 15.0787 16.3605 14.9919 16.75 15C17.1395 14.9919 17.5251 15.0787 17.8736 15.2529C18.222 15.4271 18.5228 15.6835 18.75 16C18.9772 16.3165 19.278 16.573 19.6264 16.7472C19.9749 16.9214 20.3605 17.0082 20.75 17C21.0975 16.9901 21.4387 16.9048 21.75 16.75"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const PetsIcon = ({
+  title = "Pets",
+  size = 25,
+  color = "#2664EB",
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={(size * 24) / 25}
+    viewBox="0 0 25 24"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M12.75 16C15.5 16 17.75 13.75 17.75 11C17.75 8.25 15.5 6 12.75 6C10 6 7.75 8.25 7.75 11C7.75 13.75 10 16 12.75 16Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M7.75 11C7.75 11 6.75 9.5 5.25 9.5C3.75 9.5 2.75 10.5 2.75 12C2.75 13.5 3.75 14.5 5.25 14.5C6.75 14.5 7.75 13 7.75 13"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M17.75 11C17.75 11 18.75 9.5 20.25 9.5C21.75 9.5 22.75 10.5 22.75 12C22.75 13.5 21.75 14.5 20.25 14.5C18.75 14.5 17.75 13 17.75 13"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12.75 16C12.75 16 11.25 17.5 9.75 17.5C8.25 17.5 7.25 18.5 7.25 20C7.25 21.5 8.25 22.5 9.75 22.5C11.25 22.5 12.75 21 12.75 21"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12.75 16C12.75 16 14.25 17.5 15.75 17.5C17.25 17.5 18.25 18.5 18.25 20C18.25 21.5 17.25 22.5 15.75 22.5C14.25 22.5 12.75 21 12.75 21"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M10.75 10C10.75 10.5523 11.1977 11 11.75 11C12.3023 11 12.75 10.5523 12.75 10C12.75 9.44772 12.3023 9 11.75 9C11.1977 9 10.75 9.44772 10.75 10Z"
+      fill={color}
+    />
+    <Path
+      d="M13.75 10C13.75 10.5523 14.1977 11 14.75 11C15.3023 11 15.75 10.5523 15.75 10C15.75 9.44772 15.3023 9 14.75 9C14.1977 9 13.75 9.44772 13.75 10Z"
+      fill={color}
+    />
+  </Svg>
+);
+
+export const SecurityIcon = ({
+  title = "Security",
+  size = 25,
+  color = "#2664EB",
+}: {
+  title?: string;
+  size?: number;
+  color?: string;
+}) => (
+  <Svg
+    width={size}
+    height={(size * 24) / 25}
+    viewBox="0 0 25 24"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M12.75 2L21.75 5V11C21.75 16.55 18.33 21.74 12.75 23C7.17 21.74 3.75 16.55 3.75 11V5L12.75 2Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M9.75 12L11.75 14L15.75 10"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);

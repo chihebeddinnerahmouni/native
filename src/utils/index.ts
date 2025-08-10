@@ -8,6 +8,7 @@ export * from "./time.utils";
 export * from "./socket.utils";
 export * from "./utils";
 export * from "./notes.utils";
+export * from "./property.utils";
 //
 export * from "./validators/auth.validator";
 export * from "./validators/properties.validator";

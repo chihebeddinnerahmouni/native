@@ -53,10 +53,15 @@ const AmenityComponent = ({ amenity }: { amenity: string }) => (
 
 const amenityCompStyles = StyleSheet.create({
   amenityContainer: {
-    padding: 8,
-    borderRadius: 4,
-    backgroundColor: colors.borderColor,
-    marginVertical: 4,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    flex: 1,
+    minWidth: "45%",
+    maxWidth: "48%",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    backgroundColor: colors.bgColor,
   },
 });
 
@@ -71,5 +76,8 @@ const amenitiesStyle = StyleSheet.create({
   },
   amenitiesList: {
     marginTop: 12,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
   },
 });
