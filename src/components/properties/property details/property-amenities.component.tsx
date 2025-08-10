@@ -17,16 +17,15 @@ type IProps = {
 };
 
 export const AmenitiesComponent = ({ property }: IProps) => {
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const onClickOpenForm = (property: Property) => {
     openModal({
       title: "Update Amenities",
       slideDirection: "right",
-      component: <AmenitiesForm property={property} />,
-      onDismiss: () => {
-        // console.log("Modal dismissed");
-      },
+      component: (
+        <AmenitiesForm property={property} onDismiss={() => closeModal()} />
+      ),
     });
   };
 

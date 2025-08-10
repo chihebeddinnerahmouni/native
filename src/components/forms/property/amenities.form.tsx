@@ -1,23 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Property, EAmenityType } from "../../../backend/casaikos-api";
-import { TextBody } from "../../ui/texts/Texts.component";
 import colors from "../../../constants/colors";
 import { amenitiesList } from "../../../utils";
+import { AmenityComponent } from "../../properties/amenity.component";
+import { usePropertiesMutation } from "../../../api-query/hooks";
+import { FormActions } from "../../ui/form/form-items.component";
 
 type IProps = {
   property: Property;
-  onAmenitiesChange?: (amenities: EAmenityType[]) => void;
+  onDismiss?: () => void;
 };
 
-export const AmenitiesForm = ({ property, onAmenitiesChange }: IProps) => {
+export const AmenitiesForm = ({ property, onDismiss }: IProps) => {
   const [selectedAmenities, setSelectedAmenities] = useState<EAmenityType[]>(
     property.amenities || []
   );
+  const { editAmenities, isEditAmenitiesPending } = usePropertiesMutation();
 
-  useEffect(() => {
-    onAmenitiesChange?.(selectedAmenities);
-  }, [selectedAmenities, onAmenitiesChange]);
+  const onClickSubmit = async () => {
+    editAmenities({
+      propertyId: property?._id ?? "",
+      amenities: selectedAmenities,
+    }).then(() => {
+      onDismiss?.();
+    });
+  };
 
   const toggleAmenity = (amenityType: EAmenityType) => {
     setSelectedAmenities((prev) => {
@@ -35,51 +43,35 @@ export const AmenitiesForm = ({ property, onAmenitiesChange }: IProps) => {
         {amenitiesList?.map((amenity) => {
           const isSelected = selectedAmenities.includes(amenity.title);
           return (
-            <SelectableAmenityComponent
+            <TouchableOpacity
               key={amenity.title}
-              amenity={amenity}
-              isSelected={isSelected}
-              onToggle={() => toggleAmenity(amenity.title)}
-            />
+              style={[
+                styles.amenityContainer,
+                isSelected ? styles.selectedAmenity : styles.unselectedAmenity,
+              ]}
+              onPress={() => toggleAmenity(amenity.title)}
+              activeOpacity={0.7}
+            >
+              <AmenityComponent
+                amenity={amenity}
+                styles={styles.amenityContent}
+              />
+            </TouchableOpacity>
           );
         })}
       </View>
+      <FormActions
+        onPress={() => onClickSubmit()}
+        isLoading={isEditAmenitiesPending}
+      />
     </View>
   );
 };
 
-const SelectableAmenityComponent = ({
-  amenity,
-  isSelected,
-  onToggle,
-}: {
-  amenity: { Icon: React.FC; title: EAmenityType };
-  isSelected: boolean;
-  onToggle: () => void;
-}) => (
-  <TouchableOpacity
-    style={[
-      styles.amenityContainer,
-      isSelected ? styles.selectedAmenity : styles.unselectedAmenity,
-    ]}
-    onPress={onToggle}
-    activeOpacity={0.7}
-  >
-    <amenity.Icon />
-    <TextBody
-      style={[
-        styles.amenityText,
-        { color: isSelected ? colors.primaryColor : colors.textColor2 },
-      ]}
-    >
-      {amenity.title}
-    </TextBody>
-  </TouchableOpacity>
-);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
   },
   amenitiesList: {
     flexDirection: "row",
@@ -87,17 +79,11 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   amenityContainer: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
     flex: 1,
     minWidth: "45%",
     maxWidth: "48%",
     borderRadius: 8,
     borderWidth: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
   },
   selectedAmenity: {
     opacity: 1,
@@ -109,9 +95,8 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColor,
     backgroundColor: colors.bgColor,
   },
-  amenityText: {
-    textAlign: "center",
-    fontSize: 12,
-    fontWeight: "500",
+  amenityContent: {
+    margin: 0,
+    padding: 0,
   },
 });
