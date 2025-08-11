@@ -15,7 +15,7 @@ import { PropertyGeneralComponent } from "../../../components/properties/propert
 import { propertyDetailsStyle } from "./property-details.style";
 import { AmenitiesComponent } from "../../../components/properties/property details/property-amenities.component";
 import { AvailabilitiesComponent } from "../../../components/properties/property details/availability/property-availability.component";
-import { TargetsComponent } from "../../../components/properties/property details/property-target.component";
+import { TargetsComponent } from "../../../components/properties/property details/targets/property-target.component";
 
 export enum EPropertyTabs {
   GENERAL = "General",
