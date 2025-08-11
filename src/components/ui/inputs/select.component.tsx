@@ -34,6 +34,7 @@ type SelectProps = {
   withoutChip?: boolean;
   searchable?: boolean;
   multiple?: boolean;
+  flex?: boolean;
 };
 
 export const Select = ({
@@ -50,6 +51,8 @@ export const Select = ({
   control,
   withoutChip = false,
   searchable = true,
+  // multiple = false,
+  flex = false,
 }: SelectProps) => {
   const [selectedValue, setSelectedValue] = useState<string | number | null>(
     value || null
@@ -276,7 +279,7 @@ export const Select = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={flex ? styles.container : styles.containerNoFlex}>
       {label && (
         <Text style={styles.label}>
           {label}
@@ -293,8 +296,11 @@ export const Select = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    // marginBottom: 16,
+    flex: 1,
+    minWidth: 0,
   },
+  containerNoFlex: {},
   label: {
     fontSize: 16,
     fontWeight: "600",

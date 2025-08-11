@@ -1,18 +1,18 @@
 import React from "react";
 import {
   View,
-  Text,
+  // Text,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
 } from "react-native";
 import colors from "../../../../constants/colors";
 import { Availability } from "../../../../backend/casaikos-api";
-import { formatCurrency } from "../../../../utils";
 import { useConfirmationAlert } from "../../../../hooks/useConfirmationAlert";
 import ConfirmationModal from "../../../ui/modal/ConfirmationModal";
 import { showInfoAlert } from "../../../ui/alerts/alerts.component";
 import { useAvailabilitiesMutation } from "../../../../api-query/hooks";
+import { TextBody } from "../../../ui/texts/Texts.component";
 
 // Types
 // interface Availability {
@@ -141,9 +141,6 @@ const getRentedDayClasses = (
   });
 };
 
-// Wallet Icon component (simple replacement)
-const WalletIcon = () => <Text style={styles.walletIcon}>💰</Text>;
-
 const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   weeksDay,
   availabilities,
@@ -221,7 +218,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         <View style={styles.header}>
           {daysTitleList.map((day) => (
             <View key={day.value} style={styles.headerCell}>
-              <Text style={styles.headerText}>{day.label}</Text>
+              <TextBody style={styles.headerText}>{day.label}</TextBody>
             </View>
           ))}
         </View>
@@ -266,7 +263,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
                       >
                         {/* Day Number */}
                         <View style={styles.dayNumberContainer}>
-                          <Text
+                          <TextBody
                             style={[
                               styles.dayNumber,
                               isToday && styles.todayText,
@@ -275,24 +272,8 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
                             {day.day}
                             {day.day === 1 &&
                               ` ${new Date(day.year, day.month - 1).toLocaleDateString("en", { month: "short" })}`}
-                          </Text>
+                          </TextBody>
                         </View>
-
-                        {/* Status Container */}
-                        {dayAvailabilityStatus.value ===
-                          EAvailabilityStatus.AVAILABLE && (
-                          <View style={styles.statusContainer}>
-                            <Text style={styles.statusText}>
-                              {dayAvailabilityStatus.label}
-                            </Text>
-                            <View style={styles.priceContainer}>
-                              <WalletIcon />
-                              <Text style={styles.priceText}>
-                                {formatCurrency(availability?.rate)}
-                              </Text>
-                            </View>
-                          </View>
-                        )}
                       </View>
                     </TouchableOpacity>
                   );
@@ -325,8 +306,8 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    minWidth: "100%",
     marginTop: 10,
+    marginHorizontal: "auto",
   },
   header: {
     flexDirection: "row",
@@ -334,16 +315,16 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.borderColor,
   },
   headerCell: {
-    width: 150,
+    width: 50,
     paddingVertical: 12,
     justifyContent: "center",
     alignItems: "center",
-    borderRightWidth: 1,
-    borderRightColor: colors.borderColor,
+    // borderRightWidth: 1,
+    // borderRightColor: colors.borderColor,
   },
   headerText: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 12,
+    fontWeight: "500",
     color: colors.textColor,
   },
   body: {
@@ -353,12 +334,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   cell: {
-    width: 150,
-    height: 100,
-    borderRightWidth: 1,
-    borderRightColor: colors.borderColor,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderColor,
+    width: 50,
+    height: 50,
+    // borderRightWidth: 1,
+    // borderRightColor: colors.borderColor,
+    // borderBottomWidth: 1,
+    // borderBottomColor: colors.borderColor,
     padding: 2,
   },
   dayContainer: {
@@ -367,7 +348,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   free: {
-    backgroundColor: "transparent",
+    // backgroundColor: colors.emptyBgColor2,
   },
   available: {
     backgroundColor: colors.primaryLight,
@@ -406,47 +387,19 @@ const styles = StyleSheet.create({
   },
   dayNumberContainer: {
     position: "absolute",
-    top: 8,
-    left: 8,
-    right: 8,
+    inset: 0,
+    justifyContent: "center",
     alignItems: "center",
   },
   dayNumber: {
-    fontSize: 20,
+    fontSize: 14,
     color: colors.textColor,
     textAlign: "center",
+    fontWeight: "500",
   },
   todayText: {
     fontWeight: "bold",
     textDecorationLine: "underline",
-  },
-  statusContainer: {
-    position: "absolute",
-    bottom: 8,
-    left: 8,
-    right: 8,
-    top: 35,
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
-  statusText: {
-    color: colors.successColor,
-    fontWeight: "500",
-    fontSize: 12,
-    textAlign: "center",
-    alignSelf: "center",
-  },
-  priceContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-  priceText: {
-    fontSize: 12,
-    color: colors.textColor,
-    fontWeight: "500",
-  },
-  walletIcon: {
     fontSize: 12,
   },
 });

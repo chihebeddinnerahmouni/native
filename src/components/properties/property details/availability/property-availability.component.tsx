@@ -1,9 +1,8 @@
-import React, { use, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { CardComponent } from "../../../ui/cards/card.component";
 import {
   Availability,
   EAvailabilityStatus,
-  Property,
   Target,
 } from "../../../../backend/casaikos-api";
 import { StyleSheet, View } from "react-native";
@@ -13,14 +12,11 @@ import {
   getCalendarByMonthAndYear,
   isDateInRangeForMonth,
 } from "../../../../utils";
-import { useModal } from "../../../../contexts";
-import { AmenitiesForm } from "../../../forms/property/amenities.form";
 import { TargetGroup } from "./targets.component";
 import AvailabilityCalendar from "./calendar.component";
 import Select from "../../../ui/inputs/select.component";
 import { monthsList } from "../../../../constants/data";
 import { FieldText } from "../../../ui/inputs/field-text/field-text.component";
-import { useAvailabilitiesMutation } from "../../../../api-query/hooks";
 
 type IProps = {
   availabilities: Availability[];
@@ -31,7 +27,6 @@ export const AvailabilitiesComponent = ({
   availabilities,
   targets,
 }: IProps) => {
-  const { openModal, closeModal } = useModal();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [weeksDay, setWeeksDays] = useState<
@@ -43,21 +38,6 @@ export const AvailabilitiesComponent = ({
       year: number;
     }[][]
   >([]);
-  const { deleteAvailabilityById } = useAvailabilitiesMutation();
-
-  const onClickOpenForm = (property: Property) => {
-    openModal({
-      title: "Update Amenities",
-      slideDirection: "right",
-      component: (
-        <AmenitiesForm property={property} onDismiss={() => closeModal()} />
-      ),
-    });
-  };
-
-  // const deleteAvailability = (availabilityId: string) => {
-  //   deleteAvailabilityById(availabilityId);
-  // };
 
   const monthlySummary = useMemo(() => {
     const lastDayMonth = new Date(selectedYear, selectedMonth, 0);
@@ -136,24 +116,26 @@ export const AvailabilitiesComponent = ({
             title="Available appointments"
             styles={availabilitiesStyle.actionsHeader}
           />
-          <Select
-            placeholder="Select date"
-            options={monthsList}
-            // className="month-input"
-            value={selectedMonth}
-            onChange={(value) => setSelectedMonth(Number(value))}
-          />
-          <FieldText
-            // className="month-input"
-            type="number"
-            placeholder="Select Year"
-            min={2000}
-            onChangeText={(value) => {
-              if (value.length <= 4) setSelectedYear(Number(value) ?? 2000);
-            }}
-            value={selectedYear}
-            maxLength={4}
-          />
+          <View style={availabilitiesStyle.datePickerContainer}>
+            <Select
+              placeholder="Select date"
+              options={monthsList}
+              value={selectedMonth}
+              onChange={(value) => setSelectedMonth(Number(value))}
+              flex={true}
+            />
+            <FieldText
+              type="number"
+              placeholder="Select Year"
+              min={2000}
+              onChangeText={(value) => {
+                if (value.length <= 4) setSelectedYear(Number(value) ?? 2000);
+              }}
+              value={selectedYear}
+              maxLength={4}
+              flex={true}
+            />
+          </View>
           <AvailabilityCalendar
             weeksDay={weeksDay}
             availabilities={availabilities}
@@ -172,5 +154,12 @@ const availabilitiesStyle = StyleSheet.create({
     paddingBottom: 12,
     borderColor: colors.borderColor,
     borderBottomWidth: 1,
+  },
+  datePickerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 8,
+    marginTop: 16,
   },
 });

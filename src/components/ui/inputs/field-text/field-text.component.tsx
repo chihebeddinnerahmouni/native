@@ -166,12 +166,10 @@ export const FieldText = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // This ensures it takes available space in flex containers
-    minWidth: 0, // Prevents shrinking below content
+    flex: 1,
+    minWidth: 0,
   },
-  containerNoFlex: {
-    // Use this for forms and vertical layouts
-  },
+  containerNoFlex: {},
   errorContainer: {
     borderColor: colors.errorColor,
   },
