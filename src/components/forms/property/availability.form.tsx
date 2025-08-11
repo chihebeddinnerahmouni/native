@@ -11,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AvailabilitySchema } from "../../../utils/validators/availability.validator";
 import { RadioGroup } from "../../ui/inputs/radio.component";
 import { FieldText } from "../../ui/inputs/field-text/field-text.component";
+import { DatePicker } from "../../ui/inputs/date-picker.component";
 
 type IProps = {
   propertyId: string;
@@ -92,16 +93,17 @@ export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
             name="from"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <FieldText
-                placeholder="Enter here ..."
+              <DatePicker
+                placeholder="Select date"
                 label={typeDuration === "multiple" ? "From" : "Date"}
                 required
-                type="date"
                 register={register("from", { required: true })}
                 error={errors.from}
-                min={new Date().toISOString().split("T")[0]}
-                value={value}
-                onChangeText={onChange}
+                minimumDate={new Date()}
+                value={value ? new Date(value) : undefined}
+                onDateChange={(date) =>
+                  onChange(date.toISOString().split("T")[0])
+                }
               />
             )}
           />
@@ -112,16 +114,17 @@ export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
               name="to"
               control={control}
               render={({ field: { onChange, value } }) => (
-                <FieldText
-                  placeholder="Enter here ..."
-                  label={typeDuration === "multiple" ? "to" : "Date"}
+                <DatePicker
+                  placeholder="Select date"
+                  label="To"
                   required
-                  type="date"
                   register={register("to", { required: true })}
                   error={errors.to}
-                  min={new Date().toISOString().split("T")[0]}
-                  value={value}
-                  onChangeText={onChange}
+                  minimumDate={new Date()}
+                  value={value ? new Date(value) : undefined}
+                  onDateChange={(date) =>
+                    onChange(date.toISOString().split("T")[0])
+                  }
                 />
               )}
             />
