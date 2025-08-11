@@ -13,7 +13,10 @@ type TargetCardProps = {
 };
 
 export const TargetCard = ({ target, style }: TargetCardProps) => {
-  const monthLabel = new Date(target.monthNumber).toLocaleString("default", {
+  const monthLabel = new Date(
+    target.yearNumber,
+    target.monthNumber - 1
+  ).toLocaleString("default", {
     month: "long",
   });
 
