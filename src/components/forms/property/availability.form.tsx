@@ -15,6 +15,7 @@ import { FormActions, FormContainer } from "../../ui/form/form-items.component";
 import { Resolver, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AvailabilitySchema } from "../../../utils/validators/availability.validator";
+import { RadioGroup } from "../../ui/inputs/radio.component";
 
 type IProps = {
   propertyId: string;
@@ -75,27 +76,25 @@ export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
   return (
     <FormContainer>
       <View style={styles.container}>
-        {/* <View style={styles.amenitiesList}>
-        {amenitiesList?.map((amenity) => {
-          const isSelected = selectedAmenities.includes(amenity.title);
-          return (
-            <TouchableOpacity
-              key={amenity.title}
-              style={[
-                styles.amenityContainer,
-                isSelected ? styles.selectedAmenity : styles.unselectedAmenity,
-              ]}
-              onPress={() => toggleAmenity(amenity.title)}
-              activeOpacity={0.7}
-            >
-              <AmenityComponent
-                amenity={amenity}
-                styles={styles.amenityContent}
-              />
-            </TouchableOpacity>
-          );
-        })}
-      </View> */}
+        <RadioGroup
+          name="Availability Type"
+          options={[
+            {
+              label: "Single Day",
+              value: EDurationType.SINGLE,
+            },
+            {
+              label: "Multiple Day",
+              value: EDurationType.MULTIPLE,
+            },
+          ]}
+          onChange={(value) => {
+            setValue("typeDuration", value as EDurationType);
+            setTypeDuration(value as EDurationType);
+          }}
+          value={typeDuration}
+          error={errors.typeDuration}
+        />
         <FormActions onPress={() => onClickSubmit()} isLoading={false} />
       </View>
     </FormContainer>
