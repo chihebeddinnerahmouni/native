@@ -15,6 +15,7 @@ import { PropertyGeneralComponent } from "../../../components/properties/propert
 import { propertyDetailsStyle } from "./property-details.style";
 import { AmenitiesComponent } from "../../../components/properties/property details/property-amenities.component";
 import { AvailabilitiesComponent } from "../../../components/properties/property details/availability/property-availability.component";
+import { TargetsComponent } from "../../../components/properties/property details/property-target.component";
 
 export enum EPropertyTabs {
   GENERAL = "General",
@@ -59,9 +60,7 @@ const tabs = [
 ];
 
 export const PropertyDetailsPage = () => {
-  const [selectedTab, setSelectedTab] = useState<string>(
-    EPropertyTabs.AVAILABILITY
-  );
+  const [selectedTab, setSelectedTab] = useState<string>(EPropertyTabs.TARGETS);
 
   //   const route =
   //     useRoute<
@@ -111,6 +110,9 @@ export const PropertyDetailsPage = () => {
             targets={targets}
             propertyId={selectedPropertyId}
           />
+        )}
+        {selectedTab === EPropertyTabs.TARGETS && (
+          <TargetsComponent targets={targets} propertyId={selectedPropertyId} />
         )}
       </View>
     </MainLayout>
