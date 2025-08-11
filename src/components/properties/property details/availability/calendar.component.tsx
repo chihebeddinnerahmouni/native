@@ -282,6 +282,32 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
             );
           })}
         </View>
+
+        {/* Legend */}
+        <View style={styles.legend}>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, styles.rentedDot]} />
+            <TextBody
+              style={[styles.legendText, { color: colors.primaryColor }]}
+            >
+              Booked
+            </TextBody>
+          </View>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, styles.availableDot]} />
+            <TextBody
+              style={[styles.legendText, { color: colors.successColor }]}
+            >
+              Available
+            </TextBody>
+          </View>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, styles.notAvailableDot]} />
+            <TextBody style={[styles.legendText, { color: colors.textColor2 }]}>
+              Not Available
+            </TextBody>
+          </View>
+        </View>
       </View>
 
       {/* Custom Confirmation Modal */}
@@ -401,6 +427,38 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "underline",
     fontSize: 12,
+  },
+  legend: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 16,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderColor,
+    marginTop: 16,
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  legendDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  availableDot: {
+    backgroundColor: colors.successColor,
+  },
+  rentedDot: {
+    backgroundColor: colors.primaryColor,
+  },
+  notAvailableDot: {
+    backgroundColor: colors.textColor2,
+  },
+  legendText: {
+    fontSize: 12,
+    fontWeight: "500",
   },
 });
 
