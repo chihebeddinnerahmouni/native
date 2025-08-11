@@ -34,7 +34,7 @@ export const Modal = ({
   onClose,
   title,
   children,
-  slideDirection = "bottom",
+  slideDirection = "right",
 }: ModalProps) => {
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;

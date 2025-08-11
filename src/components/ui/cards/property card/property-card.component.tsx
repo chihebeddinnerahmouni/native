@@ -30,7 +30,6 @@ export const PropertyCard = ({
   const onClickOpenForm = (property: Property) => {
     openModal({
       title: "Update Property",
-      slideDirection: "right",
       component: (
         <PropertyForm selectedProperty={property} closeModal={closeModal} />
       ),

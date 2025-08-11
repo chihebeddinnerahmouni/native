@@ -8,19 +8,36 @@ import { Button } from "../../../ui/buttons/button.component";
 import { PlusIcon } from "../../../../icons";
 import { TargetCard } from "./target-card.component";
 import Select from "../../../ui/inputs/select.component";
+import { useModal } from "../../../../contexts";
+import { TargetsForm } from "../../../forms/property/targets.form";
 
 type IProps = {
   targets: Target[];
   propertyId: string;
 };
 
-const years = Array.from(
+export const targetYears = Array.from(
   { length: new Date().getFullYear() - 2015 + 1 },
   (_, i) => 2015 + i
 );
 
 export const TargetsComponent = ({ targets, propertyId }: IProps) => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const { openModal, closeModal } = useModal();
+
+  const onClickCreate = () => {
+    openModal({
+      title: "New Target",
+      component: (
+        <TargetsForm
+          propertyId={propertyId}
+          onDismiss={() => {
+            closeModal();
+          }}
+        />
+      ),
+    });
+  };
 
   const filteredTargets = useMemo(() => {
     return targets
@@ -44,16 +61,14 @@ export const TargetsComponent = ({ targets, propertyId }: IProps) => {
               <Button
                 variant="contained"
                 icon={<PlusIcon color={colors.bgColor} />}
-                onPress={() => {
-                  //   onClickOpenForm();
-                }}
+                onPress={() => onClickCreate()}
               >
                 New Target
               </Button>
             }
           />
           <Select
-            options={years.map((year) => ({
+            options={targetYears.map((year) => ({
               label: String(year),
               value: year,
             }))}

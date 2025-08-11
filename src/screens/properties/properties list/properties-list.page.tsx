@@ -43,7 +43,6 @@ export const PropertiesListPage = () => {
   const onClickOpenForm = () => {
     openModal({
       title: "New Property",
-      slideDirection: "right",
       component: <PropertyForm closeModal={closeModal} />,
       onDismiss: () => {
         // console.log("Modal dismissed");

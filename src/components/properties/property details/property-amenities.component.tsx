@@ -22,7 +22,6 @@ export const AmenitiesComponent = ({ property }: IProps) => {
   const onClickOpenForm = (property: Property) => {
     openModal({
       title: "Update Amenities",
-      slideDirection: "right",
       component: (
         <AmenitiesForm property={property} onDismiss={() => closeModal()} />
       ),

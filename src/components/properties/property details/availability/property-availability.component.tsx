@@ -49,7 +49,6 @@ export const AvailabilitiesComponent = ({
   const onClickOpenForm = () => {
     openModal({
       title: "Add Availability",
-      slideDirection: "right",
       component: (
         <AvailabilitiesForm
           propertyId={propertyId}
