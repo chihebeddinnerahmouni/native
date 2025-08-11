@@ -10,16 +10,12 @@ import { TargetCard } from "./target-card.component";
 import Select from "../../../ui/inputs/select.component";
 import { useModal } from "../../../../contexts";
 import { TargetsForm } from "../../../forms/property/targets.form";
+import { targetYears } from "../../../../constants/data";
 
 type IProps = {
   targets: Target[];
   propertyId: string;
 };
-
-export const targetYears = Array.from(
-  { length: new Date().getFullYear() - 2015 + 1 },
-  (_, i) => 2015 + i
-);
 
 export const TargetsComponent = ({ targets, propertyId }: IProps) => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -78,7 +74,7 @@ export const TargetsComponent = ({ targets, propertyId }: IProps) => {
           />
           <View style={targetsStyle.targetList}>
             {filteredTargets.map((el) => (
-              <TargetCard key={el._id} target={el} />
+              <TargetCard key={el._id} propertyId={propertyId} target={el} />
             ))}
           </View>
         </View>

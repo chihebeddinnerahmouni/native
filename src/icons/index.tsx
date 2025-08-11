@@ -1216,7 +1216,7 @@ export const CopyIcon = ({
 export const EditIcon = ({
   title = "Edit",
   size = 16,
-  color = "white",
+  color = colors.textColor,
 }: {
   title?: string;
   size?: number;

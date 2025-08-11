@@ -13,8 +13,7 @@ import { FieldText } from "../../ui/inputs/field-text/field-text.component";
 import { TargetSchema } from "../../../utils/validators/targets.validator";
 import { StyleSheet, View } from "react-native";
 import Select from "../../ui/inputs/select.component";
-import { monthsList } from "../../../constants/data";
-import { targetYears } from "../../properties/property details/targets/property-target.component";
+import { monthsList, targetYears } from "../../../constants/data";
 
 type IProps = {
   propertyId: string;

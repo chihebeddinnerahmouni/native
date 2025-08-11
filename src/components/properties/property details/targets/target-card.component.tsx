@@ -6,19 +6,38 @@ import { TouchableOpacity, ViewStyle } from "react-native";
 import { EditIcon, DeleteIcon, WalletIcon } from "../../../../icons";
 import { formatCurrency } from "../../../../utils";
 import { TextBody } from "../../../ui/texts/Texts.component";
+import { useModal } from "../../../../contexts";
+import { TargetsForm } from "../../../forms/property/targets.form";
 
 type TargetCardProps = {
   target: Target;
+  propertyId: string;
   style?: ViewStyle;
 };
 
-export const TargetCard = ({ target, style }: TargetCardProps) => {
+export const TargetCard = ({ target, style, propertyId }: TargetCardProps) => {
+  const { openModal, closeModal } = useModal();
   const monthLabel = new Date(
     target.yearNumber,
     target.monthNumber - 1
   ).toLocaleString("default", {
     month: "long",
   });
+
+  const onClickUpdate = (target: Target) => {
+    openModal({
+      title: "Update Target",
+      component: (
+        <TargetsForm
+          propertyId={propertyId}
+          onDismiss={() => {
+            closeModal();
+          }}
+          selectedTarget={target}
+        />
+      ),
+    });
+  };
 
   return (
     <View style={[styles.targetItem, style]}>
@@ -29,7 +48,7 @@ export const TargetCard = ({ target, style }: TargetCardProps) => {
         <View style={styles.actionItems}>
           <TouchableOpacity
             style={styles.actionIcon}
-            // onPress={() => onEdit(target)}
+            onPress={() => onClickUpdate(target)}
             activeOpacity={0.7}
           >
             <EditIcon />
