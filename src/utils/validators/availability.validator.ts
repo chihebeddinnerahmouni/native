@@ -52,3 +52,57 @@ const AvailabilitySchema = yup.object().shape({
 });
 
 export { AvailabilitySchema };
+
+// export const AvailabilitySchema = yup.object().shape({
+//   typeDuration: yup
+//     .string()
+//     .required("Type of duration is required")
+//     .oneOf(
+//       Object.values(EDurationType),
+//       'Type of duration must be either "single" or "multiple"'
+//     ),
+//   from: yup
+//     .string()
+//     .required("From date is required")
+//     .test(
+//       "from-to-valid",
+//       "From date must be before To date",
+//       function (value) {
+//         const toValue = this.parent.to;
+//         if (toValue && dayjs(value).isAfter(dayjs(toValue))) {
+//           return false;
+//         }
+//         return true;
+//       }
+//     ),
+//   to: yup
+//     .string()
+//     .optional()
+//     .when("typeDuration", (typeDurationValue, schema) => {
+//       // Handle array input from Yup's when()
+//       const type = Array.isArray(typeDurationValue)
+//         ? typeDurationValue[0]
+//         : typeDurationValue;
+//       return type === EDurationType.MULTIPLE
+//         ? schema.required("To date is required for multiple days")
+//         : schema;
+//     })
+//     .when("from", (fromValue, schema) => {
+//       // Handle array input from Yup's when()
+//       const fromDate = Array.isArray(fromValue) ? fromValue[0] : fromValue;
+//       return fromDate
+//         ? schema.test(
+//             "to-from-valid",
+//             "To date must be after From date",
+//             function (value) {
+//               if (value && dayjs(value).isBefore(dayjs(fromDate))) {
+//                 return false;
+//               }
+//               return true;
+//             }
+//           )
+//         : schema;
+//     }),
+//   rate: yup.number().required("Rate is required"),
+//   propertyId: yup.string().required("Property ID is required"),
+// });

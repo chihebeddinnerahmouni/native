@@ -3,7 +3,6 @@ import { CardComponent } from "../../../ui/cards/card.component";
 import {
   Availability,
   EAvailabilityStatus,
-  Property,
   Target,
 } from "../../../../backend/casaikos-api";
 import { StyleSheet, View } from "react-native";

@@ -12,7 +12,7 @@ import {
   usePropertiesMutation,
 } from "../../../api-query/hooks";
 import { FormActions, FormContainer } from "../../ui/form/form-items.component";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AvailabilitySchema } from "../../../utils/validators/availability.validator";
 
@@ -27,6 +27,8 @@ export enum EDurationType {
   MULTIPLE = "multiple",
 }
 
+type FormValues = AddAvailabilityDto & { typeDuration: EDurationType };
+
 export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
   const {
     register,
@@ -36,8 +38,8 @@ export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
     formState: { errors },
     setError,
     setFocus,
-  } = useForm<AddAvailabilityDto & { typeDuration: EDurationType }>({
-    resolver: yupResolver(AvailabilitySchema),
+  } = useForm<FormValues>({
+    resolver: yupResolver(AvailabilitySchema) as Resolver<FormValues>,
   });
 
   const { createAvailabilities, isCreateLoading } = useAvailabilitiesMutation();
