@@ -6,13 +6,18 @@ import colors from "../../../../constants/colors";
 import { ActionHeader } from "../../../ui/action-header.component";
 import { Button } from "../../../ui/buttons/button.component";
 import { PlusIcon } from "../../../../icons";
-import { FieldText } from "../../../ui/inputs/field-text/field-text.component";
 import { TargetCard } from "./target-card.component";
+import Select from "../../../ui/inputs/select.component";
 
 type IProps = {
   targets: Target[];
   propertyId: string;
 };
+
+const years = Array.from(
+  { length: new Date().getFullYear() - 2015 + 1 },
+  (_, i) => 2015 + i
+);
 
 export const TargetsComponent = ({ targets, propertyId }: IProps) => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -47,17 +52,14 @@ export const TargetsComponent = ({ targets, propertyId }: IProps) => {
               </Button>
             }
           />
-          <FieldText
-            value={String(selectedYear)}
-            onChangeText={(text) => {
-              const year = parseInt(text, 10);
-              if (!isNaN(year)) {
-                setSelectedYear(year);
-              }
-            }}
-            type="number"
-            style={targetsStyle.yearPicker}
-            placeholder="Enter year"
+          <Select
+            options={years.map((year) => ({
+              label: String(year),
+              value: year,
+            }))}
+            value={selectedYear}
+            onChange={(item) => setSelectedYear(Number(item))}
+            styles={targetsStyle.yearPicker}
           />
           <View style={targetsStyle.targetList}>
             {filteredTargets.map((el) => (

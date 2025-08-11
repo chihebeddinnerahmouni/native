@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  ViewStyle,
 } from "react-native";
 import { Controller, FieldError, UseFormRegisterReturn } from "react-hook-form";
 import Feather from "react-native-vector-icons/Feather";
@@ -35,6 +36,7 @@ type SelectProps = {
   searchable?: boolean;
   multiple?: boolean;
   flex?: boolean;
+  styles?: ViewStyle;
 };
 
 export const Select = ({
@@ -52,6 +54,7 @@ export const Select = ({
   withoutChip = false,
   searchable = true,
   // multiple = false,
+  styles,
   flex = false,
 }: SelectProps) => {
   const [selectedValue, setSelectedValue] = useState<string | number | null>(
@@ -161,24 +164,27 @@ export const Select = ({
       <>
         <TouchableOpacity
           style={[
-            styles.selector,
-            error && styles.selectorError,
-            disabled && styles.selectorDisabled,
+            selectStyles.selector,
+            error && selectStyles.selectorError,
+            disabled && selectStyles.selectorDisabled,
+            styles,
           ]}
           onPress={openModal}
           disabled={disabled}
         >
-          <View style={styles.selectorContent}>
+          <View style={selectStyles.selectorContent}>
             {!withoutChip && currentOption && (
-              <View style={styles.chip}>
-                <Text style={styles.chipText}>{currentOption.label}</Text>
+              <View style={selectStyles.chip}>
+                <Text style={selectStyles.chipText}>{currentOption.label}</Text>
               </View>
             )}
             <Text
               style={[
-                styles.selectorText,
-                !currentOption && styles.placeholderText,
-                !withoutChip && currentOption && styles.selectorTextWithChip,
+                selectStyles.selectorText,
+                !currentOption && selectStyles.placeholderText,
+                !withoutChip &&
+                  currentOption &&
+                  selectStyles.selectorTextWithChip,
               ]}
             >
               {!withoutChip && currentOption
@@ -201,19 +207,19 @@ export const Select = ({
           title={label || "Select Option"}
           slideDirection="bottom"
         >
-          <View style={styles.modalContentWrapper}>
+          <View style={selectStyles.modalContentWrapper}>
             {/* Search */}
             {searchable && (
-              <View style={styles.searchContainer}>
-                <View style={styles.searchInputContainer}>
+              <View style={selectStyles.searchContainer}>
+                <View style={selectStyles.searchInputContainer}>
                   <Feather
                     name="search"
                     size={20}
                     color="#666"
-                    style={styles.searchIcon}
+                    style={selectStyles.searchIcon}
                   />
                   <TextInput
-                    style={styles.searchInput}
+                    style={selectStyles.searchInput}
                     placeholder="Search options..."
                     value={searchText}
                     onChangeText={handleSearch}
@@ -222,7 +228,7 @@ export const Select = ({
                   {searchText.length > 0 && (
                     <TouchableOpacity
                       onPress={clearSearch}
-                      style={styles.clearButton}
+                      style={selectStyles.clearButton}
                     >
                       <Feather name="x" size={16} color="#666" />
                     </TouchableOpacity>
@@ -233,7 +239,7 @@ export const Select = ({
 
             {/* Options List */}
             <ScrollView
-              style={styles.optionsList}
+              style={selectStyles.optionsList}
               showsVerticalScrollIndicator={false}
               nestedScrollEnabled={true}
             >
@@ -242,9 +248,10 @@ export const Select = ({
                   <TouchableOpacity
                     key={item.value.toString()}
                     style={[
-                      styles.option,
-                      item.value === compSelectedValue && styles.selectedOption,
-                      item.isDisabled && styles.disabledOption,
+                      selectStyles.option,
+                      item.value === compSelectedValue &&
+                        selectStyles.selectedOption,
+                      item.isDisabled && selectStyles.disabledOption,
                     ]}
                     onPress={() =>
                       !item.isDisabled && onValueChange(item.value)
@@ -253,10 +260,10 @@ export const Select = ({
                   >
                     <Text
                       style={[
-                        styles.optionText,
+                        selectStyles.optionText,
                         item.value === compSelectedValue &&
-                          styles.selectedOptionText,
-                        item.isDisabled && styles.disabledOptionText,
+                          selectStyles.selectedOptionText,
+                        item.isDisabled && selectStyles.disabledOptionText,
                       ]}
                     >
                       {item.label}
@@ -267,8 +274,8 @@ export const Select = ({
                   </TouchableOpacity>
                 ))
               ) : (
-                <View style={styles.emptyContainer}>
-                  <Text style={styles.emptyText}>No options found</Text>
+                <View style={selectStyles.emptyContainer}>
+                  <Text style={selectStyles.emptyText}>No options found</Text>
                 </View>
               )}
             </ScrollView>
@@ -279,22 +286,22 @@ export const Select = ({
   };
 
   return (
-    <View style={flex ? styles.container : styles.containerNoFlex}>
+    <View style={flex ? selectStyles.container : selectStyles.containerNoFlex}>
       {label && (
-        <Text style={styles.label}>
+        <Text style={selectStyles.label}>
           {label}
-          {required && <Text style={styles.required}> *</Text>}
+          {required && <Text style={selectStyles.required}> *</Text>}
         </Text>
       )}
 
       {control ? renderWithControl() : renderWithoutControl()}
 
-      {error && <Text style={styles.errorText}>{error?.message}</Text>}
+      {error && <Text style={selectStyles.errorText}>{error?.message}</Text>}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const selectStyles = StyleSheet.create({
   container: {
     // marginBottom: 16,
     flex: 1,
