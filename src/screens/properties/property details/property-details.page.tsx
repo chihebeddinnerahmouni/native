@@ -109,6 +109,7 @@ export const PropertyDetailsPage = () => {
           <AvailabilitiesComponent
             availabilities={availabilities}
             targets={targets}
+            propertyId={selectedPropertyId}
           />
         )}
       </View>

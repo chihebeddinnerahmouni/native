@@ -3,6 +3,7 @@ import { CardComponent } from "../../../ui/cards/card.component";
 import {
   Availability,
   EAvailabilityStatus,
+  Property,
   Target,
 } from "../../../../backend/casaikos-api";
 import { StyleSheet, View } from "react-native";
@@ -17,16 +18,23 @@ import AvailabilityCalendar from "./calendar.component";
 import Select from "../../../ui/inputs/select.component";
 import { monthsList } from "../../../../constants/data";
 import { FieldText } from "../../../ui/inputs/field-text/field-text.component";
+import { Button } from "../../../ui/buttons/button.component";
+import { PlusIcon } from "../../../../icons";
+import { useModal } from "../../../../contexts";
+import { AvailabilitiesForm } from "../../../forms/property/availability.form";
 
 type IProps = {
   availabilities: Availability[];
   targets: Target[];
+  propertyId: string;
 };
 
 export const AvailabilitiesComponent = ({
   availabilities,
   targets,
+  propertyId,
 }: IProps) => {
+  const { openModal, closeModal } = useModal();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [weeksDay, setWeeksDays] = useState<
@@ -39,9 +47,21 @@ export const AvailabilitiesComponent = ({
     }[][]
   >([]);
 
+  const onClickOpenForm = () => {
+    openModal({
+      title: "Add Availability",
+      slideDirection: "right",
+      component: (
+        <AvailabilitiesForm
+          propertyId={propertyId}
+          onDismiss={() => closeModal()}
+        />
+      ),
+    });
+  };
+
   const monthlySummary = useMemo(() => {
     const lastDayMonth = new Date(selectedYear, selectedMonth, 0);
-
     const availableDays = availabilities.filter((el) =>
       isDateInRangeForMonth(
         new Date(el.date),
@@ -50,26 +70,20 @@ export const AvailabilitiesComponent = ({
         selectedYear
       )
     );
-
     const numberOfDays = lastDayMonth.getDate();
-
     const target = targets.find(
       (el) => el.monthNumber === selectedMonth && el.yearNumber === selectedYear
     )?.value;
-
     const rentedDays = availableDays.filter(
       (el) => el.status === EAvailabilityStatus.RENTED
     ).length;
-
     const revenue = availableDays
       .filter((el) => el.status === EAvailabilityStatus.RENTED)
       .reduce((acc, el) => acc + (el.rate || 0), 0);
-
     const rentedDaysPercentage = (rentedDays / numberOfDays) * 100;
     const availableDaysPercentage =
       ((numberOfDays - rentedDays) / numberOfDays) * 100;
     const revenuePercentage = target ? (revenue / target) * 100 : 0;
-
     return {
       numberOfDays,
       target,
@@ -95,17 +109,17 @@ export const AvailabilitiesComponent = ({
           <ActionHeader
             title="Availabilities"
             styles={availabilitiesStyle.actionsHeader}
-            // actions={
-            //   <Button
-            //     variant="contained"
-            //     icon={<EditIcon color={colors.bgColor} />}
-            //     onPress={() => {
-            //       onClickOpenForm(property);
-            //     }}
-            //   >
-            //     Edit Amenities
-            //   </Button>
-            // }
+            actions={
+              <Button
+                variant="contained"
+                icon={<PlusIcon color={colors.bgColor} />}
+                onPress={() => {
+                  onClickOpenForm();
+                }}
+              >
+                Add Availability
+              </Button>
+            }
           />
           <TargetGroup monthlySummary={monthlySummary} />
         </View>
@@ -140,7 +154,6 @@ export const AvailabilitiesComponent = ({
             weeksDay={weeksDay}
             availabilities={availabilities}
             onCreateAvailability={() => {}}
-            // onRemoveAvailability={() => deleteAvailability(availability.id)}
             onViewRentedInfo={() => {}}
           />
         </View>
