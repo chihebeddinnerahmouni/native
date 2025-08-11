@@ -152,7 +152,7 @@ export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
         )}
       />
       <FormActions
-        onPress={() => handleSubmit(onClickSubmit)}
+        onPress={handleSubmit(onClickSubmit)}
         isLoading={isCreateLoading}
       />
     </FormContainer>
