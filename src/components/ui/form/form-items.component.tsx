@@ -47,8 +47,8 @@ export const FormRow = ({
 }) => {
   return (
     <View style={[formStyles.row, style]}>
-      <View style={formStyles.halfWidth}>{rightChildren}</View>
       <View style={formStyles.halfWidth}>{leftChildren}</View>
+      <View style={formStyles.halfWidth}>{rightChildren}</View>
     </View>
   );
 };

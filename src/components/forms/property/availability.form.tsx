@@ -1,21 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useRef, useState } from "react";
+import { AddAvailabilityDto } from "../../../backend/casaikos-api";
+import { useAvailabilitiesMutation } from "../../../api-query/hooks";
 import {
-  AddAvailabilityDto,
-  EAmenityType,
-} from "../../../backend/casaikos-api";
-import colors from "../../../constants/colors";
-import { amenitiesList } from "../../../utils";
-import { AmenityComponent } from "../../properties/amenity.component";
-import {
-  useAvailabilitiesMutation,
-  usePropertiesMutation,
-} from "../../../api-query/hooks";
-import { FormActions, FormContainer } from "../../ui/form/form-items.component";
-import { Resolver, useForm } from "react-hook-form";
+  FormActions,
+  FormContainer,
+  FormRow,
+} from "../../ui/form/form-items.component";
+import { Controller, Resolver, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AvailabilitySchema } from "../../../utils/validators/availability.validator";
 import { RadioGroup } from "../../ui/inputs/radio.component";
+import { FieldText } from "../../ui/inputs/field-text/field-text.component";
 
 type IProps = {
   propertyId: string;
@@ -32,13 +27,14 @@ type FormValues = AddAvailabilityDto & { typeDuration: EDurationType };
 
 export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
   const {
+    control,
     register,
     getValues,
     setValue,
     handleSubmit,
     formState: { errors },
-    setError,
-    setFocus,
+    // setError,
+    // setFocus,
   } = useForm<FormValues>({
     resolver: yupResolver(AvailabilitySchema) as Resolver<FormValues>,
   });
@@ -55,13 +51,9 @@ export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
       ...values,
       to: typeDuration === EDurationType.SINGLE ? undefined : values.to,
       rate: Number(values.rate),
-    })
-      .then(() => {
-        onDismiss?.();
-      })
-      .catch((error) => {
-        // handleFormsServerErrors(error, setError, setFocus);
-      });
+    }).then(() => {
+      onDismiss?.();
+    });
   };
 
   if (!ref.current) {
@@ -75,61 +67,91 @@ export const AvailabilitiesForm = ({ propertyId, onDismiss, from }: IProps) => {
 
   return (
     <FormContainer>
-      <View style={styles.container}>
-        <RadioGroup
-          name="Availability Type"
-          options={[
-            {
-              label: "Single Day",
-              value: EDurationType.SINGLE,
-            },
-            {
-              label: "Multiple Day",
-              value: EDurationType.MULTIPLE,
-            },
-          ]}
-          onChange={(value) => {
-            setValue("typeDuration", value as EDurationType);
-            setTypeDuration(value as EDurationType);
-          }}
-          value={typeDuration}
-          error={errors.typeDuration}
-        />
-        <FormActions onPress={() => onClickSubmit()} isLoading={false} />
-      </View>
+      <RadioGroup
+        name="Availability Type"
+        options={[
+          {
+            label: "Single Day",
+            value: EDurationType.SINGLE,
+          },
+          {
+            label: "Multiple Day",
+            value: EDurationType.MULTIPLE,
+          },
+        ]}
+        onChange={(value) => {
+          setValue("typeDuration", value as EDurationType);
+          setTypeDuration(value as EDurationType);
+        }}
+        value={typeDuration}
+        error={errors.typeDuration}
+      />
+      <FormRow
+        leftChildren={
+          <Controller
+            name="from"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FieldText
+                placeholder="Enter here ..."
+                label={typeDuration === "multiple" ? "From" : "Date"}
+                required
+                type="date"
+                register={register("from", { required: true })}
+                error={errors.from}
+                min={new Date().toISOString().split("T")[0]}
+                value={value}
+                onChangeText={onChange}
+              />
+            )}
+          />
+        }
+        rightChildren={
+          typeDuration === "multiple" && (
+            <Controller
+              name="to"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label={typeDuration === "multiple" ? "to" : "Date"}
+                  required
+                  type="date"
+                  register={register("to", { required: true })}
+                  error={errors.to}
+                  min={new Date().toISOString().split("T")[0]}
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
+            />
+          )
+        }
+      />
+      <Controller
+        name="to"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <FieldText
+            placeholder="Enter here ..."
+            label="Rate (per Day)"
+            required
+            type="currency"
+            register={register("rate", { required: true })}
+            error={errors.rate}
+            min={0}
+            value={value?.toString() ?? ""}
+            onChangeText={(text) => {
+              const numericValue = parseFloat(text.replace(/[^0-9.-]+/g, ""));
+              onChange(isNaN(numericValue) ? "" : numericValue.toString());
+            }}
+          />
+        )}
+      />
+      <FormActions
+        onPress={() => handleSubmit(onClickSubmit)}
+        isLoading={isCreateLoading}
+      />
     </FormContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  //   amenitiesList: {
-  //     flexDirection: "row",
-  //     flexWrap: "wrap",
-  //     gap: 8,
-  //   },
-  //   amenityContainer: {
-  //     flex: 1,
-  //     minWidth: "45%",
-  //     maxWidth: "48%",
-  //     borderRadius: 8,
-  //     borderWidth: 1,
-  //   },
-  //   selectedAmenity: {
-  //     opacity: 1,
-  //     borderColor: colors.primaryColor,
-  //     backgroundColor: colors.primaryLight,
-  //   },
-  //   unselectedAmenity: {
-  //     opacity: 0.5,
-  //     borderColor: colors.borderColor,
-  //     backgroundColor: colors.bgColor,
-  //   },
-  //   amenityContent: {
-  //     margin: 0,
-  //     padding: 0,
-  //   },
-});
