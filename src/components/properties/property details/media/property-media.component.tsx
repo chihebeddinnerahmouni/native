@@ -49,7 +49,11 @@ export const MediaComponent = ({ property }: IProps) => {
           title="Additional photos and videos of your properties"
           styles={mediaStyle.actionsHeader}
         />
-        <FileUpload onUpload={handleFileChange} isLoading={isUploadPending} />
+        <FileUpload
+          title="Upload Images"
+          onUpload={handleFileChange}
+          isLoading={isUploadPending}
+        />
         <View style={mediaStyle.mediaList}>
           {property.images.length === 0 ? (
             <NoItemsFound />
