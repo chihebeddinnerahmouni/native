@@ -7,12 +7,12 @@ import { TextBody } from "../../../ui/texts/Texts.component";
 import { DotsIcon } from "../../../../icons";
 import { useActionSheet } from "../../../../hooks/useActionSheet";
 import { usePropertyDocMutation } from "../../../../api-query/hooks";
+import { useModal } from "../../../../contexts";
+import { RenameDocumentForm } from "../../../forms/property/documents-rename.form";
 
 type IProps = {
   file: HostedFile;
   propertyId: string;
-  // onUpdate?: (file: HostedFile) => void;
-  // onDelete?: (file: HostedFile) => void;
 };
 
 export const FileItem = ({ file, propertyId }: IProps) => {
@@ -20,6 +20,7 @@ export const FileItem = ({ file, propertyId }: IProps) => {
     return { propertyId: propertyId ?? "" };
   }, [propertyId]);
   const { showActionSheet } = useActionSheet();
+  const { openModal, closeModal } = useModal();
   const { deletePropertyDoc } = usePropertyDocMutation(param);
 
   const handleDotsPress = () => {
@@ -33,9 +34,11 @@ export const FileItem = ({ file, propertyId }: IProps) => {
           onPress: () => {},
         },
         {
-          text: "Update",
+          text: "Rename",
           style: "default",
-          onPress: () => {},
+          onPress: () => {
+            onClickEdit(file);
+          },
         },
         {
           text: "Delete",
@@ -43,6 +46,19 @@ export const FileItem = ({ file, propertyId }: IProps) => {
           onPress: () => deletePropertyDoc(file.fileKey),
         },
       ],
+    });
+  };
+
+  const onClickEdit = (document: HostedFile) => {
+    openModal({
+      title: "Rename document",
+      component: (
+        <RenameDocumentForm
+          propertyId={propertyId}
+          onDismiss={closeModal}
+          document={document}
+        />
+      ),
     });
   };
 
