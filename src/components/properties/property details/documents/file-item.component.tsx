@@ -1,57 +1,49 @@
-/* eslint-disable react-native/split-platform-components */
-import React from "react";
-import {
-  View,
-  Image,
-  TouchableOpacity,
-  ActionSheetIOS,
-  Platform,
-  Alert,
-} from "react-native";
+import React, { useMemo } from "react";
+import { View, Image, TouchableOpacity } from "react-native";
 import { HostedFile } from "../../../../backend/casaikos-api";
 import { StyleSheet } from "react-native";
 import colors from "../../../../constants/colors";
 import { TextBody } from "../../../ui/texts/Texts.component";
 import { DotsIcon } from "../../../../icons";
+import { useActionSheet } from "../../../../hooks/useActionSheet";
+import { usePropertyDocMutation } from "../../../../api-query/hooks";
 
 type IProps = {
   file: HostedFile;
-  onUpdate?: (file: HostedFile) => void;
-  onDelete?: (file: HostedFile) => void;
+  propertyId: string;
+  // onUpdate?: (file: HostedFile) => void;
+  // onDelete?: (file: HostedFile) => void;
 };
 
-export const FileItem = ({ file, onUpdate, onDelete }: IProps) => {
-  const showActionSheet = () => {
-    if (Platform.OS === "ios") {
-      ActionSheetIOS.showActionSheetWithOptions(
+export const FileItem = ({ file, propertyId }: IProps) => {
+  const param = useMemo(() => {
+    return { propertyId: propertyId ?? "" };
+  }, [propertyId]);
+  const { showActionSheet } = useActionSheet();
+  const { deletePropertyDoc } = usePropertyDocMutation(param);
+
+  const handleDotsPress = () => {
+    showActionSheet({
+      title: "File Options",
+      message: `What would you like to do with ${file.fileName}?`,
+      options: [
         {
-          options: ["Cancel", "Update", "Delete"],
-          destructiveButtonIndex: 2,
-          cancelButtonIndex: 0,
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => {},
         },
-        (buttonIndex) => {
-          if (buttonIndex === 1) {
-            onUpdate?.(file);
-          } else if (buttonIndex === 2) {
-            onDelete?.(file);
-          }
-        }
-      );
-    } else {
-      Alert.alert(
-        "File Options",
-        `What would you like to do with ${file.fileName}?`,
-        [
-          { text: "Cancel", style: "cancel" },
-          { text: "Update", onPress: () => onUpdate?.(file) },
-          {
-            text: "Delete",
-            style: "destructive",
-            onPress: () => onDelete?.(file),
-          },
-        ]
-      );
-    }
+        {
+          text: "Update",
+          style: "default",
+          onPress: () => {},
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => deletePropertyDoc(file.fileKey),
+        },
+      ],
+    });
   };
 
   return (
@@ -63,7 +55,7 @@ export const FileItem = ({ file, onUpdate, onDelete }: IProps) => {
           <TextBody style={styles.size}>pdf - 1.3 MB*</TextBody>
         </View>
       </View>
-      <TouchableOpacity onPress={showActionSheet}>
+      <TouchableOpacity style={styles.dotsButton} onPress={handleDotsPress}>
         <DotsIcon />
       </TouchableOpacity>
     </View>
@@ -100,5 +92,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
     color: colors.textColor2,
+  },
+  dotsButton: {
+    padding: 8,
   },
 });

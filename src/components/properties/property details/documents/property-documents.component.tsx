@@ -16,17 +16,17 @@ type IProps = {
 };
 
 export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
-  const param = useMemo(() => {
-    return { propertyId: propertyId ?? "" };
-  }, [propertyId]);
+  //   const param = useMemo(() => {
+  //     return { propertyId: propertyId ?? "" };
+  //   }, [propertyId]);
   const { openModal, closeModal } = useModal();
-  const {
-    deletePropertyDoc,
-    uploadPropertyFiles,
-    isUploadPending,
-    renamePropertyDoc,
-    isRenamePending,
-  } = usePropertyDocMutation(param);
+  //   const {
+  //     deletePropertyDoc,
+  //     uploadPropertyFiles,
+  //     isUploadPending,
+  //     renamePropertyDoc,
+  //     isRenamePending,
+  //   } = usePropertyDocMutation(param);
 
   const onClickOpenForm = (property: Property) => {
     // openModal({
@@ -50,18 +50,7 @@ export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
             <NoItemsFound />
           ) : (
             documents.map((file, index) => (
-              <FileItem
-                key={index}
-                file={file}
-                onUpdate={(file) => {
-                  console.log("Update file:", file.fileName);
-                  // You can add update logic here using renamePropertyDoc
-                }}
-                onDelete={(file) => {
-                  console.log("Delete file:", file.fileName);
-                  deletePropertyDoc(file.fileKey);
-                }}
-              />
+              <FileItem key={index} file={file} propertyId={propertyId} />
             ))
           )}
         </View>
