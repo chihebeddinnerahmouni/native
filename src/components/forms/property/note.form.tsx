@@ -10,11 +10,15 @@ import { amenitiesList } from "../../../utils";
 import { AmenityComponent } from "../../properties/property details/amenities/amenity.component";
 import { usePropertiesMutation } from "../../../api-query/hooks";
 import { FormActions, FormContainer } from "../../ui/form/form-items.component";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { noteSchema } from "../../../utils/validators/note.validator";
 import * as DocumentPicker from "expo-document-picker";
 import { convertToRNFile } from "../../../utils/files.utils";
+import { FieldText } from "../../ui/inputs/field-text/field-text.component";
+import { Textarea } from "../../ui/inputs/field-text/textarea.component";
+import { FileUpload } from "../../ui/upload-file.component";
+import { TextBody } from "../../ui/texts/Texts.component";
 
 type IProps = {
   property: Property;
@@ -25,9 +29,9 @@ type IImages = DocumentPicker.DocumentPickerAsset;
 
 export const NotesForm = ({ property, onDismiss }: IProps) => {
   const {
-    register,
     getValues,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<CreateNotePropertyDto>({
     resolver: yupResolver(noteSchema),
@@ -55,16 +59,57 @@ export const NotesForm = ({ property, onDismiss }: IProps) => {
 
   return (
     <FormContainer>
-      <View style={styles.container}></View>
-      <FormActions onPress={() => onClickSubmit()} isLoading={false} />
+      <Controller
+        name="title"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <FieldText
+            placeholder="Enter title ..."
+            label="Title"
+            required
+            error={errors.title}
+            value={value}
+            onChangeText={onChange}
+          />
+        )}
+      />
+      <Controller
+        name="text"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Textarea
+            placeholder="Enter here ..."
+            label="Note's text"
+            required
+            value={value}
+            onChangeText={onChange}
+            error={errors.text}
+          />
+        )}
+      />
+      <View>
+        <FileUpload
+          onUpload={handleFileChange}
+          isLoading={false}
+          onlyImages={true}
+        />
+        <TextBody style={styles.imagesLength}>
+          {images && images.length > 0
+            ? `${images.length} files selected`
+            : "No files selected"}
+        </TextBody>
+      </View>
+      <FormActions
+        onPress={handleSubmit(onClickSubmit)}
+        isLoading={isAddNotePending}
+      />
     </FormContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
+  imagesLength: {
+    marginTop: 8,
+    color: colors.textColor,
   },
 });

@@ -101,7 +101,7 @@ export const FormActions = ({
 const formStyles = StyleSheet.create({
   formContainer: {
     flexDirection: "column",
-    gap: 32,
+    gap: 24,
     padding: 12,
   },
   keyboardAvoidingView: {
