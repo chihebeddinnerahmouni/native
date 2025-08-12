@@ -18,7 +18,7 @@ export const useConfirm = () => {
     cancelText = "Cancel",
     onConfirm,
     onCancel,
-    destructive = false,
+    destructive = true,
   }: ConfirmOptions) => {
     Alert.alert(
       title,

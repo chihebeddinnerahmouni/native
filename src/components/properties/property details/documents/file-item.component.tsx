@@ -28,7 +28,6 @@ export const FileItem = ({ file, propertyId }: IProps) => {
     showConfirmation({
       title: "Delete File",
       message: `Are you sure you want to delete "${file.fileName}"?\nThis action cannot be undone.`,
-      destructive: true,
       onConfirm: () => deletePropertyDoc(file.fileKey),
     });
   };

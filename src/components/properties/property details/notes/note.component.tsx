@@ -28,7 +28,6 @@ export const NoteItem = ({ note, style }: NoteItemProps) => {
       title: "Delete Note",
       message:
         "Are you sure you want to delete this note?\nThis action cannot be undone.",
-      destructive: true,
       onConfirm: () => {
         // TODO: Implement actual delete functionality
         // onDelete(note._id, propertyId);
