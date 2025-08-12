@@ -8,8 +8,8 @@ import { PlusIcon } from "../../../../icons";
 import colors from "../../../../constants/colors";
 import { NoItemsFound } from "../../../ui/noItemsFound";
 import { useModal } from "../../../../contexts";
-import { AmenitiesForm } from "../../../forms/property/amenities.form";
 import { NoteItem } from "./note.component";
+import { NotesForm } from "../../../forms/property/note.form";
 
 type IProps = {
   property: Property;
@@ -20,9 +20,9 @@ export const NotesComponent = ({ property }: IProps) => {
 
   const onClickOpenForm = (property: Property) => {
     openModal({
-      title: "Update Amenities",
+      title: "Add Note",
       component: (
-        <AmenitiesForm property={property} onDismiss={() => closeModal()} />
+        <NotesForm property={property} onDismiss={() => closeModal()} />
       ),
     });
   };

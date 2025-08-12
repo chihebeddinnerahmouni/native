@@ -14,6 +14,8 @@ import {
 import { CreatePropertyDto, Property } from "../../../backend/casaikos-api";
 import { errorHandler } from "../../../utils/errors.utils";
 import { showSuccessAlert } from "../../../components/ui/alerts/alerts.component";
+import { RNFile } from "../../../utils/files.utils";
+import { uploadPropertyNotesHandler } from "../../../utils";
 // import { uploadPropertyNotesHandler } from "../../../utils";
 
 type SavePropertyVariables = {
@@ -32,18 +34,18 @@ type IResponse = {
     unknown
   >;
   isEditAmenitiesPending: boolean;
-  // addNote: UseMutateAsyncFunction<
-  //   Property,
-  //   unknown,
-  //   {
-  //     propertyId: string;
-  //     text: string;
-  //     title: string | undefined;
-  //     files: File[] | null;
-  //   },
-  //   unknown
-  // >;
-  // isAddNotePending: boolean;
+  addNote: UseMutateAsyncFunction<
+    Property,
+    unknown,
+    {
+      propertyId: string;
+      text: string;
+      title: string | undefined;
+      files: RNFile[] | null;
+    },
+    unknown
+  >;
+  isAddNotePending: boolean;
   deleteNote: UseMutateAsyncFunction<
     void,
     unknown,
@@ -104,23 +106,23 @@ export const usePropertiesMutation = (): IResponse => {
     onError: errorHandler,
   });
 
-  // const addNoteMutation = useMutation({
-  //   mutationFn: ({
-  //     propertyId,
-  //     text,
-  //     title,
-  //     files,
-  //   }: {
-  //     propertyId: string;
-  //     text: string;
-  //     title: string | undefined;
-  //     files: File[] | null;
-  //   }) => uploadPropertyNotesHandler(propertyId, text, title, files),
-  //   onSuccess: () => {
-  //     toast.success("Note added successfully");
-  //   },
-  //   onError: errorHandler,
-  // });
+  const addNoteMutation = useMutation({
+    mutationFn: ({
+      propertyId,
+      text,
+      title,
+      files,
+    }: {
+      propertyId: string;
+      text: string;
+      title: string | undefined;
+      files: RNFile[] | null;
+    }) => uploadPropertyNotesHandler(propertyId, text, title, files),
+    onSuccess: () => {
+      showSuccessAlert("Success", "Note added successfully");
+    },
+    onError: errorHandler,
+  });
 
   const deleteNoteMutation = useMutation({
     mutationFn: ({
@@ -184,8 +186,8 @@ export const usePropertiesMutation = (): IResponse => {
     isLoading: isSavePending,
     editAmenities: editAmenitiesMutation.mutateAsync,
     isEditAmenitiesPending: editAmenitiesMutation.isPending,
-    // addNote: addNoteMutation.mutateAsync,
-    // isAddNotePending: addNoteMutation.isPending,
+    addNote: addNoteMutation.mutateAsync,
+    isAddNotePending: addNoteMutation.isPending,
     deleteNote: deleteNoteMutation.mutateAsync,
     // addFacility: addFacilityMutation.mutateAsync,
     // isAddFacilityPending: addFacilityMutation.isPending,

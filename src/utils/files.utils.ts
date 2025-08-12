@@ -20,7 +20,7 @@ export interface RNFile {
   size?: number;
 }
 
-interface RNFormDataFile {
+export interface RNFormDataFile {
   uri: string;
   name: string;
   type: string;
