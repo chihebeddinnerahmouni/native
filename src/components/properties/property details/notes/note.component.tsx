@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Alert,
   ScrollView,
   ViewStyle,
 } from "react-native";
@@ -14,6 +13,7 @@ import { formatDateTime } from "../../../../utils";
 import colors from "../../../../constants/colors";
 import { getImageUrl } from "../../../../utils/validators/images.utils";
 import { TextBody } from "../../../ui/texts/Texts.component";
+import { useConfirm } from "../../../../hooks";
 
 type NoteItemProps = {
   note: Note;
@@ -21,24 +21,23 @@ type NoteItemProps = {
 };
 
 export const NoteItem = ({ note, style }: NoteItemProps) => {
+  const { showConfirmation } = useConfirm();
+
   const onDeleteConfirm = () => {
-    Alert.alert(
-      "Delete Note",
-      "Are you sure you want to delete this note?\nThis action cannot be undone.",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          style: "destructive",
-          //   onPress: () => onDelete(note._id, propertyId),
-          onPress: () => {},
-        },
-      ],
-      { cancelable: true }
-    );
+    showConfirmation({
+      title: "Delete Note",
+      message:
+        "Are you sure you want to delete this note?\nThis action cannot be undone.",
+      destructive: true,
+      onConfirm: () => {
+        // TODO: Implement actual delete functionality
+        // onDelete(note._id, propertyId);
+        console.log("Note deleted:", note._id);
+      },
+      onCancel: () => {
+        console.log("Delete cancelled");
+      },
+    });
   };
 
   return (

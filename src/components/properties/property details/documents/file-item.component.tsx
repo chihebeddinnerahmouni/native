@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import colors from "../../../../constants/colors";
 import { TextBody } from "../../../ui/texts/Texts.component";
 import { DotsIcon } from "../../../../icons";
-import { useActionSheet } from "../../../../hooks/useActionSheet";
+import { useActionSheet, useConfirm } from "../../../../hooks";
 import { usePropertyDocMutation } from "../../../../api-query/hooks";
 import { useModal } from "../../../../contexts";
 import { RenameDocumentForm } from "../../../forms/property/documents-rename.form";
@@ -20,8 +20,18 @@ export const FileItem = ({ file, propertyId }: IProps) => {
     return { propertyId: propertyId ?? "" };
   }, [propertyId]);
   const { showActionSheet } = useActionSheet();
+  const { showConfirmation } = useConfirm();
   const { openModal, closeModal } = useModal();
   const { deletePropertyDoc } = usePropertyDocMutation(param);
+
+  const handleDelete = () => {
+    showConfirmation({
+      title: "Delete File",
+      message: `Are you sure you want to delete "${file.fileName}"?\nThis action cannot be undone.`,
+      destructive: true,
+      onConfirm: () => deletePropertyDoc(file.fileKey),
+    });
+  };
 
   const handleDotsPress = () => {
     showActionSheet({
@@ -43,7 +53,7 @@ export const FileItem = ({ file, propertyId }: IProps) => {
         {
           text: "Delete",
           style: "destructive",
-          onPress: () => deletePropertyDoc(file.fileKey),
+          onPress: handleDelete,
         },
       ],
     });
