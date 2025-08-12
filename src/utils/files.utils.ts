@@ -3,6 +3,7 @@ import axios from "axios";
 import { getToken } from "./token.utils";
 import { showSuccessAlert } from "../components/ui/alerts/alerts.component";
 import errorHandler from "./errors.utils";
+import * as DocumentPicker from "expo-document-picker";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 let csrfToken: string | null = null;
@@ -87,4 +88,15 @@ export const uploadFiles = async (endPoint: string, files: RNFile[]) => {
   } catch (error) {
     errorHandler(error);
   }
+};
+
+export const convertToRNFile = (
+  files: DocumentPicker.DocumentPickerAsset[]
+): RNFile[] => {
+  return files.map((file) => ({
+    uri: file.uri,
+    name: file.name,
+    type: file.mimeType || "application/octet-stream",
+    size: file.size,
+  }));
 };

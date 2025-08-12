@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export enum EScreens {
-  AUTH = "Auth",
   MESSAGES = "Messages",
   PROPERTIES = "Properties",
   // OWNERS = "Owners",
   // SETTINGS = "Settings",
   // Add more main sections as you build them
+}
+
+export enum ETabs {
+  MAIN = "MainTabs",
+  AUTH = "Auth",
 }
 
 export enum ERoute {
@@ -21,5 +25,5 @@ export enum ERoute {
 }
 
 export const NavigateAfterLogin = (navigation: any) => {
-  navigation.navigate(EScreens.MESSAGES);
+  navigation.navigate(ETabs.MAIN, { screen: EScreens.MESSAGES });
 };

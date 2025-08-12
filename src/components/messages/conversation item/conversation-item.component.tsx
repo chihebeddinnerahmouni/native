@@ -32,9 +32,14 @@ export const RecentMessageComponent = ({
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleSelectConversation = (tenantId: string) => {
-    navigation.navigate(EScreens.MESSAGES, {
-      screen: ERoute.MESSAGES_PAGE,
-      params: { tenantId: tenantId },
+    // Navigate to MainTabs, then to Messages, then to the specific page
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (navigation as any).navigate("MainTabs", {
+      screen: EScreens.MESSAGES,
+      params: {
+        screen: ERoute.MESSAGES_PAGE,
+        params: { tenantId: tenantId },
+      },
     });
   };
 
