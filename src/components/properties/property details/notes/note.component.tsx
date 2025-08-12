@@ -14,14 +14,17 @@ import colors from "../../../../constants/colors";
 import { getImageUrl } from "../../../../utils/validators/images.utils";
 import { TextBody } from "../../../ui/texts/Texts.component";
 import { useConfirm } from "../../../../hooks";
+import { usePropertiesMutation } from "../../../../api-query/hooks";
 
 type NoteItemProps = {
   note: Note;
   style?: ViewStyle;
+  propertyId: string;
 };
 
-export const NoteItem = ({ note, style }: NoteItemProps) => {
+export const NoteItem = ({ note, style, propertyId }: NoteItemProps) => {
   const { showConfirmation } = useConfirm();
+  const { deleteNote } = usePropertiesMutation();
 
   const onDeleteConfirm = () => {
     showConfirmation({
@@ -29,9 +32,7 @@ export const NoteItem = ({ note, style }: NoteItemProps) => {
       message:
         "Are you sure you want to delete this note?\nThis action cannot be undone.",
       onConfirm: () => {
-        // TODO: Implement actual delete functionality
-        // onDelete(note._id, propertyId);
-        console.log("Note deleted:", note._id);
+        deleteNote({ propertyId, noteId: note._id });
       },
       onCancel: () => {
         console.log("Delete cancelled");

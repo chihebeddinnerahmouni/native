@@ -2,6 +2,7 @@ import { UseMutateAsyncFunction, useMutation } from "@tanstack/react-query";
 // import { toast } from "react-toastify";
 import {
   createProperty,
+  deletePropertyNoteHandler,
   editAmenitiesHandler,
   // deleteFacilityHandler,
   // deleteProperty,
@@ -43,12 +44,12 @@ type IResponse = {
   //   unknown
   // >;
   // isAddNotePending: boolean;
-  // deleteNote: UseMutateAsyncFunction<
-  //   void,
-  //   unknown,
-  //   { propertyId: string; noteId: string },
-  //   unknown
-  // >;
+  deleteNote: UseMutateAsyncFunction<
+    void,
+    unknown,
+    { propertyId: string; noteId: string },
+    unknown
+  >;
   // addFacility: UseMutateAsyncFunction<
   //   Property,
   //   unknown,
@@ -121,19 +122,20 @@ export const usePropertiesMutation = (): IResponse => {
   //   onError: errorHandler,
   // });
 
-  // const deleteNoteMutation = useMutation({
-  //   mutationFn: ({
-  //     propertyId,
-  //     noteId,
-  //   }: {
-  //     propertyId: string;
-  //     noteId: string;
-  //   }) => deletePropertyNoteHandler(propertyId, noteId),
-  //   onSuccess: () => {
-  //     toast.success("Note removed successfully");
-  //   },
-  //   onError: errorHandler,
-  // });
+  const deleteNoteMutation = useMutation({
+    mutationFn: ({
+      propertyId,
+      noteId,
+    }: {
+      propertyId: string;
+      noteId: string;
+    }) => deletePropertyNoteHandler(propertyId, noteId),
+    onSuccess: () => {
+      // toast.success("Note removed successfully");
+      showSuccessAlert("Success", "Note removed successfully");
+    },
+    onError: errorHandler,
+  });
 
   // const addFacilityMutation = useMutation({
   //   mutationFn: ({
@@ -184,7 +186,7 @@ export const usePropertiesMutation = (): IResponse => {
     isEditAmenitiesPending: editAmenitiesMutation.isPending,
     // addNote: addNoteMutation.mutateAsync,
     // isAddNotePending: addNoteMutation.isPending,
-    // deleteNote: deleteNoteMutation.mutateAsync,
+    deleteNote: deleteNoteMutation.mutateAsync,
     // addFacility: addFacilityMutation.mutateAsync,
     // isAddFacilityPending: addFacilityMutation.isPending,
     // deleteFacility: deleteFacilityMutation.mutateAsync,

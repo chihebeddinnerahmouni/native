@@ -49,7 +49,11 @@ export const NotesComponent = ({ property }: IProps) => {
           <View style={notesStyle.notesList}>
             {property.notes && property.notes.length > 0 ? (
               property.notes.map((note) => (
-                <NoteItem key={note._id} note={note} />
+                <NoteItem
+                  key={note._id}
+                  note={note}
+                  propertyId={property._id}
+                />
               ))
             ) : (
               <NoItemsFound message="No notes available" />
