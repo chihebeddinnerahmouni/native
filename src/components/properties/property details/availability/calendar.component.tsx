@@ -14,14 +14,6 @@ import { showInfoAlert } from "../../../ui/alerts/alerts.component";
 import { useAvailabilitiesMutation } from "../../../../api-query/hooks";
 import { TextBody } from "../../../ui/texts/Texts.component";
 
-// Types
-// interface Availability {
-//   _id: string;
-//   date: string;
-//   status: EAvailabilityStatus;
-//   rate?: number;
-// }
-
 enum EAvailabilityStatus {
   AVAILABLE = "AVAILABLE",
   RENTED = "RENTED",
@@ -310,7 +302,6 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
         </View>
       </View>
 
-      {/* Custom Confirmation Modal */}
       {modalState.visible && modalState.config && (
         <ConfirmationModal
           visible={modalState.visible}

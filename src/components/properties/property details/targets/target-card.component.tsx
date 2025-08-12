@@ -8,6 +8,9 @@ import { formatCurrency } from "../../../../utils";
 import { TextBody } from "../../../ui/texts/Texts.component";
 import { useModal } from "../../../../contexts";
 import { TargetsForm } from "../../../forms/property/targets.form";
+import { useConfirmationAlert } from "../../../../hooks/useConfirmationAlert";
+import { useTargetsMutation } from "../../../../api-query/hooks";
+import ConfirmationModal from "../../../ui/modal/ConfirmationModal";
 
 type TargetCardProps = {
   target: Target;
@@ -17,6 +20,9 @@ type TargetCardProps = {
 
 export const TargetCard = ({ target, style, propertyId }: TargetCardProps) => {
   const { openModal, closeModal } = useModal();
+  const { deleteTarget } = useTargetsMutation();
+  const { showConfirmationAlert, modalState, hideModal } =
+    useConfirmationAlert();
   const monthLabel = new Date(
     target.yearNumber,
     target.monthNumber - 1
@@ -39,6 +45,16 @@ export const TargetCard = ({ target, style, propertyId }: TargetCardProps) => {
     });
   };
 
+  const onClickDeleteConfirm = (target: Target) => {
+    showConfirmationAlert({
+      title: "Delete Target",
+      message: "Are you sure you want to delete this target?",
+      onConfirm: async () => {
+        await deleteTarget(target._id);
+      },
+    });
+  };
+
   return (
     <View style={[styles.targetItem, style]}>
       <View style={styles.targetItemHeader}>
@@ -55,7 +71,7 @@ export const TargetCard = ({ target, style, propertyId }: TargetCardProps) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.actionIcon}
-            // onPress={() => onDelete(target)}
+            onPress={() => onClickDeleteConfirm(target)}
             activeOpacity={0.7}
           >
             <DeleteIcon />
@@ -89,6 +105,21 @@ export const TargetCard = ({ target, style, propertyId }: TargetCardProps) => {
           </View>
         </TouchableOpacity>
       </View>
+      {modalState.visible && modalState.config && (
+        <ConfirmationModal
+          visible={modalState.visible}
+          title={modalState.config.title}
+          message={modalState.config.message}
+          confirmText={modalState.config.confirmText}
+          cancelText={modalState.config.cancelText}
+          onConfirm={modalState.config.onConfirm}
+          onCancel={() => {
+            modalState.config?.onCancel?.();
+            hideModal();
+          }}
+          loadingText={modalState.config.loadingText}
+        />
+      )}
     </View>
   );
 };

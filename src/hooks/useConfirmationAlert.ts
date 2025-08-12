@@ -37,7 +37,7 @@ export const useConfirmationAlert = () => {
           onPress: config.onCancel,
         },
         {
-          text: config.confirmText || "Confirm",
+          text: config.confirmText || "Remove",
           style: "destructive",
           onPress: async () => {
             try {
