@@ -1,32 +1,35 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
+  //   Text,
   TouchableOpacity,
   StyleSheet,
   Alert,
   ActivityIndicator,
   ViewStyle,
+  Image,
 } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
-import { FileIcon } from "../../icons";
 import colors from "../../constants/colors";
+import { TextBody } from "./texts/Texts.component";
 
 type FileUploadProps = {
   onUpload: (files: DocumentPicker.DocumentPickerAsset[]) => void;
   isLoading?: boolean;
-  title?: string;
   onlyImages?: boolean;
   multiple?: boolean;
+  title?: string;
+  subTitle?: string;
   style?: ViewStyle;
 };
 
 export const FileUpload = ({
   onUpload,
   isLoading = false,
-  title = "Tap to select files",
   onlyImages = false,
   multiple = true,
+  title = multiple ? "Upload Files" : "Upload File",
+  subTitle = "PDF and Word files no larger than 10MB*",
   style,
 }: FileUploadProps) => {
   const [isSelecting, setIsSelecting] = useState(false);
@@ -71,29 +74,26 @@ export const FileUpload = ({
         {isSelecting ? (
           <ActivityIndicator size="small" color="#007AFF" />
         ) : (
-          <FileIcon />
+          <Image
+            source={require("../../../assets/images/upload-file.png")}
+            style={styles.icon}
+          />
         )}
       </View>
 
       <View style={styles.description}>
         {!isLoading ? (
           <>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subtitle}>
-              Select {multiple ? "files" : "file"} from your device
-            </Text>
+            <TextBody style={styles.title}>{title}</TextBody>
+            <TextBody style={styles.subtitle}>{subTitle}</TextBody>
           </>
         ) : (
           <>
-            <Text style={styles.title}>
+            <TextBody style={styles.title}>
               Uploading in progress, please wait...
-            </Text>
+            </TextBody>
           </>
         )}
-
-        <Text style={styles.browseText}>
-          {isSelecting ? "Selecting..." : "Browse Files"}
-        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -105,44 +105,37 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 12,
     gap: 16,
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.emptyBgColor,
     borderWidth: 1,
-    borderColor: colors.primaryBold,
-    borderStyle: "dashed",
-    borderRadius: 4,
+    borderColor: colors.borderColor,
+    borderRadius: 12,
     minHeight: 80,
   },
   containerDisabled: {
     opacity: 0.6,
   },
   iconContainer: {
-    width: 48.487,
-    height: 48.487,
+    width: 50,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: colors.primaryBold,
-    backgroundColor: colors.bgColor,
+  },
+  icon: {
+    width: "100%",
+    height: "100%",
   },
   description: {
     flex: 1,
     gap: 6,
   },
   title: {
-    fontSize: 16,
-    fontWeight: "700",
+    fontSize: 14,
+    fontWeight: "500",
     color: colors.textColor,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 12,
     color: colors.textColor2,
-    fontWeight: "500",
-  },
-  browseText: {
-    fontSize: 15,
     fontWeight: "400",
-    color: colors.primaryColor,
-    marginTop: 4,
   },
 });
