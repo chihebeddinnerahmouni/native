@@ -5,7 +5,7 @@ import {
   EntityType,
 } from "../../../components/ui/Profile-icon.component";
 import { useNavigation } from "@react-navigation/native";
-import { ERoute, EScreens, getTimeSince } from "../../../utils";
+import { ERoute, EScreens, ETabs, getTimeSince } from "../../../utils";
 import { getIconColorFromId } from "../../../utils";
 import { TextBody } from "../../../components/ui/texts/Texts.component";
 import { ConversationItemStyle } from "./conversation-item.style";
@@ -34,7 +34,7 @@ export const RecentMessageComponent = ({
   const handleSelectConversation = (tenantId: string) => {
     // Navigate to MainTabs, then to Messages, then to the specific page
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (navigation as any).navigate("MainTabs", {
+    (navigation as any).navigate(ETabs.MAIN, {
       screen: EScreens.MESSAGES,
       params: {
         screen: ERoute.MESSAGES_PAGE,

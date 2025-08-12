@@ -25,5 +25,5 @@ export enum ERoute {
 }
 
 export const NavigateAfterLogin = (navigation: any) => {
-  navigation.navigate(ETabs.MAIN, { screen: EScreens.PROPERTIES });
+  navigation.navigate(ETabs.MAIN, { screen: EScreens.MESSAGES });
 };

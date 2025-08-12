@@ -11,7 +11,6 @@ import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { colors } from "../../../constants/colors";
 import { PropertiesListStyles } from "./property-list.style";
 import { useModal } from "../../../contexts";
-import { Property } from "../../../backend/casaikos-api";
 import { Pagination } from "../../../components/ui/pagination";
 import { PropertyForm } from "../../../components/forms";
 
@@ -92,14 +91,7 @@ export const PropertiesListPage = () => {
       />
       <View style={PropertiesListStyles.propertiesContainer}>
         {propertiesResult.items.map((property) => (
-          <PropertyCard
-            key={property._id}
-            property={property}
-            onPress={() => {}}
-            onDelete={(property: Property) => {
-              console.log("Delete property:", property.title);
-            }}
-          />
+          <PropertyCard key={property._id} property={property} />
         ))}
       </View>
     </MainLayout>

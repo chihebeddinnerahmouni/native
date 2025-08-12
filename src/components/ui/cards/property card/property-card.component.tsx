@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Property } from "../../../../backend/casaikos-api";
@@ -12,21 +13,28 @@ import { PropertyForm } from "../../../forms";
 import { PropertyLocation } from "../../../properties/property-location.component";
 import { PropertyIndicators } from "../../../properties/property-indicators.component";
 import { useActionSheet } from "../../../../hooks/useActionSheet";
+import { useNavigation } from "@react-navigation/native";
+import { ETabs, EScreens, ERoute } from "../../../../utils";
 
 interface PropertyCardProps {
   property: Property;
-  onPress?: () => void;
-  onDelete?: (property: Property) => void;
 }
 
-export const PropertyCard = ({
-  property,
-  onPress,
-  onDelete,
-}: PropertyCardProps) => {
+export const PropertyCard = ({ property }: PropertyCardProps) => {
   const propertyImageUrl = property.images?.[0]?.fileKey;
   const { openModal, closeModal } = useModal();
   const { showActionSheet } = useActionSheet();
+  const navigator = useNavigation();
+
+  const navigationHandle = () => {
+    (navigator as any).navigate(ETabs.MAIN, {
+      screen: EScreens.PROPERTIES,
+      params: {
+        screen: ERoute.PROPERTIES_DETAILS,
+        params: { propertyId: property._id },
+      },
+    });
+  };
 
   const onClickOpenForm = (property: Property) => {
     openModal({
@@ -60,7 +68,8 @@ export const PropertyCard = ({
         {
           text: "Delete",
           style: "destructive",
-          onPress: () => onDelete?.(property),
+          // onPress: () => onDelete?.(property),
+          onPress: () => {},
         },
       ],
     });
@@ -69,7 +78,7 @@ export const PropertyCard = ({
   return (
     <TouchableOpacity
       style={propertyCardStyles.propertyCard}
-      onPress={onPress}
+      onPress={navigationHandle}
       activeOpacity={0.8}
     >
       <Badge
