@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { getToken } from "./token.utils";
+import { showSuccessAlert } from "../components/ui/alerts/alerts.component";
+import errorHandler from "./errors.utils";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 let csrfToken: string | null = null;
@@ -56,4 +58,33 @@ export const sendWhatsappRequest = async (
   );
 
   return response.data;
+};
+
+export const uploadFiles = async (endPoint: string, files: RNFile[]) => {
+  try {
+    const token = getToken();
+    const formData = new (global as any).FormData();
+
+    files.forEach((file) => {
+      const fileObject: RNFormDataFile = {
+        uri: file.uri,
+        name: file.name,
+        type: file.type,
+      };
+      formData.append("files", fileObject as any);
+    });
+
+    const response = await AxiosInstance.post(`${endPoint}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+        "X-CSRF-TOKEN": csrfToken,
+      },
+    });
+
+    showSuccessAlert("Success", "Files uploaded successfully");
+    return response.data;
+  } catch (error) {
+    errorHandler(error);
+  }
 };

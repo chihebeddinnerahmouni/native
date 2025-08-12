@@ -1,17 +1,14 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { CardComponent } from "../../../ui/cards/card.component";
 import { HostedFile, Property } from "../../../../backend/casaikos-api";
 import { StyleSheet, View } from "react-native";
 import { ActionHeader } from "../../../ui/action-header.component";
-import { Button } from "../../../ui/buttons/button.component";
-import { PlusIcon } from "../../../../icons";
 import colors from "../../../../constants/colors";
-import { amenitiesList } from "../../../../utils";
 import { NoItemsFound } from "../../../ui/noItemsFound";
 import { useModal } from "../../../../contexts";
-import { AmenitiesForm } from "../../../forms/property/amenities.form";
 import { FileUpload } from "../../../ui/upload-file.component";
 import { FileItem } from "./file-item.component";
+import { usePropertyDocMutation } from "../../../../api-query/hooks";
 
 type IProps = {
   documents: HostedFile[];
@@ -19,7 +16,17 @@ type IProps = {
 };
 
 export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
+  const param = useMemo(() => {
+    return { propertyId: propertyId ?? "" };
+  }, [propertyId]);
   const { openModal, closeModal } = useModal();
+  const {
+    deletePropertyDoc,
+    uploadPropertyFiles,
+    isUploadPending,
+    renamePropertyDoc,
+    isRenamePending,
+  } = usePropertyDocMutation(param);
 
   const onClickOpenForm = (property: Property) => {
     // openModal({
