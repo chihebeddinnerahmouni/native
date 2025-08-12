@@ -1,5 +1,13 @@
+/* eslint-disable react-native/split-platform-components */
 import React from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  ActionSheetIOS,
+  Platform,
+  Alert,
+} from "react-native";
 import { HostedFile } from "../../../../backend/casaikos-api";
 import { StyleSheet } from "react-native";
 import colors from "../../../../constants/colors";
@@ -8,9 +16,44 @@ import { DotsIcon } from "../../../../icons";
 
 type IProps = {
   file: HostedFile;
+  onUpdate?: (file: HostedFile) => void;
+  onDelete?: (file: HostedFile) => void;
 };
 
-export const FileItem = ({ file }: IProps) => {
+export const FileItem = ({ file, onUpdate, onDelete }: IProps) => {
+  const showActionSheet = () => {
+    if (Platform.OS === "ios") {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ["Cancel", "Update", "Delete"],
+          destructiveButtonIndex: 2,
+          cancelButtonIndex: 0,
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 1) {
+            onUpdate?.(file);
+          } else if (buttonIndex === 2) {
+            onDelete?.(file);
+          }
+        }
+      );
+    } else {
+      Alert.alert(
+        "File Options",
+        `What would you like to do with ${file.fileName}?`,
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Update", onPress: () => onUpdate?.(file) },
+          {
+            text: "Delete",
+            style: "destructive",
+            onPress: () => onDelete?.(file),
+          },
+        ]
+      );
+    }
+  };
+
   return (
     <View style={styles.fileItem}>
       <View style={styles.leftContainer}>
@@ -20,11 +63,7 @@ export const FileItem = ({ file }: IProps) => {
           <TextBody style={styles.size}>pdf - 1.3 MB*</TextBody>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          // Handle file download or view
-        }}
-      >
+      <TouchableOpacity onPress={showActionSheet}>
         <DotsIcon />
       </TouchableOpacity>
     </View>

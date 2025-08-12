@@ -40,21 +40,7 @@ export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
   return (
     <>
       <CardComponent>
-        <ActionHeader
-          title="Documents"
-          styles={documentsStyle.actionsHeader}
-          //   actions={
-          //     <Button
-          //       variant="contained"
-          //       icon={<PlusIcon color={colors.bgColor} />}
-          //       onPress={() => {
-          //         // onClickOpenForm(property);
-          //       }}
-          //     >
-          //       Add Document
-          //     </Button>
-          //   }
-        />
+        <ActionHeader title="Documents" styles={documentsStyle.actionsHeader} />
         <FileUpload
           onUpload={() => {}}
           style={documentsStyle.uploadContainer}
@@ -63,7 +49,20 @@ export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
           {documents.length === 0 ? (
             <NoItemsFound />
           ) : (
-            documents.map((file, index) => <FileItem key={index} file={file} />)
+            documents.map((file, index) => (
+              <FileItem
+                key={index}
+                file={file}
+                onUpdate={(file) => {
+                  console.log("Update file:", file.fileName);
+                  // You can add update logic here using renamePropertyDoc
+                }}
+                onDelete={(file) => {
+                  console.log("Delete file:", file.fileName);
+                  deletePropertyDoc(file.fileKey);
+                }}
+              />
+            ))
           )}
         </View>
       </CardComponent>
