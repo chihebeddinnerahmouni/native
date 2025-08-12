@@ -10,7 +10,7 @@ export const PropertiesNavigator = () => {
   return (
     <PropertiesStack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={ERoute.PROPERTIES_LIST}
+      initialRouteName={ERoute.PROPERTIES_DETAILS}
     >
       <PropertiesStack.Screen
         name={ERoute.PROPERTIES_LIST}

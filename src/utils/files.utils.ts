@@ -72,7 +72,7 @@ export const uploadFiles = async (endPoint: string, files: RNFile[]) => {
         name: file.name,
         type: file.type,
       };
-      formData.append("files", fileObject as any);
+      formData.append("files", fileObject);
     });
 
     const response = await AxiosInstance.post(`${endPoint}`, formData, {
