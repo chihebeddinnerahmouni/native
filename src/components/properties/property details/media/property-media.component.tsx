@@ -11,15 +11,19 @@ import { FileUpload } from "../../../ui/upload-file.component";
 import * as DocumentPicker from "expo-document-picker";
 import { usePropertyDocMutation } from "../../../../api-query/hooks";
 import { convertToRNFile } from "../../../../utils/files.utils";
+import { useConfirm } from "../../../../hooks";
 
 type IProps = {
   property: Property;
 };
 
 export const MediaComponent = ({ property }: IProps) => {
-  const { uploadPropertyImages, isUploadPending } = usePropertyDocMutation({
-    propertyId: property._id,
-  });
+  const { showConfirmation } = useConfirm();
+
+  const { uploadPropertyImages, deletePropertyImages, isUploadPending } =
+    usePropertyDocMutation({
+      propertyId: property._id,
+    });
 
   const handleFileChange = async (
     files: DocumentPicker.DocumentPickerAsset[]
@@ -27,6 +31,17 @@ export const MediaComponent = ({ property }: IProps) => {
     const rnFiles = convertToRNFile(files);
     uploadPropertyImages(rnFiles);
   };
+
+  const onClickDeleteConfirm = (imageUrl: string) => {
+    showConfirmation({
+      title: "Delete Image",
+      message: "Do you want to delete this image?",
+      onConfirm: async () => {
+        await deletePropertyImages(imageUrl);
+      },
+    });
+  };
+
   return (
     <>
       <CardComponent>
@@ -48,7 +63,7 @@ export const MediaComponent = ({ property }: IProps) => {
                 <TouchableOpacity
                   style={mediaStyle.deleteButton}
                   onPress={() => {
-                    // Handle media options here
+                    onClickDeleteConfirm(mediaItem.fileKey);
                   }}
                   activeOpacity={0.7}
                 >
