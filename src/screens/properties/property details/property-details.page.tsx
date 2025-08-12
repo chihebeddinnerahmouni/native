@@ -17,6 +17,7 @@ import { AmenitiesComponent } from "../../../components/properties/property deta
 import { AvailabilitiesComponent } from "../../../components/properties/property details/availability/property-availability.component";
 import { TargetsComponent } from "../../../components/properties/property details/targets/property-target.component";
 import { DocumentsComponent } from "../../../components/properties/property details/documents/property-documents.component";
+import { NotesComponent } from "../../../components/properties/property details/notes/property-notes.component";
 // import { RouteProp, useRoute } from "@react-navigation/native";
 
 export enum EPropertyTabs {
@@ -48,10 +49,10 @@ const tabs = [
     title: EPropertyTabs.DOCUMENTS,
   },
   {
-    title: EPropertyTabs.MEDIA,
+    title: EPropertyTabs.NOTES,
   },
   {
-    title: EPropertyTabs.NOTES,
+    title: EPropertyTabs.MEDIA,
   },
   {
     title: EPropertyTabs.COMPLIANCES,
@@ -62,9 +63,7 @@ const tabs = [
 ];
 
 export const PropertyDetailsPage = () => {
-  const [selectedTab, setSelectedTab] = useState<string>(
-    EPropertyTabs.DOCUMENTS
-  );
+  const [selectedTab, setSelectedTab] = useState<string>(EPropertyTabs.NOTES);
 
   // const route =
   //   useRoute<
@@ -123,6 +122,9 @@ export const PropertyDetailsPage = () => {
             documents={property.files || []}
             propertyId={selectedPropertyId}
           />
+        )}
+        {selectedTab === EPropertyTabs.NOTES && (
+          <NotesComponent property={property} />
         )}
       </View>
     </MainLayout>
