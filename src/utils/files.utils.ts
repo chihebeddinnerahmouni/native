@@ -63,7 +63,7 @@ export const sendWhatsappRequest = async (
 
 export const uploadFiles = async (endPoint: string, files: RNFile[]) => {
   try {
-    const token = getToken();
+    const token = await getToken();
     const formData = new (global as any).FormData();
 
     files.forEach((file) => {
