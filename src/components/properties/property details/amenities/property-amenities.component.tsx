@@ -1,16 +1,16 @@
 import React from "react";
-import { CardComponent } from "../../ui/cards/card.component";
-import { Property } from "../../../backend/casaikos-api";
+import { CardComponent } from "../../../ui/cards/card.component";
+import { Property } from "../../../../backend/casaikos-api";
 import { StyleSheet, View } from "react-native";
-import { ActionHeader } from "../../ui/action-header.component";
-import { Button } from "../../ui/buttons/button.component";
-import { EditIcon } from "../../../icons";
-import colors from "../../../constants/colors";
-import { amenitiesList } from "../../../utils";
-import { NoItemsFound } from "../../ui/noItemsFound";
-import { useModal } from "../../../contexts";
-import { AmenitiesForm } from "../../forms/property/amenities.form";
-import { AmenityComponent } from "../amenity.component";
+import { ActionHeader } from "../../../ui/action-header.component";
+import { Button } from "../../../ui/buttons/button.component";
+import { EditIcon } from "../../../../icons";
+import colors from "../../../../constants/colors";
+import { amenitiesList } from "../../../../utils";
+import { NoItemsFound } from "../../../ui/noItemsFound";
+import { useModal } from "../../../../contexts";
+import { AmenitiesForm } from "../../../forms/property/amenities.form";
+import { AmenityComponent } from "./amenity.component";
 
 type IProps = {
   property: Property;

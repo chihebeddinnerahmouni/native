@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Property, EAmenityType } from "../../../backend/casaikos-api";
 import colors from "../../../constants/colors";
 import { amenitiesList } from "../../../utils";
-import { AmenityComponent } from "../../properties/amenity.component";
+import { AmenityComponent } from "../../properties/property details/amenities/amenity.component";
 import { usePropertiesMutation } from "../../../api-query/hooks";
 import { FormActions } from "../../ui/form/form-items.component";
 

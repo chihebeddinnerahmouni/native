@@ -13,7 +13,7 @@ import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { TabsComponent } from "../../../components/ui/tabs.component";
 import { PropertyGeneralComponent } from "../../../components/properties/property details/property-general.component";
 import { propertyDetailsStyle } from "./property-details.style";
-import { AmenitiesComponent } from "../../../components/properties/property details/property-amenities.component";
+import { AmenitiesComponent } from "../../../components/properties/property details/amenities/property-amenities.component";
 import { AvailabilitiesComponent } from "../../../components/properties/property details/availability/property-availability.component";
 import { TargetsComponent } from "../../../components/properties/property details/targets/property-target.component";
 
@@ -43,10 +43,10 @@ const tabs = [
     title: EPropertyTabs.TARGETS,
   },
   {
-    title: EPropertyTabs.MEDIA,
+    title: EPropertyTabs.DOCUMENTS,
   },
   {
-    title: EPropertyTabs.DOCUMENTS,
+    title: EPropertyTabs.MEDIA,
   },
   {
     title: EPropertyTabs.NOTES,

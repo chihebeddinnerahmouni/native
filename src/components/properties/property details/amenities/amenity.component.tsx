@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { TextBody } from "../ui/texts/Texts.component";
-import colors from "../../constants/colors";
+import { TextBody } from "../../../ui/texts/Texts.component";
+import colors from "../../../../constants/colors";
 
 export const AmenityComponent = ({
   amenity,

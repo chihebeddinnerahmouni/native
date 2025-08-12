@@ -309,16 +309,28 @@ export enum EChatAgentType {
 
 export enum EWhatsappMessageType {
   Text = "text",
-  Document = "document",
   Image = "image",
   Audio = "audio",
+  Document = "document",
+  Template = "template",
+  Video = "video",
+}
+
+export enum EFileType {
+  Image = "image",
+  Document = "document",
+  Audio = "audio",
+  Video = "video",
+  Other = "other",
 }
 
 export enum WhatsappMessageType {
   Text = "text",
   Image = "image",
+  Audio = "audio",
   Document = "document",
   Template = "template",
+  Video = "video",
 }
 
 export enum EUserSelectFields {
@@ -559,88 +571,13 @@ export interface SendMessageDto {
   /** Tenant id */
   tenantId: string;
   message?: string;
+  /** WhatsappChat message Id to reply to  */
+  replyToMessageId?: string;
   templateName?: string;
   type?: WhatsappMessageType;
   links: string[];
-  /** @format binary */
-  file: File;
   /** If true, the message is only visible internally to agents */
   isInternal: boolean;
-}
-
-export interface Metadata {
-  display_phone_number: string;
-  phone_number_id: string;
-}
-
-export interface Profile {
-  name: string;
-}
-
-export interface Contact {
-  profile: Profile;
-  wa_id: string;
-}
-
-export interface Text {
-  body: string;
-}
-
-export interface Image {
-  filename: string;
-  caption: string;
-  mime_type: string;
-  sha256: string;
-  id: string;
-}
-
-export interface Audio {
-  filename: string;
-  caption: string;
-  mime_type: string;
-  sha256: string;
-  id: string;
-}
-
-export interface Document {
-  filename: string;
-  caption: string;
-  mime_type: string;
-  sha256: string;
-  id: string;
-}
-
-export interface Message {
-  from: string;
-  id: string;
-  timestamp: string;
-  type: string;
-  text?: Text;
-  image?: Image;
-  audio?: Audio;
-  document?: Document;
-}
-
-export interface Value {
-  messaging_product: string;
-  metadata: Metadata;
-  contacts: Contact[];
-  messages: Message[];
-}
-
-export interface Change {
-  field: string;
-  value: Value;
-}
-
-export interface Entry {
-  id: string;
-  changes: Change[];
-}
-
-export interface WebhookReceivedBody {
-  object: string;
-  entry: Entry[];
 }
 
 export interface HostedFile {
@@ -653,9 +590,14 @@ export interface HostedFile {
   fileKey: string;
   /** @format date-time */
   timestamp: string;
+  type: EFileType;
 }
 
-export type ReadBy = object;
+export interface ReadBy {
+  agent: User;
+  /** @format date-time */
+  readAt: string;
+}
 
 export interface Passport {
   passportNumber?: string;
@@ -667,23 +609,6 @@ export interface Passport {
   /** @format date-time */
   dateOfBirth?: string;
   placeOfBirth?: string;
-}
-
-export interface FileHosted {
-  createdAt?: string;
-  createdBy?: string;
-  deletedAt?: string;
-  deletedBy?: string;
-  actionByUserId?: string;
-  /** Name of the uploaded file */
-  fileName: string;
-  /** Storage key or path for the file */
-  fileKey: string;
-  /**
-   * When the file was uploaded
-   * @default "Current date/time"
-   */
-  timestamp: string;
 }
 
 export interface Tenant {
@@ -704,12 +629,14 @@ export interface Tenant {
   agent?: User;
   isProfileComplete: boolean;
   company: Company;
-  files?: FileHosted[];
+  files?: HostedFile[];
 }
 
 export interface WhatsappChat {
   _id: string;
   message: string;
+  message_id: string;
+  reply_to_message?: WhatsappChat;
   hostedFile?: HostedFile;
   /** @format date-time */
   timestamp: string;
@@ -730,11 +657,9 @@ export interface WhatsappChat {
 
 export interface ChatListItemDto {
   tenant: Tenant;
-  lastMessage: string;
+  lastChat?: WhatsappChat;
   /** @format date-time */
-  lastMessageTimestamp: string;
-  unreadMessagesCount: number;
-  isReply: boolean;
+  lastChatTimestamp?: string;
 }
 
 export interface UpdateConversationLeadDto {
@@ -742,7 +667,7 @@ export interface UpdateConversationLeadDto {
   tenantId: string;
   /** Agent id */
   agentId?: string;
-  lead: string;
+  lead: EChatAgentType;
 }
 
 export interface AddAvailabilityDto {
@@ -792,7 +717,7 @@ export interface Owner {
   agent?: User;
   isProfileComplete: boolean;
   company: Company;
-  files?: FileHosted[];
+  files?: HostedFile[];
 }
 
 export interface Compliance {
@@ -865,7 +790,7 @@ export interface Property {
   embedding?: string[];
   compliances?: Compliance[];
   company: Company;
-  files?: FileHosted[];
+  files?: HostedFile[];
   facilities: Facility[];
   isYearly: boolean;
   yearlyPrice?: number;
@@ -954,7 +879,7 @@ export interface Booking {
   parentBooking?: Booking;
   agent?: User;
   company: Company;
-  files?: FileHosted[];
+  files?: HostedFile[];
   isArchived: boolean;
   /** @format date-time */
   archivedAt?: string;
@@ -2471,16 +2396,11 @@ export class Api<
      * @request POST:/whatsapp/webhook
      * @secure
      */
-    whatsappControllerReceiveMessage: (
-      data: WebhookReceivedBody,
-      params: RequestParams = {},
-    ) =>
+    whatsappControllerReceiveMessage: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/whatsapp/webhook`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         ...params,
       }),
 
