@@ -29,6 +29,13 @@ export const RootNavigator = () => {
         </>
       )}
     </RootStack.Navigator>
+    // <RootStack.Navigator
+    //   screenOptions={{ headerShown: false }}
+    //   initialRouteName={ETabs.AUTH}
+    // >
+    //   <RootStack.Screen name={ETabs.MAIN} component={MainTabNavigator} />
+    //   <RootStack.Screen name={ETabs.AUTH} component={AuthNavigator} />
+    // </RootStack.Navigator>
   );
 };
 
