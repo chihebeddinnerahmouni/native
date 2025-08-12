@@ -1913,3 +1913,52 @@ export const WalletIcon = ({
     />
   </Svg>
 );
+
+export const FileIcon = ({
+  title = "File",
+  color = colors.blackColor,
+  size = 16,
+}: {
+  title?: string;
+  color?: string;
+  size?: number;
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    accessibilityLabel={title}
+  >
+    <Path
+      d="M9.33333 1.33334H4C3.64638 1.33334 3.30724 1.47381 3.05719 1.72386C2.80714 1.97391 2.66667 2.31305 2.66667 2.66668V13.3333C2.66667 13.687 2.80714 14.0261 3.05719 14.2762C3.30724 14.5262 3.64638 14.6667 4 14.6667H12C12.3536 14.6667 12.6928 14.5262 12.9428 14.2762C13.1929 14.0261 13.3333 13.687 13.3333 13.3333V5.33334L9.33333 1.33334Z"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M9.33333 1.33334V5.33334H13.3333"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M10.6667 9.33334H5.33333"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M10.6667 12H5.33333"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M6.66667 6.66668H5.33333"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
