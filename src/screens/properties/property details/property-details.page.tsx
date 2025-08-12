@@ -18,6 +18,7 @@ import { AvailabilitiesComponent } from "../../../components/properties/property
 import { TargetsComponent } from "../../../components/properties/property details/targets/property-target.component";
 import { DocumentsComponent } from "../../../components/properties/property details/documents/property-documents.component";
 import { NotesComponent } from "../../../components/properties/property details/notes/property-notes.component";
+import { MediaComponent } from "../../../components/properties/property details/media/property-media.component";
 // import { RouteProp, useRoute } from "@react-navigation/native";
 
 export enum EPropertyTabs {
@@ -63,7 +64,7 @@ const tabs = [
 ];
 
 export const PropertyDetailsPage = () => {
-  const [selectedTab, setSelectedTab] = useState<string>(EPropertyTabs.NOTES);
+  const [selectedTab, setSelectedTab] = useState<string>(EPropertyTabs.MEDIA);
 
   // const route =
   //   useRoute<
@@ -125,6 +126,9 @@ export const PropertyDetailsPage = () => {
         )}
         {selectedTab === EPropertyTabs.NOTES && (
           <NotesComponent property={property} />
+        )}
+        {selectedTab === EPropertyTabs.MEDIA && (
+          <MediaComponent property={property} />
         )}
       </View>
     </MainLayout>

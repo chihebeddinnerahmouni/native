@@ -21,5 +21,7 @@ const ActionHeaderStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: 12,
+    flexWrap: "wrap",
   },
 });

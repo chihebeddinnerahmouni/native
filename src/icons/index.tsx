@@ -1953,3 +1953,28 @@ export const FileIcon = ({
     />
   </Svg>
 );
+
+export const XIcon = ({
+  size = 16,
+  color = colors.textColor,
+}: {
+  size?: number;
+  color?: string;
+}) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M18 6L6 18"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M6 6L18 18"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);

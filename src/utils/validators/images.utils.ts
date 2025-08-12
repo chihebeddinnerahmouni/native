@@ -3,7 +3,7 @@ import { HostedFile } from "../../backend/casaikos-api";
 import { noImagePlaceholder } from "../../constants/constant";
 
 const csrfToken: string | null = null;
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 const AxiosInstance = axios.create({
   baseURL: API_URL,
