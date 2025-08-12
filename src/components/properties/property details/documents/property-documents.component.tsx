@@ -11,6 +11,7 @@ import { NoItemsFound } from "../../../ui/noItemsFound";
 import { useModal } from "../../../../contexts";
 import { AmenitiesForm } from "../../../forms/property/amenities.form";
 import { FileUpload } from "../../../ui/upload-file.component";
+import { FileItem } from "./file-item.component";
 
 type IProps = {
   documents: HostedFile[];
@@ -48,10 +49,16 @@ export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
           //   }
         />
         <FileUpload
-          //   files={documents}
           onUpload={() => {}}
           style={documentsStyle.uploadContainer}
         />
+        <View style={documentsStyle.filesContainer}>
+          {documents.length === 0 ? (
+            <NoItemsFound />
+          ) : (
+            documents.map((file, index) => <FileItem key={index} file={file} />)
+          )}
+        </View>
       </CardComponent>
     </>
   );
@@ -65,5 +72,9 @@ const documentsStyle = StyleSheet.create({
   },
   uploadContainer: {
     marginTop: 12,
+  },
+  filesContainer: {
+    marginTop: 12,
+    gap: 8,
   },
 });
