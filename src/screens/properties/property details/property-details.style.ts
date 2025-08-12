@@ -10,6 +10,8 @@ export const propertyDetailsStyle = StyleSheet.create({
     height: 207,
     overflow: "hidden",
     objectFit: "cover",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
   section: {
     flexDirection: "column",

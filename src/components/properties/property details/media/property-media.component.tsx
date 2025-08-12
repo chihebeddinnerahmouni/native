@@ -36,8 +36,8 @@ export const MediaComponent = ({ property }: IProps) => {
     showConfirmation({
       title: "Delete Image",
       message: "Do you want to delete this image?",
-      onConfirm: async () => {
-        await deletePropertyImages(imageUrl);
+      onConfirm: () => {
+        deletePropertyImages(imageUrl);
       },
     });
   };
@@ -53,6 +53,7 @@ export const MediaComponent = ({ property }: IProps) => {
           title="Upload Images"
           onUpload={handleFileChange}
           isLoading={isUploadPending}
+          style={mediaStyle.uploadContainer}
         />
         <View style={mediaStyle.mediaList}>
           {property.images.length === 0 ? (
@@ -87,6 +88,9 @@ const mediaStyle = StyleSheet.create({
     paddingBottom: 12,
     borderColor: colors.borderColor,
     borderBottomWidth: 1,
+  },
+  uploadContainer: {
+    marginTop: 12,
   },
   mediaList: {
     marginTop: 12,

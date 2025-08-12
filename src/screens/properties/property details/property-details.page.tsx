@@ -19,6 +19,7 @@ import { TargetsComponent } from "../../../components/properties/property detail
 import { DocumentsComponent } from "../../../components/properties/property details/documents/property-documents.component";
 import { NotesComponent } from "../../../components/properties/property details/notes/property-notes.component";
 import { MediaComponent } from "../../../components/properties/property details/media/property-media.component";
+import { getImageUrl } from "../../../utils/validators/images.utils";
 // import { RouteProp, useRoute } from "@react-navigation/native";
 
 export enum EPropertyTabs {
@@ -80,7 +81,8 @@ export const PropertyDetailsPage = () => {
   const { availabilities } = useAvailabilities(param);
   const { targets } = useTargets(param);
 
-  const propertyImageUrl = property?.images?.[0]?.fileKey;
+  // const propertyImageUrl = property?.images?.[0]?.fileKey;
+  const propertyImageUrl = getImageUrl(property?.images?.[0]);
 
   if (isLoading) return <LoadingScreen />;
   if (propertyError || !property) return <View>Error loading property</View>;
