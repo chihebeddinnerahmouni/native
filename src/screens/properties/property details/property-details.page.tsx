@@ -17,6 +17,7 @@ import { AmenitiesComponent } from "../../../components/properties/property deta
 import { AvailabilitiesComponent } from "../../../components/properties/property details/availability/property-availability.component";
 import { TargetsComponent } from "../../../components/properties/property details/targets/property-target.component";
 import { DocumentsComponent } from "../../../components/properties/property details/documents/property-documents.component";
+// import { RouteProp, useRoute } from "@react-navigation/native";
 
 export enum EPropertyTabs {
   GENERAL = "General",
@@ -65,11 +66,11 @@ export const PropertyDetailsPage = () => {
     EPropertyTabs.DOCUMENTS
   );
 
-  //   const route =
-  //     useRoute<
-  //       RouteProp<{ PropertyDetails: { propertyId: string } }, "PropertyDetails">
-  //     >();
-  //   const selectedPropertyId = route.params?.propertyId;
+  // const route =
+  //   useRoute<
+  //     RouteProp<{ PropertyDetails: { propertyId: string } }, "PropertyDetails">
+  //   >();
+  // const selectedPropertyId = route.params?.propertyId;
   const selectedPropertyId = "68973230d46a4ad48b02eec4";
   const param = useMemo(
     () => ({ propertyId: selectedPropertyId || "" }),
