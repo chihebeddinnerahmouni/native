@@ -5,7 +5,7 @@ import { RNFile, RNFormDataFile } from "./files.utils";
 import { showErrorAlert } from "../components/ui/alerts/alerts.component";
 
 const csrfToken: string | null = null;
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 const AxiosInstance = axios.create({
   baseURL: API_URL,
@@ -51,6 +51,7 @@ export const uploadPropertyNotesHandler = async (
 
     return response.data;
   } catch (error) {
+    console.error("Error uploading note:", error);
     showErrorAlert("Error", "Failed to upload note. Please try again.");
   }
 };

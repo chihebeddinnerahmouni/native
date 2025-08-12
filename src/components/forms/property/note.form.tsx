@@ -1,13 +1,7 @@
-import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import {
-  Property,
-  EAmenityType,
-  CreateNotePropertyDto,
-} from "../../../backend/casaikos-api";
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { Property, CreateNotePropertyDto } from "../../../backend/casaikos-api";
 import colors from "../../../constants/colors";
-import { amenitiesList } from "../../../utils";
-import { AmenityComponent } from "../../properties/property details/amenities/amenity.component";
 import { usePropertiesMutation } from "../../../api-query/hooks";
 import { FormActions, FormContainer } from "../../ui/form/form-items.component";
 import { Controller, useForm } from "react-hook-form";
