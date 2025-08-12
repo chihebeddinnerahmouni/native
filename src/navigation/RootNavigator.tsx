@@ -59,7 +59,7 @@ export const MainTabNavigator = () => {
         component={MessagesNavigator}
         options={{
           tabBarLabel: "Messages",
-          // Add icon here if you have one
+          // icon
         }}
       />
       <Tab.Screen
@@ -67,7 +67,7 @@ export const MainTabNavigator = () => {
         component={PropertiesNavigator}
         options={{
           tabBarLabel: "Properties",
-          // Add icon here if you have one
+          // icon
         }}
       />
     </Tab.Navigator>

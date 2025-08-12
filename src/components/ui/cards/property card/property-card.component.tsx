@@ -8,10 +8,10 @@ import { TextBody } from "../../texts/Texts.component";
 import { propertyCardStyles } from "./property-card.style";
 import colors from "../../../../constants/colors";
 import { useModal } from "../../../../contexts";
-import { OptionsMenu } from "../../menu/options-menu.component";
 import { PropertyForm } from "../../../forms";
 import { PropertyLocation } from "../../../properties/property-location.component";
 import { PropertyIndicators } from "../../../properties/property-indicators.component";
+import { useActionSheet } from "../../../../hooks/useActionSheet";
 
 interface PropertyCardProps {
   property: Property;
@@ -26,6 +26,7 @@ export const PropertyCard = ({
 }: PropertyCardProps) => {
   const propertyImageUrl = property.images?.[0]?.fileKey;
   const { openModal, closeModal } = useModal();
+  const { showActionSheet } = useActionSheet();
 
   const onClickOpenForm = (property: Property) => {
     openModal({
@@ -40,32 +41,28 @@ export const PropertyCard = ({
   };
 
   const handleOptionsPress = () => {
-    openModal({
+    showActionSheet({
       title: "Property Options",
-      component: (
-        <OptionsMenu
-          options={[
-            {
-              label: "Edit Property",
-              onPress: () => {
-                closeModal();
-                onClickOpenForm(property);
-              },
-            },
-            {
-              label: "Delete Property",
-              onPress: () => {
-                closeModal();
-                onDelete
-                  ? onDelete(property)
-                  : console.log("Delete property:", property.title);
-              },
-              color: colors.errorColor,
-            },
-          ]}
-        />
-      ),
-      animationType: "fade",
+      message: `What would you like to do with ${property.title}?`,
+      options: [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => {},
+        },
+        {
+          text: "Edit",
+          style: "default",
+          onPress: () => {
+            onClickOpenForm(property);
+          },
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => onDelete?.(property),
+        },
+      ],
     });
   };
 
@@ -86,7 +83,7 @@ export const PropertyCard = ({
         onPress={handleOptionsPress}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
       >
-        <DotsIcon size={20} color={colors.textColor} />
+        <DotsIcon size={4} color={colors.textColor} />
       </TouchableOpacity>
 
       <Image
