@@ -13,8 +13,6 @@ import { propertyTypesOptions, tenantTypesOptions } from "../../constants/data";
 import { useUsers } from "../../api-query/hooks";
 import { useOwners } from "../../api-query/hooks";
 import { usePropertiesMutation } from "../../api-query/hooks";
-
-// Form Components
 import { FieldText } from "../ui/inputs/field-text/field-text.component";
 import Select from "../ui/inputs/select.component";
 import {

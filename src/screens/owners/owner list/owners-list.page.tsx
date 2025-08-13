@@ -10,7 +10,7 @@ import { colors } from "../../../constants/colors";
 import { ownersListStyles } from "./owners-list.style";
 import { useModal } from "../../../contexts";
 import { Pagination } from "../../../components/ui/pagination";
-import { PropertyForm } from "../../../components/forms";
+import { OwnerForm } from "../../../components/forms";
 import { useOwners } from "../../../api-query/hooks";
 import { OwnerCard } from "../../../components/ui/cards/owner card/owner.card";
 import NoItemsFound from "../../../components/ui/noItemsFound";
@@ -43,7 +43,7 @@ export const OwnersListPage = () => {
   const onClickOpenForm = () => {
     openModal({
       title: "New Property",
-      component: <PropertyForm closeModal={closeModal} />,
+      component: <OwnerForm closeModal={closeModal} />,
       onDismiss: () => {
         // console.log("Modal dismissed");
       },
