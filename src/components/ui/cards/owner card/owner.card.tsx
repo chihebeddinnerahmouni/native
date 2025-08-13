@@ -15,9 +15,10 @@ import { useNavigation } from "@react-navigation/native";
 import { ETabs, EScreens, ERoute } from "../../../../utils";
 import { CardComponent } from "../card.component";
 import { InfoComp } from "../../info.component";
-import { useActionSheet } from "../../../../hooks";
+import { useActionSheet, useConfirm } from "../../../../hooks";
 import { OwnerForm } from "../../../forms";
 import { useModal } from "../../../../contexts";
+import { useOwnerMutation } from "../../../../api-query/hooks";
 
 interface IProps {
   owner: Owner;
@@ -27,6 +28,8 @@ export const OwnerCard = ({ owner }: IProps) => {
   const navigator = useNavigation();
   const { showActionSheet } = useActionSheet();
   const { openModal, closeModal } = useModal();
+  const { showConfirmation } = useConfirm();
+  const { deleteOwner } = useOwnerMutation();
 
   const navigationHandle = () => {
     (navigator as any).navigate(ETabs.MAIN, {
@@ -63,8 +66,13 @@ export const OwnerCard = ({ owner }: IProps) => {
         {
           text: "Delete",
           style: "destructive",
-          // onPress: () => onDelete?.(property),
-          onPress: () => {},
+          onPress: () => {
+            showConfirmation({
+              title: "Delete Owner",
+              message: `Are you sure you want to delete ${owner.firstName} ${owner.lastName}?`,
+              onConfirm: () => deleteOwner(owner),
+            });
+          },
         },
       ],
     });
