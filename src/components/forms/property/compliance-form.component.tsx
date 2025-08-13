@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Compliance, ComplianceDto } from "../../../backend/casaikos-api";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { complianceSchema } from "../../../utils/validators/compliance.validator";
 import { useCompliancesMutation } from "../../../api-query/hooks/compliances/useCompliancesMutation.query";
 import { useEffect } from "react";
 import { FormActions, FormContainer } from "../../ui/form/form-items.component";
 import { FieldText } from "../../ui/inputs/field-text/field-text.component";
+import { DatePicker } from "../../ui/inputs/date-picker.component";
 
 type ComplianceFormProps = {
   selectedCompliance?: Compliance;
@@ -27,6 +28,7 @@ export const ComplianceForm = ({
     handleSubmit,
     reset,
     formState: { errors },
+    control,
   } = useForm<ComplianceDto>({
     resolver: yupResolver(complianceSchema as any),
     defaultValues: {
@@ -58,17 +60,37 @@ export const ComplianceForm = ({
 
   return (
     <FormContainer>
-      <FieldText
-        register={register("startDate")}
-        type="date"
-        label="Start date"
-        error={errors.startDate}
+      <Controller
+        name="startDate"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <DatePicker
+            placeholder="Select date"
+            label="Start date"
+            required
+            register={register("startDate", { required: true })}
+            error={errors.startDate}
+            minimumDate={new Date()}
+            value={value ? new Date(value) : undefined}
+            onDateChange={(date) => onChange(date.toISOString().split("T")[0])}
+          />
+        )}
       />
-      <FieldText
-        register={register("endDate")}
-        type="date"
-        label="End date"
-        error={errors.endDate}
+      <Controller
+        name="endDate"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <DatePicker
+            placeholder="Select date"
+            label="End date"
+            required
+            register={register("endDate", { required: true })}
+            error={errors.endDate}
+            minimumDate={new Date()}
+            value={value ? new Date(value) : undefined}
+            onDateChange={(date) => onChange(date.toISOString().split("T")[0])}
+          />
+        )}
       />
       {/* <Select
         placeholder="Select compliance status"
@@ -89,11 +111,20 @@ export const ComplianceForm = ({
         //   }
         // }}
       /> */}
-      <FieldText
-        register={register("warningDaysBeforeExpiry")}
-        type="number"
-        label="Warning days before expiry"
-        error={errors.warningDaysBeforeExpiry}
+      <Controller
+        name="warningDaysBeforeExpiry"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <FieldText
+            type="number"
+            label="Warning days before expiry"
+            error={errors.warningDaysBeforeExpiry}
+            placeholder="Enter warning days"
+            value={value}
+            onChangeText={(text) => onChange(text)}
+            min={0}
+          />
+        )}
       />
 
       <FormActions
