@@ -100,6 +100,10 @@ export const FormActions = ({
   );
 };
 
+export const FormSection = ({ children }: { children: React.ReactNode }) => {
+  return <View style={formStyles.section}>{children}</View>;
+};
+
 const formStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -112,13 +116,13 @@ const formStyles = StyleSheet.create({
   keyboardAvoidingView: {
     flex: 1,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    paddingBottom: 20,
-  },
+  // scrollView: {
+  //   flex: 1,
+  // },
+  // scrollViewContent: {
+  //   flexGrow: 1,
+  //   paddingBottom: 20,
+  // },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -143,5 +147,9 @@ const formStyles = StyleSheet.create({
   },
   submitButton: {
     flex: 1,
+  },
+  section: {
+    gap: 12,
+    marginTop: 12,
   },
 });

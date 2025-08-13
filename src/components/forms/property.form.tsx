@@ -19,6 +19,7 @@ import {
   FormActions,
   FormContainer,
   FormRow,
+  FormSection,
 } from "../ui/form/form-items.component";
 import { TextFormSectionTitle } from "../ui/texts/Texts.component";
 import { Textarea } from "../ui/inputs/field-text/textarea.component";
@@ -130,7 +131,7 @@ export const PropertyForm = ({
   }, [selectedProperty, reset]);
 
   const renderStep1 = () => (
-    <View style={styles.section}>
+    <FormSection>
       <Controller
         name="agentId"
         control={control}
@@ -313,11 +314,11 @@ export const PropertyForm = ({
           />
         }
       />
-    </View>
+    </FormSection>
   );
 
   const renderStep2 = () => (
-    <View style={styles.section}>
+    <FormSection>
       <TextFormSectionTitle>Property Details</TextFormSectionTitle>
 
       <FormRow
@@ -436,11 +437,11 @@ export const PropertyForm = ({
           />
         }
       />
-    </View>
+    </FormSection>
   );
 
   const renderStep3 = () => (
-    <View style={styles.section}>
+    <FormSection>
       <TextFormSectionTitle>Address</TextFormSectionTitle>
 
       <Controller
@@ -522,11 +523,11 @@ export const PropertyForm = ({
           />
         }
       />
-    </View>
+    </FormSection>
   );
 
   const renderStep4 = () => (
-    <View style={styles.section}>
+    <FormSection>
       <TextFormSectionTitle>Platform Links</TextFormSectionTitle>
 
       <FormRow
@@ -594,7 +595,7 @@ export const PropertyForm = ({
           />
         }
       />
-    </View>
+    </FormSection>
   );
 
   const renderCurrentStep = () => {
@@ -647,9 +648,6 @@ export const PropertyForm = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  section: {
-    gap: 12,
   },
   actionButtons: {
     flexDirection: "row",
