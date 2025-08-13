@@ -1,8 +1,11 @@
 import * as yup from "yup";
 import { EComplianceStatus, EComplianceType } from "../../backend/casaikos-api";
-export const complianceStatus = Object.keys(EComplianceStatus);
 
-export const complianceTypes = Object.keys(EComplianceType);
+export const complianceStatus = Object.values(EComplianceStatus);
+export const complianceTypes = Object.values(EComplianceType);
+
+// export const complianceStatus = Object.keys(EComplianceStatus);
+// export const complianceTypes = Object.keys(EComplianceType);
 
 export const complianceSchema = yup.object().shape({
   type: yup
@@ -10,10 +13,10 @@ export const complianceSchema = yup.object().shape({
     .oneOf(complianceTypes, "Invalid compliance type")
     .required("Compliance type is required"),
 
-  // status: yup
-  //   .string()
-  //   .oneOf(complianceStatus, 'Invalid compliance type')
-  //   .required('Compliance type is required'),
+  status: yup
+    .string()
+    .oneOf(complianceStatus, "Invalid compliance status")
+    .required("Compliance status is required"),
 
   startDate: yup
     .string()
@@ -40,6 +43,4 @@ export const complianceSchema = yup.object().shape({
         return new Date(endDate) > new Date(startDate);
       }
     ),
-
-  airbnbProfile: yup.string().optional(),
 });

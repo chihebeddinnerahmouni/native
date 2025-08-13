@@ -23,25 +23,27 @@ export const ComplianceForm = ({
   const { updateCompliance, isLoading } = useCompliancesMutation();
 
   const {
-    register,
     getValues,
     handleSubmit,
     reset,
     formState: { errors },
     control,
   } = useForm<ComplianceDto>({
-    resolver: yupResolver(complianceSchema as any),
+    resolver: yupResolver(complianceSchema),
     defaultValues: {
       warningDaysBeforeExpiry: 15,
     },
   });
 
+  const today = new Date();
+
   const onClickSubmit = async () => {
+    const values = getValues();
     updateCompliance({
       propertyId,
       values: {
-        ...getValues(),
-        warningDaysBeforeExpiry: Number(getValues().warningDaysBeforeExpiry),
+        ...values,
+        warningDaysBeforeExpiry: Number(values.warningDaysBeforeExpiry),
       },
     }).then(() => {
       onSuccess();
@@ -58,6 +60,8 @@ export const ComplianceForm = ({
     }
   }, [selectedCompliance, reset]);
 
+  // console.log(errors);
+
   return (
     <FormContainer>
       <Controller
@@ -68,9 +72,8 @@ export const ComplianceForm = ({
             placeholder="Select date"
             label="Start date"
             required
-            register={register("startDate", { required: true })}
             error={errors.startDate}
-            minimumDate={new Date()}
+            minimumDate={today}
             value={value ? new Date(value) : undefined}
             onDateChange={(date) => onChange(date.toISOString().split("T")[0])}
           />
@@ -84,33 +87,13 @@ export const ComplianceForm = ({
             placeholder="Select date"
             label="End date"
             required
-            register={register("endDate", { required: true })}
             error={errors.endDate}
-            minimumDate={new Date()}
+            minimumDate={today}
             value={value ? new Date(value) : undefined}
             onDateChange={(date) => onChange(date.toISOString().split("T")[0])}
           />
         )}
       />
-      {/* <Select
-        placeholder="Select compliance status"
-        label="Compliance Status"
-        options={complianceStatus.map((status) => ({
-          label: getStatus(status).label,
-          value: status,
-        }))}
-        register={register('status')}
-        error={errors.status}
-        withoutChip
-        control={control}
-        // onChange={(value) => {
-        //   if (data?.status === 'expired') {
-        //     return toast.error(
-        //       'Cannot update compliance with status "expired"',
-        //     );
-        //   }
-        // }}
-      /> */}
       <Controller
         name="warningDaysBeforeExpiry"
         control={control}
