@@ -40,7 +40,7 @@ export const OwnerCard = ({ owner }: IProps) => {
           </TextBody>
           <Badge
             type={owner.isProfileComplete ? "success" : "danger"}
-            text="Available"
+            text={owner.isProfileComplete ? "Complete" : "Incomplete"}
           />
         </View>
 

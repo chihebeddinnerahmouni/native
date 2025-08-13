@@ -61,8 +61,6 @@ export const OwnerForm = ({ selectedOwner, closeModal }: PropertyFormProps) => {
     }
   }, [selectedOwner, reset]);
 
-  console.log(errors);
-
   return (
     <FormContainer>
       <Controller
