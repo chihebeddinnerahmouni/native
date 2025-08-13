@@ -52,13 +52,13 @@ type IResponse = {
     { propertyId: string; noteId: string },
     unknown
   >;
-  // addFacility: UseMutateAsyncFunction<
-  //   Property,
-  //   unknown,
-  //   { property: Property; facility: string },
-  //   unknown
-  // >;
-  // isAddFacilityPending: boolean;
+  addFacility: UseMutateAsyncFunction<
+    Property,
+    unknown,
+    { property: Property; facility: string },
+    unknown
+  >;
+  isAddFacilityPending: boolean;
   // deleteFacility: UseMutateAsyncFunction<
   //   void,
   //   unknown,
@@ -139,24 +139,24 @@ export const usePropertiesMutation = (): IResponse => {
     onError: errorHandler,
   });
 
-  // const addFacilityMutation = useMutation({
-  //   mutationFn: ({
-  //     property,
-  //     facility,
-  //   }: {
-  //     property: Property;
-  //     facility: string;
-  //   }) =>
-  //     updateProperty(property._id, {
-  //       ...property,
-  //       facility: { name: facility },
-  //       agentId: property.agent?._id ?? "",
-  //     }),
-  //   onSuccess: () => {
-  //     toast.success("Facility added successfully");
-  //   },
-  //   onError: errorHandler,
-  // });
+  const addFacilityMutation = useMutation({
+    mutationFn: ({
+      property,
+      facility,
+    }: {
+      property: Property;
+      facility: string;
+    }) =>
+      updateProperty(property._id, {
+        ...property,
+        facility: { name: facility },
+        agentId: property.agent?._id ?? "",
+      }),
+    onSuccess: () => {
+      showSuccessAlert("Success", "Facility added successfully");
+    },
+    onError: errorHandler,
+  });
 
   // const deleteFacilityMutation = useMutation({
   //   mutationFn: ({
@@ -189,8 +189,8 @@ export const usePropertiesMutation = (): IResponse => {
     addNote: addNoteMutation.mutateAsync,
     isAddNotePending: addNoteMutation.isPending,
     deleteNote: deleteNoteMutation.mutateAsync,
-    // addFacility: addFacilityMutation.mutateAsync,
-    // isAddFacilityPending: addFacilityMutation.isPending,
+    addFacility: addFacilityMutation.mutateAsync,
+    isAddFacilityPending: addFacilityMutation.isPending,
     // deleteFacility: deleteFacilityMutation.mutateAsync,
     // scrapingSync: scrapingSync.mutateAsync,
     // isScrapingSyncPending: scrapingSync.isPending,

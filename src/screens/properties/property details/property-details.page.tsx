@@ -84,12 +84,10 @@ export const PropertyDetailsPage = () => {
   const { availabilities } = useAvailabilities(param);
   const { targets } = useTargets(param);
 
-  // const propertyImageUrl = property?.images?.[0]?.fileKey;
   const propertyImageUrl = getImageUrl(property?.images?.[0]);
 
   if (isLoading) return <LoadingScreen />;
   if (propertyError || !property) return <View>Error loading property</View>;
-  console.log(property.facilities);
 
   return (
     <MainLayout HeaderLeft={<PageTitle2>Detail Property</PageTitle2>}>
@@ -144,7 +142,7 @@ export const PropertyDetailsPage = () => {
         )}
         {selectedTab === EPropertyTabs.FACILITIES && (
           <FacilitiesComponent
-            propertyId={property._id}
+            property={property}
             facilities={property.facilities || []}
           />
         )}

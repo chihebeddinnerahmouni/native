@@ -6,7 +6,7 @@ import { TextBody } from "../../../ui/texts/Texts.component";
 import { Button } from "../../../ui/buttons/button.component";
 import { PlusIcon } from "../../../../icons";
 import colors from "../../../../constants/colors";
-import { Facility } from "../../../../backend/casaikos-api";
+import { Facility, Property } from "../../../../backend/casaikos-api";
 import { formatDate } from "../../../../utils";
 import NoItemsFound from "../../../ui/noItemsFound";
 import { useModal } from "../../../../contexts";
@@ -14,17 +14,17 @@ import { FacilityForm } from "../../../forms/property/facility.form";
 
 type IProps = {
   facilities: Facility[];
-  propertyId: string; // Made required since we need it for the form
+  property: Property;
 };
 
-export const FacilitiesComponent = ({ facilities, propertyId }: IProps) => {
+export const FacilitiesComponent = ({ facilities, property }: IProps) => {
   const { openModal, closeModal } = useModal();
 
   const onClickOpenForm = () => {
     openModal({
       title: "Add Facility",
       component: (
-        <FacilityForm propertyId={propertyId} onDismiss={() => closeModal()} />
+        <FacilityForm property={property} onDismiss={() => closeModal()} />
       ),
     });
   };

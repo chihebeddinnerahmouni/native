@@ -2,19 +2,21 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormActions, FormContainer } from "../../ui/form/form-items.component";
-import { FieldText } from "../../ui/inputs/field-text/field-text.component";
 import { facilitySchema } from "../../../utils/validators/facility.validator";
+import { Textarea } from "../../ui/inputs/field-text/textarea.component";
+import { usePropertiesMutation } from "../../../api-query/hooks";
+import { Property } from "../../../backend/casaikos-api";
 
 type FacilityFormData = {
-  name: string;
+  text: string;
 };
 
 type IProps = {
-  propertyId: string;
+  property: Property;
   onDismiss?: () => void;
 };
 
-export const FacilityForm = ({ propertyId, onDismiss }: IProps) => {
+export const FacilityForm = ({ property, onDismiss }: IProps) => {
   const {
     getValues,
     handleSubmit,
@@ -23,32 +25,31 @@ export const FacilityForm = ({ propertyId, onDismiss }: IProps) => {
   } = useForm<FacilityFormData>({
     resolver: yupResolver(facilitySchema),
   });
+  const { addFacility, isAddFacilityPending } = usePropertiesMutation();
 
   const handleAddFacility = async () => {
     const values = getValues();
-    console.log("Adding facility:", { propertyId, name: values.name });
 
-    // Simulate API call
-    try {
-      // await addFacilityAPI({ propertyId, name: values.name });
+    addFacility({
+      property,
+      facility: values.text,
+    }).then(() => {
       onDismiss?.();
-    } catch (error) {
-      console.error("Error adding facility:", error);
-    }
+    });
   };
 
   return (
     <FormContainer>
       <Controller
-        name="name"
+        name="text"
         control={control}
         render={({ field: { onChange, value } }) => (
-          <FieldText
-            label="Facility Name"
-            placeholder="Enter facility name"
+          <Textarea
+            label="Facility Text"
+            placeholder="Enter facility text"
             value={value}
             onChangeText={onChange}
-            error={errors.name}
+            error={errors.text}
             required
           />
         )}
@@ -56,7 +57,7 @@ export const FacilityForm = ({ propertyId, onDismiss }: IProps) => {
 
       <FormActions
         onPress={handleSubmit(handleAddFacility)}
-        isLoading={false}
+        isLoading={isAddFacilityPending}
       />
     </FormContainer>
   );
