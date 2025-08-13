@@ -22,13 +22,9 @@ const pageSize = 10;
 export const OwnersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [title, setTitle] = useState("");
-
-  // Debounce the search term
   const debouncedTitle = useDebounce(title, 1500);
-
   const { openModal, closeModal } = useModal();
 
-  // Reset to first page when search term changes
   useEffect(() => {
     setCurrentPage(1);
   }, [debouncedTitle]);
