@@ -25,9 +25,10 @@ export const CompliancesComponent = ({ compliances, propertyId }: IProps) => {
             data={complianceTypes}
             renderItem={({ item }) => ComplianceCard({ item, compliances })}
             keyExtractor={(item) => item}
-            numColumns={2}
-            columnWrapperStyle={compliancesStyle.row}
             showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={() => (
+              <View style={compliancesStyle.separator} />
+            )}
           />
         </View>
       </CardComponent>
@@ -45,8 +46,7 @@ const compliancesStyle = StyleSheet.create({
     flex: 1,
     marginTop: 12,
   },
-  row: {
-    justifyContent: "space-between",
-    marginBottom: 12,
+  separator: {
+    height: 12,
   },
 });
