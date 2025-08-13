@@ -7,6 +7,7 @@ import { MessagesNavigator } from "./messages.routes";
 import { PropertiesNavigator } from "./Properties.routes";
 import { EScreens, ETabs } from "../utils";
 import colors from "../constants/colors";
+import { OwnersNavigator } from "./owners.routes";
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -52,7 +53,7 @@ export const MainTabNavigator = () => {
           display: "none",
         },
       }}
-      initialRouteName={EScreens.PROPERTIES}
+      initialRouteName={EScreens.OWNERS}
     >
       <Tab.Screen
         name={EScreens.MESSAGES}
@@ -70,14 +71,14 @@ export const MainTabNavigator = () => {
           // icon
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name={EScreens.OWNERS}
         component={OwnersNavigator}
         options={{
           tabBarLabel: "Owners",
           // icon
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 };
