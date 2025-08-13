@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Compliance, ComplianceDto } from "../../../backend/casaikos-api";
+import {
+  Compliance,
+  ComplianceDto,
+  EComplianceStatus,
+} from "../../../backend/casaikos-api";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { complianceSchema } from "../../../utils/validators/compliance.validator";
@@ -31,13 +35,15 @@ export const ComplianceForm = ({
   } = useForm<ComplianceDto>({
     resolver: yupResolver(complianceSchema),
     defaultValues: {
-      warningDaysBeforeExpiry: 15,
+      // warningDaysBeforeExpiry: 15,
+      // status: EComplianceStatus.NotAssigned,
     },
   });
 
   const today = new Date();
 
   const onClickSubmit = async () => {
+    console.log("Submitting compliance form");
     const values = getValues();
     updateCompliance({
       propertyId,
@@ -53,14 +59,13 @@ export const ComplianceForm = ({
   useEffect(() => {
     if (selectedCompliance) {
       reset({
-        ...selectedCompliance,
+        // ...selectedCompliance,
         warningDaysBeforeExpiry:
           selectedCompliance.warningDaysBeforeExpiry || 15,
+        status: selectedCompliance.status || EComplianceStatus.NotAssigned,
       });
     }
   }, [selectedCompliance, reset]);
-
-  // console.log(errors);
 
   return (
     <FormContainer>
