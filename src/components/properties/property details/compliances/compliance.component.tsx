@@ -12,14 +12,34 @@ import {
 } from "../../../../utils";
 import colors from "../../../../constants/colors";
 import { TextBody } from "../../../ui/texts/Texts.component";
+import { useModal } from "../../../../contexts";
+import { ComplianceForm } from "../../../forms/property/compliance-form.component";
 
-export const ComplianceCard = ({ compliance }: { compliance: Compliance }) => {
+export const ComplianceCard = ({
+  compliance,
+  propertyId,
+}: {
+  compliance: Compliance;
+  propertyId: string;
+}) => {
   const isEmpty = !compliance.endDate;
   const statusInfo = getComplianceStatus(compliance.status);
   const typeInfo = getTyp(compliance.type);
+  const { openModal, closeModal } = useModal();
 
   const editCompliance = (compliance: Compliance, type: string) => {
-    console.log("Edit compliance:", compliance, "Type:", type);
+    openModal({
+      title: "Edit" + " " + type,
+      component: (
+        <ComplianceForm
+          selectedCompliance={compliance}
+          onSuccess={() => {
+            closeModal();
+          }}
+          propertyId={propertyId}
+        />
+      ),
+    });
   };
 
   return (

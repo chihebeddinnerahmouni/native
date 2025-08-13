@@ -9,7 +9,7 @@ import { ComplianceCard } from "./compliance.component";
 
 type IProps = {
   compliances: Compliance[];
-  propertyId?: string;
+  propertyId: string;
 };
 
 export const CompliancesComponent = ({ compliances, propertyId }: IProps) => {
@@ -27,6 +27,7 @@ export const CompliancesComponent = ({ compliances, propertyId }: IProps) => {
               <ComplianceCard
                 key={item}
                 compliance={compliance ?? ({ type: item } as Compliance)}
+                propertyId={propertyId}
               />
             );
           })}
