@@ -1,14 +1,7 @@
+/* eslint-disable react-native/no-unused-styles */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  StyleSheet,
-  ViewStyle,
-} from "react-native";
+import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { CalendarIcon, EditIcon, SandGlassIcon } from "../../../../icons";
 import { Compliance } from "../../../../backend/casaikos-api";
 import {
@@ -17,139 +10,84 @@ import {
   getRemainingDays,
   getTyp,
 } from "../../../../utils";
-import { complianceTypes } from "../../../../utils/validators/compliance.validator";
+import colors from "../../../../constants/colors";
+import { TextBody } from "../../../ui/texts/Texts.component";
 
-type ComplianceGridProps = {
-  compliances: Compliance[];
-  //   complianceTypes: string[];
-  //   editCompliance: (compliance: Compliance, type: string) => void;
-  //   formatDate: (date: string) => string;
-  //   getRemainingDays: (date: string) => number;
-  //   getTyp: (type: string) => { label: string; icon: string };
-  //   getComplianceStatus: (status?: string) => {
-  //     label: string;
-  //     className: string;
-  //     emoji: string;
-  //     badgeType: string;
-  //   };
-  style?: ViewStyle;
-};
-
-export const ComplianceGrid = ({
+export const ComplianceCard = ({
+  item: type,
   compliances,
-  //   complianceTypes,
-  //   editCompliance,
-  //   formatDate,
-  //   getRemainingDays,
-  //   getTyp,
-  //   getComplianceStatus,
-  style,
-}: ComplianceGridProps) => {
-  const renderComplianceCard = ({ item: type }: { item: string }) => {
-    const compliance = compliances.find((c) => c.type === type);
-    const complianceData = compliance || ({ type } as Compliance);
-
-    const editCompliance = (compliance: Compliance, type: string) => {
-      // Implement your edit compliance logic here
-      console.log("Edit compliance:", compliance, "Type:", type);
-    };
-
-    return (
-      <ComplianceCard
-        compliance={complianceData}
-        editCompliance={editCompliance}
-        formatDate={formatDate}
-        getRemainingDays={getRemainingDays}
-        getTyp={getTyp}
-        getComplianceStatus={getComplianceStatus}
-      />
-    );
-  };
-
-  return (
-    <View style={[styles.container, style]}>
-      <FlatList
-        data={complianceTypes}
-        renderItem={renderComplianceCard}
-        keyExtractor={(item) => item}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.flatListContent}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
-  );
-};
-
-const ComplianceCard = ({
-  compliance,
-  editCompliance,
-  formatDate,
-  getRemainingDays,
-  getTyp,
-  getComplianceStatus,
 }: {
-  compliance: Compliance;
-  editCompliance: (compliance: Compliance, type: string) => void;
-  formatDate: (date: string) => string;
-  getRemainingDays: (date: string) => number;
-  getTyp: (type: string) => { label: string; icon: string };
-  getComplianceStatus: (status?: string) => {
-    label: string;
-    className: string;
-    emoji: string;
-    badgeType: string;
-  };
+  item: string;
+  compliances: Compliance[];
 }) => {
-  const isEmpty = !compliance.endDate;
-  const statusInfo = getComplianceStatus(compliance.status);
-  const typeInfo = getTyp(compliance.type);
+  const compliance = compliances.find((c) => c.type === type);
+  const complianceData = compliance || ({ type } as Compliance);
+  const isEmpty = !complianceData.endDate;
+  const statusInfo = getComplianceStatus(complianceData.status);
+  const typeInfo = getTyp(complianceData.type);
+
+  const editCompliance = (compliance: Compliance, type: string) => {
+    console.log("Edit compliance:", compliance, "Type:", type);
+  };
 
   return (
-    <View style={[styles.card, isEmpty && styles.cardEmpty]}>
-      {/* Header */}
-      <View style={styles.cardHeader}>
-        <View style={styles.complianceType}>
+    <View
+      style={[
+        complianceCardStyles.card,
+        isEmpty && complianceCardStyles.cardEmpty,
+      ]}
+    >
+      <View style={complianceCardStyles.cardHeader}>
+        <View style={complianceCardStyles.complianceType}>
           <Image
             source={{ uri: typeInfo.icon }}
-            style={styles.typeIcon}
+            style={complianceCardStyles.typeIcon}
             resizeMode="cover"
           />
-          <Text style={styles.typeLabel}>{typeInfo.label}</Text>
+          <TextBody style={complianceCardStyles.typeLabel}>
+            {typeInfo.label}
+          </TextBody>
         </View>
-        <View style={styles.complianceStatus}>
-          <Text style={styles.statusEmoji}>{statusInfo.emoji}</Text>
-          <Text
-            style={[styles.statusLabel, (styles as any)[statusInfo.className]]}
+        <View style={complianceCardStyles.complianceStatus}>
+          <TextBody style={complianceCardStyles.statusEmoji}>
+            {statusInfo.emoji}
+          </TextBody>
+          <TextBody
+            style={[
+              complianceCardStyles.statusLabel,
+              (complianceCardStyles as any)[statusInfo.className],
+            ]}
           >
             {statusInfo.label}
-          </Text>
+          </TextBody>
         </View>
       </View>
 
-      {/* Details */}
-      <View style={styles.detailsContainer}>
+      <View style={complianceCardStyles.detailsContainer}>
         <InfoItem
-          icon={<CalendarIcon size={16} color="#666" />}
+          icon={<CalendarIcon size={16} color={colors.textColor2} />}
           title="Valid Until"
-          data={isEmpty ? "-" : formatDate(compliance.endDate!)}
+          data={isEmpty ? "-" : formatDate(complianceData.endDate!)}
         />
         <InfoItem
-          icon={<SandGlassIcon size={16} color="#666" />}
+          icon={<SandGlassIcon size={16} color={colors.textColor2} />}
           title="Remaining"
-          data={isEmpty ? "-" : `${getRemainingDays(compliance.endDate!)} days`}
+          data={
+            isEmpty ? "-" : `${getRemainingDays(complianceData.endDate!)} days`
+          }
         />
       </View>
 
-      {/* Actions */}
-      <View style={styles.actionsContainer}>
-        <Text style={styles.editTitle}>Edit Compliance</Text>
+      <View style={complianceCardStyles.actionsContainer}>
+        <TextBody style={complianceCardStyles.editTitle}>
+          Edit Compliance
+        </TextBody>
         <TouchableOpacity
-          style={styles.actionIcon}
-          onPress={() => editCompliance(compliance, typeInfo.label)}
+          style={complianceCardStyles.actionIcon}
+          onPress={() => editCompliance(complianceData, typeInfo.label)}
           activeOpacity={0.7}
         >
-          <EditIcon size={16} color="#666" />
+          <EditIcon size={16} color={colors.textColor2} />
         </TouchableOpacity>
       </View>
     </View>
@@ -166,36 +104,25 @@ const InfoItem = ({
   data: string | number;
 }) => {
   return (
-    <View style={styles.infoItem}>
-      <View style={styles.infoTitle}>
-        {icon && <View style={styles.infoIcon}>{icon}</View>}
-        <Text style={styles.infoTitleText}>{title}</Text>
+    <View style={complianceCardStyles.infoItem}>
+      <View style={complianceCardStyles.infoTitle}>
+        {icon && <View style={complianceCardStyles.infoIcon}>{icon}</View>}
+        <TextBody style={complianceCardStyles.infoTitleText}>{title}</TextBody>
       </View>
-      <Text style={styles.infoData}>{data ?? "-"}</Text>
+      <TextBody style={complianceCardStyles.infoData}>{data ?? "-"}</TextBody>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  flatListContent: {
-    padding: 8,
-  },
-  row: {
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
+const complianceCardStyles = StyleSheet.create({
   card: {
     flex: 1,
-    backgroundColor: "#fff", // var(--bg-color)
+    backgroundColor: colors.bgColor,
     borderWidth: 1,
-    borderColor: "#e1e5e9", // var(--border-color)
+    borderColor: colors.borderColor,
     borderRadius: 8,
     padding: 12,
     gap: 12,
-    marginHorizontal: 4,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -206,7 +133,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardEmpty: {
-    backgroundColor: "#f8f9fa", // var(--empty-bg-color)
+    backgroundColor: colors.emptyBgColor,
     shadowOpacity: 0,
     elevation: 0,
   },
@@ -229,7 +156,7 @@ const styles = StyleSheet.create({
   typeLabel: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000", // var(--text-color)
+    color: colors.textColor,
     flexShrink: 1,
   },
   complianceStatus: {
@@ -244,26 +171,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
   },
-  // Status color classes
   unknown: {
-    color: "#666", // var(--text-color-2)
+    color: colors.textColor2,
   },
   passed: {
-    color: "#007AFF", // var(--primary-color)
+    color: colors.primaryColor,
   },
   warning: {
-    color: "#ffcb00",
+    color: colors.warningColor,
   },
   expired: {
-    color: "#ff4d4f",
+    color: colors.errorColor,
   },
   "issues-found": {
-    color: "#666", // var(--text-color-2)
+    color: colors.textColor2,
   },
   detailsContainer: {
-    backgroundColor: "#f5f5f5", // var(--empty-bg-color-2)
+    backgroundColor: colors.emptyBgColor2,
     borderWidth: 1,
-    borderColor: "#e1e5e9", // var(--border-color)
+    borderColor: colors.borderColor,
     borderRadius: 8,
     padding: 8,
     gap: 12,
@@ -283,26 +209,26 @@ const styles = StyleSheet.create({
   },
   infoTitleText: {
     fontSize: 13,
-    color: "#666",
+    color: colors.textColor2,
   },
   infoData: {
     fontSize: 13,
     fontWeight: "500",
-    color: "#000",
+    color: colors.textColor,
   },
   actionsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#f5f5f5", // var(--empty-bg-color-2)
+    backgroundColor: colors.emptyBgColor2,
     borderWidth: 1,
-    borderColor: "#e1e5e9", // var(--border-color)
+    borderColor: colors.borderColor,
     borderRadius: 8,
     padding: 8,
   },
   editTitle: {
     fontSize: 14,
-    color: "#000", // var(--text-color)
+    color: colors.textColor,
   },
   actionIcon: {
     padding: 4,

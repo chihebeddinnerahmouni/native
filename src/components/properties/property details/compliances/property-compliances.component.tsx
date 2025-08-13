@@ -1,19 +1,11 @@
 import React from "react";
 import { CardComponent } from "../../../ui/cards/card.component";
-import { Compliance, Property } from "../../../../backend/casaikos-api";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { Compliance } from "../../../../backend/casaikos-api";
+import { StyleSheet, View, FlatList } from "react-native";
 import { ActionHeader } from "../../../ui/action-header.component";
 import colors from "../../../../constants/colors";
-import { NoItemsFound } from "../../../ui/noItemsFound";
-import { getImageUrl } from "../../../../utils/validators/images.utils";
-import { XIcon } from "../../../../icons";
-import { FileUpload } from "../../../ui/upload-file.component";
-import * as DocumentPicker from "expo-document-picker";
-import { usePropertyDocMutation } from "../../../../api-query/hooks";
-import { convertToRNFile } from "../../../../utils/files.utils";
-import { useConfirm } from "../../../../hooks";
-import { ComplianceGrid } from "./compliance.component";
 import { complianceTypes } from "../../../../utils/validators/compliance.validator";
+import { ComplianceCard } from "./compliance.component";
 
 type IProps = {
   compliances: Compliance[];
@@ -28,15 +20,16 @@ export const CompliancesComponent = ({ compliances, propertyId }: IProps) => {
           title="Compliances"
           styles={compliancesStyle.actionsHeader}
         />
-        <ComplianceGrid
-          compliances={compliances}
-          //   complianceTypes={complianceTypes}
-          //   editCompliance={() => {}}
-          //   formatDate={formatDate}
-          //   getRemainingDays={getRemainingDays}
-          //   getTyp={getTyp}
-          //   getComplianceStatus={getComplianceStatus}
-        />
+        <View style={compliancesStyle.listContainer}>
+          <FlatList
+            data={complianceTypes}
+            renderItem={({ item }) => ComplianceCard({ item, compliances })}
+            keyExtractor={(item) => item}
+            numColumns={2}
+            columnWrapperStyle={compliancesStyle.row}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       </CardComponent>
     </>
   );
@@ -47,5 +40,13 @@ const compliancesStyle = StyleSheet.create({
     paddingBottom: 12,
     borderColor: colors.borderColor,
     borderBottomWidth: 1,
+  },
+  listContainer: {
+    flex: 1,
+    marginTop: 12,
+  },
+  row: {
+    justifyContent: "space-between",
+    marginBottom: 12,
   },
 });
