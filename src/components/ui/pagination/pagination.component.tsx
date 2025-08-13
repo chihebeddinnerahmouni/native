@@ -79,8 +79,7 @@ export const Pagination = ({
       <View style={styles.paginationInfo}>
         <TextBody style={styles.paginationText}>
           Showing {(currentPage - 1) * pageSize + 1} to{" "}
-          {Math.min(currentPage * pageSize, totalItems)} of {totalItems}{" "}
-          properties
+          {Math.min(currentPage * pageSize, totalItems)} of {totalItems}
         </TextBody>
       </View>
       <View style={styles.container}>

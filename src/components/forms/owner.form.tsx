@@ -57,6 +57,13 @@ export const OwnerForm = ({ selectedOwner, closeModal }: PropertyFormProps) => {
       reset({
         ...selectedOwner,
         agentId: selectedOwner.agent?._id,
+        bank: {
+          bankName: "bankName*",
+          accountName: "name*",
+          accountNumber: "123456789*",
+          iban: "DE89370400440532013000*",
+          swiftCode: "DEUTDEDBFRA*",
+        },
       });
     }
   }, [selectedOwner, reset]);
