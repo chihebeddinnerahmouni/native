@@ -14,7 +14,7 @@ import { FieldText } from "../../ui/inputs/field-text/field-text.component";
 import { DatePicker } from "../../ui/inputs/date-picker.component";
 
 type ComplianceFormProps = {
-  selectedCompliance?: Compliance;
+  selectedCompliance: Compliance;
   onSuccess: () => void;
   propertyId: string;
 };
@@ -57,14 +57,11 @@ export const ComplianceForm = ({
   };
 
   useEffect(() => {
-    if (selectedCompliance) {
-      reset({
-        // ...selectedCompliance,
-        warningDaysBeforeExpiry:
-          selectedCompliance.warningDaysBeforeExpiry || 15,
-        status: selectedCompliance.status || EComplianceStatus.NotAssigned,
-      });
-    }
+    reset({
+      ...selectedCompliance,
+      warningDaysBeforeExpiry: selectedCompliance.warningDaysBeforeExpiry || 15,
+      status: selectedCompliance.status || EComplianceStatus.NotAssigned,
+    });
   }, [selectedCompliance, reset]);
 
   return (
