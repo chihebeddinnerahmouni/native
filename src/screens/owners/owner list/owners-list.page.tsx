@@ -15,13 +15,23 @@ import { useOwners } from "../../../api-query/hooks";
 import { OwnerCard } from "../../../components/ui/cards/owner card/owner.card";
 import NoItemsFound from "../../../components/ui/noItemsFound";
 import { OwnersFilter } from "./owners.filter";
+import { commaSeparatedToArray } from "../../../utils";
 
 const pageSize = 10;
+export interface IOwnerFilter {
+  name?: string;
+  cities?: string;
+}
+const filterInitialState: IOwnerFilter = {
+  name: undefined,
+  cities: undefined,
+};
 
 export const OwnersListPage = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [appliedFilters, setAppliedFilters] = useState<{ name?: string }>({});
   const { openModal, closeModal } = useModal();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [appliedFilters, setAppliedFilters] =
+    useState<IOwnerFilter>(filterInitialState);
 
   const { ownersResult, isLoading } = useOwners({
     pagination: {
@@ -30,6 +40,7 @@ export const OwnersListPage = () => {
     },
     filter: {
       name: appliedFilters.name,
+      cities: commaSeparatedToArray(appliedFilters.cities || ""),
     },
     // sort: {
     //   sortBy,

@@ -16,14 +16,4 @@ export const ownersListStyles = StyleSheet.create({
     gap: 12,
     paddingBottom: 36,
   },
-  // paginationInfo: {
-  //   paddingHorizontal: 16,
-  //   paddingVertical: 8,
-  //   alignItems: "center",
-  // },
-  // paginationText: {
-  //   fontSize: 14,
-  //   color: "#687588",
-  //   fontWeight: "500",
-  // },
 });

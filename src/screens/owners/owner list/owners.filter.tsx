@@ -6,12 +6,13 @@ import {
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 import { SearchIcon } from "../../../icons";
 import { useModal } from "../../../contexts";
+import { IOwnerFilter } from "./owners-list.page";
+import { Select } from "../../../components/ui/inputs/select.component";
+import { mockCities } from "../../../constants/data";
 
 interface OwnersFilterProps {
-  initialFilters?: {
-    name?: string;
-  };
-  onApplyFilters: (filters: { name?: string }) => void;
+  initialFilters?: IOwnerFilter;
+  onApplyFilters: (filters: IOwnerFilter) => void;
 }
 
 export const OwnersFilter: React.FC<OwnersFilterProps> = ({
@@ -19,17 +20,22 @@ export const OwnersFilter: React.FC<OwnersFilterProps> = ({
   onApplyFilters,
 }) => {
   const [name, setName] = useState(initialFilters.name || "");
+  const [cities, setCities] = useState<string | number>(
+    initialFilters.cities || ""
+  );
   const { closeModal } = useModal();
 
   const handleApply = () => {
     onApplyFilters({
       name: name.trim() || undefined,
+      cities: cities ? String(cities) : undefined,
     });
     closeModal();
   };
 
   const handleClear = () => {
     setName("");
+    setCities("");
     onApplyFilters({
       name: undefined,
     });
@@ -44,6 +50,12 @@ export const OwnersFilter: React.FC<OwnersFilterProps> = ({
         value={name}
         onChangeText={setName}
         startIcon={<SearchIcon />}
+      />
+      <Select
+        options={mockCities}
+        value={cities}
+        onChange={setCities}
+        placeholder="Select cities..."
       />
 
       <FormActions

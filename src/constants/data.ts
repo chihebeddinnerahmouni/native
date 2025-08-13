@@ -224,6 +224,14 @@ export const nationalities = [
   "Zimbabwean",
 ];
 
+export const mockCities = [
+  // { label: 'All Cities', value: '' },
+  { label: "dubai", value: "dubai" },
+  { label: "london", value: "london" },
+  { label: "paris", value: "paris" },
+  { label: "new york", value: "new york" },
+];
+
 // export const durations = [
 //   { label: "15 min", value: 900 },
 //   { label: "30 min", value: 1800 },

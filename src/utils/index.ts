@@ -13,6 +13,7 @@ export * from "./currency.utils";
 export * from "./errors.utils";
 export * from "./notes.utils";
 export * from "./compliances.utils";
+export * from "./filter.utils";
 //
 export * from "./validators/auth.validator";
 export * from "./validators/properties.validator";
