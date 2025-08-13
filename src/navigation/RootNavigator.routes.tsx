@@ -50,7 +50,7 @@ export const MainTabNavigator = () => {
         tabBarStyle: {
           backgroundColor: colors.bgColor,
           borderTopColor: colors.borderColor,
-          display: "none",
+          // display: "none",
         },
       }}
       initialRouteName={EScreens.OWNERS}

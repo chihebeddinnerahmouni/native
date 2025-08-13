@@ -18,21 +18,23 @@ export const FormContainer = ({
   style?: ViewStyle;
 }) => {
   return (
-    <KeyboardAvoidingView
-      style={[formStyles.keyboardAvoidingView, style]}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-    >
-      <ScrollView
+    <ScrollView style={formStyles.container}>
+      <KeyboardAvoidingView
+        style={[formStyles.keyboardAvoidingView, style]}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+      >
+        {/* <ScrollView
         style={formStyles.scrollView}
         contentContainerStyle={formStyles.scrollViewContent}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         nestedScrollEnabled={true}
-      >
+      > */}
         <View style={formStyles.formContainer}>{children}</View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        {/* </ScrollView> */}
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
@@ -99,6 +101,9 @@ export const FormActions = ({
 };
 
 const formStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   formContainer: {
     flexDirection: "column",
     gap: 24,

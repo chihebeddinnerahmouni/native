@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  CreatePropertyDto,
-  EOwnerSelectFields,
+  CreateOwnerDto,
   EUserSelectFields,
-  Property,
+  Owner,
 } from "../../backend/casaikos-api";
-import { extractAirBnbId, propertySchema } from "../../utils";
-import { propertyTypesOptions } from "../../constants/data";
-import { useUsers } from "../../api-query/hooks";
-import { useOwners } from "../../api-query/hooks";
-import { usePropertiesMutation } from "../../api-query/hooks";
+import { honorificTitles } from "../../constants/data";
+import { useOwnerMutation, useUsers } from "../../api-query/hooks";
 import { FieldText } from "../ui/inputs/field-text/field-text.component";
 import Select from "../ui/inputs/select.component";
 import {
@@ -21,277 +17,165 @@ import {
   FormRow,
 } from "../ui/form/form-items.component";
 import { TextFormSectionTitle } from "../ui/texts/Texts.component";
-import { Textarea } from "../ui/inputs/field-text/textarea.component";
+import { ownerSchema } from "../../utils/validators/owners.validator";
 
 type PropertyFormProps = {
-  selectedProperty?: Property;
+  selectedOwner?: Owner;
   closeModal: () => void;
 };
 
-export const OwnerForm = ({
-  selectedProperty,
-  closeModal,
-}: PropertyFormProps) => {
+export const OwnerForm = ({ selectedOwner, closeModal }: PropertyFormProps) => {
   const {
-    control,
     getValues,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
-    resolver: yupResolver(propertySchema),
+    control,
+  } = useForm<CreateOwnerDto>({
+    resolver: yupResolver(ownerSchema),
   });
 
+  const { saveOwner, isSaveLoading } = useOwnerMutation();
   const { usersResult } = useUsers({
     select: [EUserSelectFields.FirstName, EUserSelectFields.LastName],
   });
 
-  const { ownersResult } = useOwners({
-    select: [EOwnerSelectFields.FirstName, EOwnerSelectFields.LastName],
-  });
-
-  const { saveProperty, isLoading: isSavePending } = usePropertiesMutation();
-
-  const handleFinalSubmit = () => {
+  const onClickSubmit = () => {
     const values = getValues();
-    const propertyToUpdate = selectedProperty;
-
-    if (propertyToUpdate) {
-      const airbnbId = extractAirBnbId(values.airbnbId?.trim() || "", "rooms");
-      saveProperty({
-        CreatePropertyDto: {
-          ...values,
-          airbnbId,
-        } as CreatePropertyDto,
-        selectedProperty: propertyToUpdate,
-      }).then(() => {
-        closeModal();
-      });
-    }
+    saveOwner({
+      selectedOwner,
+      ownerData: values,
+    }).then(() => {
+      closeModal();
+    });
   };
 
   useEffect(() => {
-    if (selectedProperty) {
+    if (selectedOwner) {
       reset({
-        ...selectedProperty,
-        agentId: selectedProperty.agent?._id,
-        ownerId: selectedProperty.owner?._id,
-        isFurnished: selectedProperty.isFurnished ?? true,
-      });
-    } else {
-      reset({
-        isActive: true,
-        isYearly: false,
-        isFurnished: false,
+        ...selectedOwner,
+        agentId: selectedOwner.agent?._id,
       });
     }
-  }, [selectedProperty, reset]);
+  }, [selectedOwner, reset]);
 
   return (
-    <ScrollView style={styles.container}>
-      <FormContainer>
-        <View style={styles.section}>
-          <Controller
-            name="agentId"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Select
-                placeholder="Select agent"
-                label="Agent"
-                options={usersResult.items.map((el) => ({
-                  label: el.firstName + " " + el.lastName,
-                  value: el._id,
-                }))}
-                value={value}
-                onChange={onChange}
-                error={errors.agentId}
-              />
-            )}
+    <FormContainer>
+      <Controller
+        name="agentId"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Select
+            placeholder="Select agent"
+            label="Agent"
+            options={usersResult.items.map((el) => ({
+              label: el.firstName + " " + el.lastName,
+              value: el._id,
+            }))}
+            value={value}
+            onChange={onChange}
+            error={errors.agentId}
           />
+        )}
+      />
+      <View style={styles.section}>
+        <TextFormSectionTitle>Personal Details</TextFormSectionTitle>
+        <Controller
+          name="title"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              placeholder="Title"
+              label="Title"
+              options={honorificTitles.map((el) => ({
+                label: el,
+                value: el,
+              }))}
+              error={errors.title}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+        <FormRow
+          leftChildren={
+            <Controller
+              name="firstName"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="First Name"
+                  required
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.firstName}
+                />
+              )}
+            />
+          }
+          rightChildren={
+            <Controller
+              name="lastName"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Last Name"
+                  required
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.lastName}
+                />
+              )}
+            />
+          }
+        />
 
-          <Controller
-            name="ownerId"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Select
-                placeholder="Select owner"
-                label="Owner"
-                options={ownersResult.items.map((el) => ({
-                  label: el.firstName + " " + el.lastName,
-                  value: el._id,
-                }))}
-                value={value}
-                onChange={onChange}
-                error={errors.ownerId}
-              />
-            )}
-          />
+        <Controller
+          name="email"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FieldText
+              placeholder="Enter here ..."
+              label="Email"
+              required
+              value={value}
+              onChangeText={onChange}
+              error={errors.email}
+            />
+          )}
+        />
+        <Controller
+          name="phoneNumber"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FieldText
+              placeholder="Enter here ..."
+              label="Phone"
+              required
+              value={value}
+              onChangeText={onChange}
+              error={errors.phoneNumber}
+            />
+          )}
+        />
+      </View>
 
-          <TextFormSectionTitle>Property Details</TextFormSectionTitle>
-
-          <Controller
-            name="title"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FieldText
-                placeholder="Enter here ..."
-                label="Title"
-                required
-                value={value}
-                onChangeText={onChange}
-                error={errors.title}
-              />
-            )}
-          />
-
-          <Controller
-            name="description"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Textarea
-                placeholder="Enter here ..."
-                label="Description"
-                value={value}
-                onChangeText={onChange}
-                error={errors.description}
-              />
-            )}
-          />
-
-          <FormRow
-            rightChildren={
-              <Controller
-                name="buildingName"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Building Name"
-                    required
-                    value={value}
-                    onChangeText={onChange}
-                    error={errors.buildingName}
-                  />
-                )}
-              />
-            }
-            leftChildren={
-              <Controller
-                name="propertyType"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    placeholder="Enter here ..."
-                    label="Property Type"
-                    options={propertyTypesOptions}
-                    value={value}
-                    onChange={onChange}
-                    error={errors.propertyType}
-                    required
-                  />
-                )}
-              />
-            }
-          />
-
-          <FormRow
-            rightChildren={
-              <Controller
-                name="bedrooms"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Bedrooms Number"
-                    type="number"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.bedrooms}
-                  />
-                )}
-              />
-            }
-            leftChildren={
-              <Controller
-                name="propertySize"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Property Size (Sqft)"
-                    type="number"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.propertySize}
-                  />
-                )}
-              />
-            }
-          />
-
-          <TextFormSectionTitle>Rent Details</TextFormSectionTitle>
-
-          <FormRow
-            leftChildren={
-              <Controller
-                name="deposit"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Deposit"
-                    type="number"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.deposit}
-                  />
-                )}
-              />
-            }
-            rightChildren={
-              <Controller
-                name="priceYearly"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <FieldText
-                    placeholder="Enter here ..."
-                    label="Yearly Price"
-                    type="number"
-                    value={value?.toString()}
-                    onChangeText={(text) =>
-                      onChange(text ? Number(text) : undefined)
-                    }
-                    error={errors.priceYearly}
-                  />
-                )}
-              />
-            }
-          />
-        </View>
-
-        <View style={styles.actionButtons}>
-          <FormActions
-            isLoading={isSavePending}
-            onPress={handleSubmit(handleFinalSubmit)}
-          />
-        </View>
-      </FormContainer>
-    </ScrollView>
+      <View style={styles.actionButtons}>
+        <FormActions
+          isLoading={isSaveLoading}
+          onPress={handleSubmit(onClickSubmit)}
+        />
+      </View>
+    </FormContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   section: {
     gap: 12,
+    marginTop: 12,
   },
   actionButtons: {
     flexDirection: "row",

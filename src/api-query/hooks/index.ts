@@ -5,6 +5,7 @@ export * from "./messages/useMessagesMutation.query";
 export * from "./tenants/useSingleTenant";
 export * from "./users/useUsers";
 export * from "./owners/useOwners";
+export * from "./owners/useOwnerMutation.query";
 export * from "./properties/useProperties.query";
 export * from "./properties/usePropertiesMutation.query";
 export * from "./properties/useSingleProperty";

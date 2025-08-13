@@ -18,15 +18,15 @@ import {
 // } from "../icons";
 // export const genders = ["Male", "Female"];
 
-// export const honorificTitles = [
-//   "Mr.",
-//   "Mrs.",
-//   "Miss",
-//   "Ms.",
-//   "Dr.",
-//   "Sir",
-//   "Lady",
-// ];
+export const honorificTitles = [
+  "Mr.",
+  "Mrs.",
+  "Miss",
+  "Ms.",
+  "Dr.",
+  "Sir",
+  "Lady",
+];
 
 // export const nationalities = [
 //   "Afghan",
