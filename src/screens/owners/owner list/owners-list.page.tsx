@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
 import { MainLayout } from "../../../layout";
@@ -14,20 +14,14 @@ import { OwnerForm } from "../../../components/forms";
 import { useOwners } from "../../../api-query/hooks";
 import { OwnerCard } from "../../../components/ui/cards/owner card/owner.card";
 import NoItemsFound from "../../../components/ui/noItemsFound";
-import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
-import { useDebounce } from "../../../hooks";
+import { OwnersFilter } from "./owners.filter";
 
 const pageSize = 10;
 
 export const OwnersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [title, setTitle] = useState("");
-  const debouncedTitle = useDebounce(title, 1500);
+  const [appliedFilters, setAppliedFilters] = useState<{ name?: string }>({});
   const { openModal, closeModal } = useModal();
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [debouncedTitle]);
 
   const { ownersResult, isLoading } = useOwners({
     pagination: {
@@ -35,7 +29,7 @@ export const OwnersListPage = () => {
       pageSize,
     },
     filter: {
-      name: debouncedTitle.trim() || undefined,
+      name: appliedFilters.name,
     },
     // sort: {
     //   sortBy,
@@ -47,14 +41,28 @@ export const OwnersListPage = () => {
     setCurrentPage(page);
   };
 
-  const handleTitleChange = useCallback((value: string) => {
-    setTitle(value);
-  }, []);
+  const handleApplyFilters = (filters: { name?: string }) => {
+    setAppliedFilters(filters);
+    setCurrentPage(1);
+  };
 
   const onClickOpenForm = () => {
     openModal({
       title: "New Owner",
       component: <OwnerForm closeModal={closeModal} />,
+    });
+  };
+
+  const filterHandler = () => {
+    openModal({
+      title: "Filter Owners",
+      slideDirection: "bottom",
+      component: (
+        <OwnersFilter
+          initialFilters={appliedFilters}
+          onApplyFilters={handleApplyFilters}
+        />
+      ),
     });
   };
 
@@ -68,7 +76,7 @@ export const OwnersListPage = () => {
           <TouchableOpacity>
             <SearchIcon />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={filterHandler}>
             <FilterIcon />
           </TouchableOpacity>
         </View>
@@ -99,7 +107,7 @@ export const OwnersListPage = () => {
         }
       />
 
-      <View style={ownersListStyles.searchContainer}>
+      {/* <View style={ownersListStyles.searchContainer}>
         <FieldText
           type="search"
           placeholder="Search owners by name..."
@@ -107,7 +115,7 @@ export const OwnersListPage = () => {
           onChangeText={handleTitleChange}
           startIcon={<SearchIcon />}
         />
-      </View>
+      </View> */}
 
       <View style={ownersListStyles.ownersContainer}>
         {ownersResult.items.length ? (
