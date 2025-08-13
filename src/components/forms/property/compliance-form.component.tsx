@@ -34,10 +34,6 @@ export const ComplianceForm = ({
     control,
   } = useForm<ComplianceDto>({
     resolver: yupResolver(complianceSchema),
-    defaultValues: {
-      // warningDaysBeforeExpiry: 15,
-      // status: EComplianceStatus.NotAssigned,
-    },
   });
 
   const today = new Date();

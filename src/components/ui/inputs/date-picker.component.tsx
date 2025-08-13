@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -51,6 +51,11 @@ export const DatePicker = ({
 }: DatePickerProps) => {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
+
+  // Sync internal state with external value prop
+  useEffect(() => {
+    setSelectedDate(value);
+  }, [value]);
 
   const formatDate = (date: Date | undefined) => {
     if (!date) return "";
