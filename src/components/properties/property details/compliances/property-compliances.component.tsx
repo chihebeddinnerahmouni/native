@@ -21,11 +21,15 @@ export const CompliancesComponent = ({ compliances, propertyId }: IProps) => {
           styles={compliancesStyle.actionsHeader}
         />
         <View style={compliancesStyle.listContainer}>
-          {complianceTypes.map((item) => (
-            <View key={item} style={compliancesStyle.itemContainer}>
-              {ComplianceCard({ item, compliances })}
-            </View>
-          ))}
+          {complianceTypes.map((item) => {
+            const compliance = compliances.find((c) => c.type === item);
+            return (
+              <ComplianceCard
+                key={item}
+                compliance={compliance ?? ({ type: item } as Compliance)}
+              />
+            );
+          })}
         </View>
       </CardComponent>
     </>
@@ -39,10 +43,7 @@ const compliancesStyle = StyleSheet.create({
     borderBottomWidth: 1,
   },
   listContainer: {
-    flex: 1,
     marginTop: 12,
-  },
-  itemContainer: {
-    marginBottom: 12,
+    gap: 12,
   },
 });
