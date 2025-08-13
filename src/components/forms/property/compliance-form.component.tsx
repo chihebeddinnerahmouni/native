@@ -39,7 +39,6 @@ export const ComplianceForm = ({
   const today = new Date();
 
   const onClickSubmit = async () => {
-    console.log("Submitting compliance form");
     const values = getValues();
     updateCompliance({
       propertyId,
