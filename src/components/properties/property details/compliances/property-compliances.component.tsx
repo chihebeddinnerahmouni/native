@@ -1,7 +1,7 @@
 import React from "react";
 import { CardComponent } from "../../../ui/cards/card.component";
 import { Compliance } from "../../../../backend/casaikos-api";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ActionHeader } from "../../../ui/action-header.component";
 import colors from "../../../../constants/colors";
 import { complianceTypes } from "../../../../utils/validators/compliance.validator";
@@ -21,15 +21,15 @@ export const CompliancesComponent = ({ compliances, propertyId }: IProps) => {
           styles={compliancesStyle.actionsHeader}
         />
         <View style={compliancesStyle.listContainer}>
-          <FlatList
-            data={complianceTypes}
-            renderItem={({ item }) => ComplianceCard({ item, compliances })}
-            keyExtractor={(item) => item}
-            showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => (
-              <View style={compliancesStyle.separator} />
-            )}
-          />
+          {complianceTypes.map((item) => {
+            const compliance = compliances.find((c) => c.type === item);
+            return (
+              <ComplianceCard
+                key={item}
+                compliance={compliance ?? ({} as Compliance)}
+              />
+            );
+          })}
         </View>
       </CardComponent>
     </>
@@ -43,10 +43,7 @@ const compliancesStyle = StyleSheet.create({
     borderBottomWidth: 1,
   },
   listContainer: {
-    flex: 1,
     marginTop: 12,
-  },
-  separator: {
-    height: 12,
+    gap: 12,
   },
 });

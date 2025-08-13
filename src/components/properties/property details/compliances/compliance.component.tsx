@@ -13,18 +13,10 @@ import {
 import colors from "../../../../constants/colors";
 import { TextBody } from "../../../ui/texts/Texts.component";
 
-export const ComplianceCard = ({
-  item: type,
-  compliances,
-}: {
-  item: string;
-  compliances: Compliance[];
-}) => {
-  const compliance = compliances.find((c) => c.type === type);
-  const complianceData = compliance || ({ type } as Compliance);
-  const isEmpty = !complianceData.endDate;
-  const statusInfo = getComplianceStatus(complianceData.status);
-  const typeInfo = getTyp(complianceData.type);
+export const ComplianceCard = ({ compliance }: { compliance: Compliance }) => {
+  const isEmpty = !compliance.endDate;
+  const statusInfo = getComplianceStatus(compliance.status);
+  const typeInfo = getTyp(compliance.type);
 
   const editCompliance = (compliance: Compliance, type: string) => {
     console.log("Edit compliance:", compliance, "Type:", type);
@@ -67,14 +59,12 @@ export const ComplianceCard = ({
         <InfoItem
           icon={<CalendarIcon size={16} color={colors.textColor2} />}
           title="Valid Until"
-          data={isEmpty ? "-" : formatDate(complianceData.endDate!)}
+          data={isEmpty ? "-" : formatDate(compliance.endDate!)}
         />
         <InfoItem
           icon={<SandGlassIcon size={16} color={colors.textColor2} />}
           title="Remaining"
-          data={
-            isEmpty ? "-" : `${getRemainingDays(complianceData.endDate!)} days`
-          }
+          data={isEmpty ? "-" : `${getRemainingDays(compliance.endDate!)} days`}
         />
       </View>
 
@@ -84,7 +74,7 @@ export const ComplianceCard = ({
         </TextBody>
         <TouchableOpacity
           style={complianceCardStyles.actionIcon}
-          onPress={() => editCompliance(complianceData, typeInfo.label)}
+          onPress={() => editCompliance(compliance, typeInfo.label)}
           activeOpacity={0.7}
         >
           <EditIcon size={16} color={colors.textColor2} />
