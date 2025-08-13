@@ -21,6 +21,7 @@ import { NotesComponent } from "../../../components/properties/property details/
 import { MediaComponent } from "../../../components/properties/property details/media/property-media.component";
 import { getImageUrl } from "../../../utils/validators/images.utils";
 import { CompliancesComponent } from "../../../components/properties/property details/compliances/property-compliances.component";
+import { FacilitiesComponent } from "../../../components/properties/property details/facilities/property-facilities.component";
 // import { RouteProp, useRoute } from "@react-navigation/native";
 
 export enum EPropertyTabs {
@@ -77,7 +78,7 @@ export const PropertyDetailsPage = () => {
     [selectedPropertyId]
   );
   const [selectedTab, setSelectedTab] = useState<string>(
-    EPropertyTabs.COMPLIANCES
+    EPropertyTabs.FACILITIES
   );
   const { property, isLoading, propertyError } = useSingleProperty(param);
   const { availabilities } = useAvailabilities(param);
@@ -88,6 +89,7 @@ export const PropertyDetailsPage = () => {
 
   if (isLoading) return <LoadingScreen />;
   if (propertyError || !property) return <View>Error loading property</View>;
+  console.log(property.facilities);
 
   return (
     <MainLayout HeaderLeft={<PageTitle2>Detail Property</PageTitle2>}>
@@ -138,6 +140,12 @@ export const PropertyDetailsPage = () => {
           <CompliancesComponent
             propertyId={property._id}
             compliances={property.compliances || []}
+          />
+        )}
+        {selectedTab === EPropertyTabs.FACILITIES && (
+          <FacilitiesComponent
+            propertyId={property._id}
+            facilities={property.facilities || []}
           />
         )}
       </View>
