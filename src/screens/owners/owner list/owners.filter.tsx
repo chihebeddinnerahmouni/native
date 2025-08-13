@@ -7,7 +7,7 @@ import { FieldText } from "../../../components/ui/inputs/field-text/field-text.c
 import { SearchIcon } from "../../../icons";
 import { useModal } from "../../../contexts";
 import { IOwnerFilter } from "./owners-list.page";
-import { Select } from "../../../components/ui/inputs/select.component";
+import { MultiSelect } from "../../../components/ui/inputs/multi-select.component";
 import { mockCities } from "../../../constants/data";
 
 interface OwnersFilterProps {
@@ -20,24 +20,23 @@ export const OwnersFilter: React.FC<OwnersFilterProps> = ({
   onApplyFilters,
 }) => {
   const [name, setName] = useState(initialFilters.name || "");
-  const [cities, setCities] = useState<string | number>(
-    initialFilters.cities || ""
-  );
+  const [cities, setCities] = useState<string[]>(initialFilters.cities || []);
   const { closeModal } = useModal();
 
   const handleApply = () => {
     onApplyFilters({
       name: name.trim() || undefined,
-      cities: cities ? String(cities) : undefined,
+      cities: cities.length > 0 ? cities : undefined,
     });
     closeModal();
   };
 
   const handleClear = () => {
     setName("");
-    setCities("");
+    setCities([]);
     onApplyFilters({
       name: undefined,
+      cities: undefined,
     });
     closeModal();
   };
@@ -50,12 +49,16 @@ export const OwnersFilter: React.FC<OwnersFilterProps> = ({
         value={name}
         onChangeText={setName}
         startIcon={<SearchIcon />}
+        label="Owner Name"
       />
-      <Select
+      <MultiSelect
+        label="Cities"
+        placeholder="Select cities..."
         options={mockCities}
         value={cities}
-        onChange={setCities}
-        placeholder="Select cities..."
+        onChange={(values) => setCities(values as string[])}
+        searchable={true}
+        maxSelectedDisplay={2}
       />
 
       <FormActions

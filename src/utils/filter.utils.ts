@@ -34,10 +34,12 @@
 //   return "";
 // };
 
-export const commaSeparatedToArray = (input: string | null): string[] => {
-  if (!input) return [];
-  return input
-    .split(",")
-    .map((city) => city.trim())
-    .filter((city) => city !== "");
-};
+// export const commaSeparatedToArray = (input: string | null): string[] => {
+//   if (!input) return [];
+//   return input
+//     .split(",")
+//     .map((city) => city.trim())
+//     .filter((city) => city !== "");
+// };
+
+// not used
