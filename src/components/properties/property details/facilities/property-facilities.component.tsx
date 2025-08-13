@@ -2,51 +2,76 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { CardComponent } from "../../../ui/cards/card.component";
 import { ActionHeader } from "../../../ui/action-header.component";
-import { TextLabel } from "../../../ui/texts/Texts.component";
+import { TextBody } from "../../../ui/texts/Texts.component";
+import { Button } from "../../../ui/buttons/button.component";
+import { PlusIcon } from "../../../../icons";
 import colors from "../../../../constants/colors";
 import { Facility } from "../../../../backend/casaikos-api";
 import { formatDate } from "../../../../utils";
 import NoItemsFound from "../../../ui/noItemsFound";
+import { useModal } from "../../../../contexts";
+import { FacilityForm } from "../../../forms/property/facility.form";
 
 type IProps = {
   facilities: Facility[];
-  propertyId?: string;
+  propertyId: string; // Made required since we need it for the form
 };
 
-export const FacilitiesComponent = ({ facilities }: IProps) => {
-  const getCreatorName = (creator: Facility["createdBy"]) => {
-    if (!creator) return "Unknown";
-    return `${creator.firstName} ${creator.lastName}`;
+export const FacilitiesComponent = ({ facilities, propertyId }: IProps) => {
+  const { openModal, closeModal } = useModal();
+
+  const onClickOpenForm = () => {
+    openModal({
+      title: "Add Facility",
+      component: (
+        <FacilityForm propertyId={propertyId} onDismiss={() => closeModal()} />
+      ),
+    });
   };
 
   return (
     <CardComponent>
-      <ActionHeader title="Facilities" styles={facilitiesStyle.actionsHeader} />
+      <ActionHeader
+        title="Facilities"
+        styles={facilitiesStyle.actionsHeader}
+        actions={
+          <Button
+            variant="contained"
+            icon={<PlusIcon color={colors.bgColor} />}
+            onPress={onClickOpenForm}
+          >
+            Add Facility
+          </Button>
+        }
+      />
 
       <View style={facilitiesStyle.listContainer}>
         {facilities && facilities.length > 0 ? (
           facilities.map((facility) => (
             <View key={facility.id} style={facilitiesStyle.facilityCard}>
               <View style={facilitiesStyle.facilityHeader}>
-                <TextLabel style={facilitiesStyle.facilityName}>
+                <TextBody style={facilitiesStyle.facilityName}>
                   {facility.name}
-                </TextLabel>
-                <TextLabel style={facilitiesStyle.facilityDate}>
+                </TextBody>
+                <TextBody style={facilitiesStyle.facilityDate}>
                   {formatDate(facility.createdAt)}
-                </TextLabel>
+                </TextBody>
               </View>
 
               <View style={facilitiesStyle.facilityFooter}>
-                <TextLabel style={facilitiesStyle.createdByLabel}>
+                <TextBody style={facilitiesStyle.createdByLabel}>
                   Created by:
-                </TextLabel>
-                <TextLabel style={facilitiesStyle.creatorName}>
-                  {getCreatorName(facility.createdBy)}
-                </TextLabel>
+                </TextBody>
+                <TextBody style={facilitiesStyle.creatorName}>
+                  {/* {getCreatorName(facility.createdBy)} */}
+                  {facility.createdBy
+                    ? `${facility.createdBy.firstName} ${facility.createdBy.lastName}`
+                    : "-"}
+                </TextBody>
                 {facility.createdBy && (
-                  <TextLabel style={facilitiesStyle.creatorRole}>
+                  <TextBody style={facilitiesStyle.creatorRole}>
                     ({facility.createdBy.role})
-                  </TextLabel>
+                  </TextBody>
                 )}
               </View>
             </View>
