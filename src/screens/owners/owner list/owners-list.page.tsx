@@ -5,8 +5,6 @@ import { MainLayout } from "../../../layout";
 import { FilterIcon, PlusIcon, SearchIcon } from "../../../icons";
 import { ActionHeader } from "../../../components/ui/action-header.component";
 import { Button } from "../../../components/ui/buttons/button.component";
-import { useProperties } from "../../../api-query/hooks/properties/useProperties.query";
-import { PropertyCard } from "../../../components/ui/cards/property card/property-card.component";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { colors } from "../../../constants/colors";
 import { ownersListStyles } from "./owners-list.style";
@@ -15,6 +13,7 @@ import { Pagination } from "../../../components/ui/pagination";
 import { PropertyForm } from "../../../components/forms";
 import { useOwners } from "../../../api-query/hooks";
 import { OwnerCard } from "../../../components/ui/cards/owner card/owner-card.component";
+import NoItemsFound from "../../../components/ui/noItemsFound";
 
 const pageSize = 1;
 
@@ -92,9 +91,13 @@ export const OwnersListPage = () => {
         }
       />
       <View style={ownersListStyles.ownersContainer}>
-        {ownersResult.items.map((owner) => (
-          <OwnerCard key={owner._id} owner={owner} />
-        ))}
+        {ownersResult.items.length > 0 ? (
+          ownersResult.items.map((owner) => (
+            <OwnerCard key={owner._id} owner={owner} />
+          ))
+        ) : (
+          <NoItemsFound message="No owners found" />
+        )}
       </View>
     </MainLayout>
   );
