@@ -4,47 +4,47 @@ export const getTyp = (type: string | undefined) => {
   switch (type) {
     case "DEWA_BILL":
       return {
-        icon: "/assets/img/compliances/dewa-bill.png",
+        icon: require("../../assets/images/compliances/dewa-bill.png"),
         label: "DEWA Bill",
       };
     case "EJARI":
       return {
-        icon: "/assets/img/compliances/ejari.png",
+        icon: require("../../assets/images/compliances/ejari.png"),
         label: "Ejari Certificate",
       };
     case "WIFI_SUBSCRIPTION":
       return {
-        icon: "/assets/img/compliances/wifi.png",
+        icon: require("../../assets/images/compliances/wifi.png"),
         label: "WiFi Subscription",
       };
     case "AC_MAINTENANCE":
       return {
-        icon: "/assets/img/compliances/ac.png",
+        icon: require("../../assets/images/compliances/ac.png"),
         label: "AC Maintenance",
       };
     case "FIRE_SAFETY":
       return {
-        icon: "/assets/img/compliances/fire.png",
+        icon: require("../../assets/images/compliances/fire.png"),
         label: "Fire Safety Inspection ",
       };
     case "PEST_CONTROL":
       return {
-        icon: "/assets/img/compliances/pest.png",
+        icon: require("../../assets/images/compliances/pest.png"),
         label: "Pest Control",
       };
     case "TOURISM_PERMIT":
       return {
-        icon: "/assets/img/compliances/tourism.png",
+        icon: require("../../assets/images/compliances/tourism.png"),
         label: "Tourism Permit (DTCM)",
       };
     case "INSURANCE":
       return {
-        icon: "/assets/img/compliances/shield.png",
+        icon: require("../../assets/images/compliances/shield.png"),
         label: "Insurance",
       };
     default:
       return {
-        icon: "/assets/img/compliances/dewa-bill.png",
+        icon: require("../../assets/images/compliances/dewa-bill.png"),
         label: "-",
       };
   }

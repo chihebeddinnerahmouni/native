@@ -40,7 +40,7 @@ export const ComplianceCard = ({
       <View style={complianceCardStyles.cardHeader}>
         <View style={complianceCardStyles.complianceType}>
           <Image
-            source={{ uri: typeInfo.icon }}
+            source={typeInfo.icon}
             style={complianceCardStyles.typeIcon}
             resizeMode="cover"
           />
