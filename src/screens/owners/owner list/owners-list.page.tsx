@@ -13,6 +13,8 @@ import { ownersListStyles } from "./owners-list.style";
 import { useModal } from "../../../contexts";
 import { Pagination } from "../../../components/ui/pagination";
 import { PropertyForm } from "../../../components/forms";
+import { useOwners } from "../../../api-query/hooks";
+import { OwnerCard } from "../../../components/ui/cards/owner card/owner-card.component";
 
 const pageSize = 1;
 
@@ -20,7 +22,7 @@ export const OwnersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { openModal, closeModal } = useModal();
-  const { propertiesResult, isLoading } = useProperties({
+  const { ownersResult, isLoading } = useOwners({
     pagination: {
       page: currentPage,
       pageSize,
@@ -68,15 +70,15 @@ export const OwnersListPage = () => {
     >
       <Pagination
         currentPage={currentPage}
-        totalPages={propertiesResult.pagesCount}
+        totalPages={ownersResult.pagesCount}
         onPageChange={handlePageChange}
         disabled={isLoading}
         pageSize={pageSize}
-        totalItems={propertiesResult.documentsCount}
+        totalItems={ownersResult.documentsCount}
       />
 
       <ActionHeader
-        title="List Properties"
+        title="List Owners"
         actions={
           <Button
             variant="contained"
@@ -85,13 +87,13 @@ export const OwnersListPage = () => {
               onClickOpenForm();
             }}
           >
-            Add Property
+            Add Owner
           </Button>
         }
       />
       <View style={ownersListStyles.ownersContainer}>
-        {propertiesResult.items.map((property) => (
-          <PropertyCard key={property._id} property={property} />
+        {ownersResult.items.map((owner) => (
+          <OwnerCard key={owner._id} owner={owner} />
         ))}
       </View>
     </MainLayout>
