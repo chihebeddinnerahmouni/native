@@ -61,6 +61,8 @@ export const OwnerForm = ({ selectedOwner, closeModal }: PropertyFormProps) => {
     }
   }, [selectedOwner, reset]);
 
+  console.log(errors);
+
   return (
     <FormContainer>
       <Controller
@@ -108,7 +110,6 @@ export const OwnerForm = ({ selectedOwner, closeModal }: PropertyFormProps) => {
                 <FieldText
                   placeholder="Enter here ..."
                   label="First Name"
-                  required
                   value={value}
                   onChangeText={onChange}
                   error={errors.firstName}
@@ -124,7 +125,6 @@ export const OwnerForm = ({ selectedOwner, closeModal }: PropertyFormProps) => {
                 <FieldText
                   placeholder="Enter here ..."
                   label="Last Name"
-                  required
                   value={value}
                   onChangeText={onChange}
                   error={errors.lastName}
@@ -140,7 +140,6 @@ export const OwnerForm = ({ selectedOwner, closeModal }: PropertyFormProps) => {
             <FieldText
               placeholder="Enter here ..."
               label="Email"
-              required
               value={value}
               onChangeText={onChange}
               error={errors.email}
@@ -349,6 +348,85 @@ export const OwnerForm = ({ selectedOwner, closeModal }: PropertyFormProps) => {
               )}
             />
           }
+        />
+      </FormSection>
+      <FormSection>
+        <TextFormSectionTitle>Bank Details</TextFormSectionTitle>
+        <Controller
+          name="bank.bankName"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FieldText
+              placeholder="Enter here ..."
+              label="Bank Name"
+              required
+              value={value}
+              onChangeText={onChange}
+              error={errors.bank?.bankName}
+            />
+          )}
+        />
+        <Controller
+          name="bank.accountName"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FieldText
+              placeholder="Enter here ..."
+              label="Account Name"
+              required
+              value={value}
+              onChangeText={onChange}
+              error={errors.bank?.accountName}
+            />
+          )}
+        />
+        <FormRow
+          leftChildren={
+            <Controller
+              name="bank.accountNumber"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="Account Number"
+                  required
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.bank?.accountNumber}
+                />
+              )}
+            />
+          }
+          rightChildren={
+            <Controller
+              name="bank.iban"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FieldText
+                  placeholder="Enter here ..."
+                  label="IBAN"
+                  required
+                  value={value}
+                  onChangeText={onChange}
+                  error={errors.bank?.iban}
+                />
+              )}
+            />
+          }
+        />
+        <Controller
+          name="bank.swiftCode"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FieldText
+              placeholder="Enter here ..."
+              label="SWIFT Code"
+              required
+              value={value}
+              onChangeText={onChange}
+              error={errors.bank?.swiftCode}
+            />
+          )}
         />
       </FormSection>
 
