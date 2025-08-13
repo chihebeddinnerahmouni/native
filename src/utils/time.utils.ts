@@ -428,11 +428,10 @@ export function isDateInRangeForMonth(
 //   return localTime;
 // }
 
-// export function getRemainingDays(targetDate: string) {
-//   const today = new Date().getTime();
-//   const maxDate = new Date(targetDate).getTime();
-//   const diffTime = maxDate - today;
-//   // Convert milliseconds to days (24 * 60 * 60 * 1000)
-//   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-//   return diffDays;
-// }
+export function getRemainingDays(targetDate: string) {
+  const today = new Date().getTime();
+  const maxDate = new Date(targetDate).getTime();
+  const diffTime = maxDate - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+}

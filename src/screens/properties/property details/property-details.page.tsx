@@ -20,6 +20,7 @@ import { DocumentsComponent } from "../../../components/properties/property deta
 import { NotesComponent } from "../../../components/properties/property details/notes/property-notes.component";
 import { MediaComponent } from "../../../components/properties/property details/media/property-media.component";
 import { getImageUrl } from "../../../utils/validators/images.utils";
+import { CompliancesComponent } from "../../../components/properties/property details/compliances/property-compliances.component";
 // import { RouteProp, useRoute } from "@react-navigation/native";
 
 export enum EPropertyTabs {
@@ -65,8 +66,6 @@ const tabs = [
 ];
 
 export const PropertyDetailsPage = () => {
-  const [selectedTab, setSelectedTab] = useState<string>(EPropertyTabs.MEDIA);
-
   // const route =
   //   useRoute<
   //     RouteProp<{ PropertyDetails: { propertyId: string } }, "PropertyDetails">
@@ -76,6 +75,9 @@ export const PropertyDetailsPage = () => {
   const param = useMemo(
     () => ({ propertyId: selectedPropertyId || "" }),
     [selectedPropertyId]
+  );
+  const [selectedTab, setSelectedTab] = useState<string>(
+    EPropertyTabs.COMPLIANCES
   );
   const { property, isLoading, propertyError } = useSingleProperty(param);
   const { availabilities } = useAvailabilities(param);
@@ -131,6 +133,12 @@ export const PropertyDetailsPage = () => {
         )}
         {selectedTab === EPropertyTabs.MEDIA && (
           <MediaComponent property={property} />
+        )}
+        {selectedTab === EPropertyTabs.COMPLIANCES && (
+          <CompliancesComponent
+            propertyId={property._id}
+            compliances={property.compliances || []}
+          />
         )}
       </View>
     </MainLayout>
