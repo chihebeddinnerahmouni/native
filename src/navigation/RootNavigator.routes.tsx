@@ -1,10 +1,10 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AuthNavigator } from "./Auth-navigator";
+import { AuthNavigator } from "./Auth.routes";
 import { useAuth } from "../contexts";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MessagesNavigator } from "./messages-navigator";
-import { PropertiesNavigator } from "./Properties-navigator";
+import { MessagesNavigator } from "./messages.routes";
+import { PropertiesNavigator } from "./Properties.routes";
 import { EScreens, ETabs } from "../utils";
 import colors from "../constants/colors";
 
@@ -70,6 +70,14 @@ export const MainTabNavigator = () => {
           // icon
         }}
       />
+      {/* <Tab.Screen
+        name={EScreens.OWNERS}
+        component={OwnersNavigator}
+        options={{
+          tabBarLabel: "Owners",
+          // icon
+        }}
+      /> */}
     </Tab.Navigator>
   );
 };

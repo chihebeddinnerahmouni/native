@@ -64,11 +64,11 @@ export const AppWrapper: React.FC = () => {
         handleConnect();
       }
 
-      socketManager.on(EWebsocketType.Connect, handleConnect);
+      socketManager.on(EWebsocketType.CONNECT, handleConnect);
       socketManager.on(EWebsocketType.REFRESH, handleDataChanged);
 
       return () => {
-        socketManager.off(EWebsocketType.Connect, handleConnect);
+        socketManager.off(EWebsocketType.CONNECT, handleConnect);
         socketManager.off(EWebsocketType.REFRESH, handleDataChanged);
       };
     }
