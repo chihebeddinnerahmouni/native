@@ -12,7 +12,7 @@ import { useModal } from "../../../contexts";
 import { Pagination } from "../../../components/ui/pagination";
 import { PropertyForm } from "../../../components/forms";
 import { useOwners } from "../../../api-query/hooks";
-import { OwnerCard } from "../../../components/ui/cards/owner card/owner-card.component";
+import { OwnerCard } from "../../../components/ui/cards/owner card/owner.card";
 import NoItemsFound from "../../../components/ui/noItemsFound";
 
 const pageSize = 1;

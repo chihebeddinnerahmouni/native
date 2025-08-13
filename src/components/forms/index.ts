@@ -1,1 +1,1 @@
-export * from "./property-form.component";
+export * from "./property.form";
