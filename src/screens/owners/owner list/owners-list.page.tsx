@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
 import { MainLayout } from "../../../layout";
@@ -14,22 +14,33 @@ import { OwnerForm } from "../../../components/forms";
 import { useOwners } from "../../../api-query/hooks";
 import { OwnerCard } from "../../../components/ui/cards/owner card/owner.card";
 import NoItemsFound from "../../../components/ui/noItemsFound";
+import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
+import { useDebounce } from "../../../hooks";
 
-const pageSize = 1;
+const pageSize = 10;
 
 export const OwnersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [title, setTitle] = useState("");
+
+  // Debounce the search term
+  const debouncedTitle = useDebounce(title, 1500);
 
   const { openModal, closeModal } = useModal();
+
+  // Reset to first page when search term changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedTitle]);
+
   const { ownersResult, isLoading } = useOwners({
     pagination: {
       page: currentPage,
       pageSize,
     },
-    // filter: {
-    //   cities: commaSeparatedToArray(cities) ?? undefined,
-    //   title: title ?? undefined,
-    // },
+    filter: {
+      name: debouncedTitle.trim() || undefined,
+    },
     // sort: {
     //   sortBy,
     //   sortDirection,
@@ -40,13 +51,14 @@ export const OwnersListPage = () => {
     setCurrentPage(page);
   };
 
+  const handleTitleChange = useCallback((value: string) => {
+    setTitle(value);
+  }, []);
+
   const onClickOpenForm = () => {
     openModal({
-      title: "New Property",
+      title: "New Owner",
       component: <OwnerForm closeModal={closeModal} />,
-      onDismiss: () => {
-        // console.log("Modal dismissed");
-      },
     });
   };
 
@@ -90,8 +102,19 @@ export const OwnersListPage = () => {
           </Button>
         }
       />
+
+      <View style={ownersListStyles.searchContainer}>
+        <FieldText
+          type="search"
+          placeholder="Search owners by name..."
+          value={title}
+          onChangeText={handleTitleChange}
+          startIcon={<SearchIcon />}
+        />
+      </View>
+
       <View style={ownersListStyles.ownersContainer}>
-        {ownersResult.items.length > 0 ? (
+        {ownersResult.items.length ? (
           ownersResult.items.map((owner) => (
             <OwnerCard key={owner._id} owner={owner} />
           ))

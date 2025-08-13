@@ -5,6 +5,10 @@ export const ownersListStyles = StyleSheet.create({
     flexDirection: "row",
     gap: 16,
   },
+  searchContainer: {
+    marginTop: 16,
+    marginBottom: 16,
+  },
   ownersContainer: {
     marginTop: 16,
     flex: 1,
