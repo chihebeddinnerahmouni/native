@@ -1,22 +1,24 @@
-import React, { useMemo } from "react";
-import { HostedFile } from "../../../backend/casaikos-api";
-import { usePropertyDocMutation } from "../../../api-query/hooks";
-import { FormActions, FormContainer } from "../../ui/form/form-items.component";
+import React from "react";
+import { HostedFile } from "../../backend/casaikos-api";
+import { FormActions, FormContainer } from "../ui/form/form-items.component";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RenameDocumentValidator } from "../../../utils/validators/document.validator";
-import { FieldText } from "../../ui/inputs/field-text/field-text.component";
+import { RenameDocumentValidator } from "../../utils/validators/document.validator";
+import { FieldText } from "../ui/inputs/field-text/field-text.component";
+import { RenameDocumentParams } from "../../types/rename-document-function.types";
 
 type IProps = {
-  propertyId: string;
-  onDismiss?: () => void;
-  document: HostedFile;
+  onDismiss: () => void;
+  file: HostedFile;
+  renameDocument: (params: RenameDocumentParams) => void;
+  isLoading: boolean;
 };
 
 export const RenameDocumentForm = ({
-  propertyId,
   onDismiss,
-  document,
+  file,
+  renameDocument,
+  isLoading,
 }: IProps) => {
   const {
     getValues,
@@ -27,19 +29,13 @@ export const RenameDocumentForm = ({
     resolver: yupResolver(RenameDocumentValidator),
   });
 
-  const param = useMemo(() => {
-    return { propertyId: propertyId ?? "" };
-  }, [propertyId]);
-  const { renamePropertyDoc, isRenamePending } = usePropertyDocMutation(param);
-
   const onClickSubmit = () => {
     const values = getValues();
     const newFileName = `${values.newName}`;
-    renamePropertyDoc({
-      fileKey: document.fileKey,
-      newFileName: { newFileName },
-    }).then(() => {
-      onDismiss?.();
+    renameDocument({
+      fileKey: file.fileKey,
+      newFileName,
+      onSuccess: onDismiss,
     });
   };
 
@@ -47,9 +43,9 @@ export const RenameDocumentForm = ({
     <FormContainer>
       <FieldText
         placeholder="Enter here ..."
-        label={`Old Name (${document.fileName?.split?.(".")?.[1]})`}
+        label={`Old Name (${file.fileName?.split?.(".")?.[1]})`}
         required
-        value={document.fileName?.split?.(".")?.[0] ?? ""}
+        value={file.fileName?.split?.(".")?.[0] ?? ""}
         disabled
       />
       <Controller
@@ -68,7 +64,7 @@ export const RenameDocumentForm = ({
       />
       <FormActions
         onPress={handleSubmit(onClickSubmit)}
-        isLoading={isRenamePending}
+        isLoading={isLoading}
       />
     </FormContainer>
   );

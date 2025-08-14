@@ -11,8 +11,9 @@ import { usePropertyDocMutation } from "../../../../api-query/hooks";
 import { convertToRNFile } from "../../../../utils/files.utils";
 import * as DocumentPicker from "expo-document-picker";
 import { useModal } from "../../../../contexts";
-import { RenameDocumentForm } from "../../../forms/property/documents-rename.form";
+import { RenameDocumentForm } from "../../../forms/documents-rename.form";
 import { useConfirm } from "../../../../hooks";
+import { RenameDocumentParams } from "../../../../types/rename-document-function.types";
 
 type IProps = {
   documents: HostedFile[];
@@ -23,14 +24,32 @@ export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
   const { openModal, closeModal } = useModal();
   const { showConfirmation } = useConfirm();
 
-  const { uploadPropertyFiles, isUploadPending, deletePropertyDoc } =
-    usePropertyDocMutation({
-      propertyId: propertyId ?? "",
-    });
+  const {
+    uploadPropertyFiles,
+    isUploadPending,
+    deletePropertyDoc,
+    renamePropertyDoc,
+    isRenamePending,
+  } = usePropertyDocMutation({
+    propertyId: propertyId ?? "",
+  });
 
   const handleFileChange = (files: DocumentPicker.DocumentPickerAsset[]) => {
     const rnFiles = convertToRNFile(files);
     uploadPropertyFiles(rnFiles);
+  };
+
+  const onClickRename = ({
+    fileKey,
+    newFileName,
+    onSuccess,
+  }: RenameDocumentParams) => {
+    renamePropertyDoc({
+      fileKey,
+      newFileName: { newFileName: newFileName },
+    }).then(() => {
+      onSuccess();
+    });
   };
 
   const onClickEdit = (document: HostedFile) => {
@@ -38,9 +57,10 @@ export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
       title: "Rename document",
       component: (
         <RenameDocumentForm
-          propertyId={propertyId}
           onDismiss={closeModal}
-          document={document}
+          file={document}
+          renameDocument={onClickRename}
+          isLoading={isRenamePending}
         />
       ),
     });
