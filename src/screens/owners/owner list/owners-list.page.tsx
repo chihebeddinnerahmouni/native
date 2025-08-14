@@ -18,14 +18,15 @@ import { OwnersFilter } from "./owners.filter";
 import {
   EOrderDirection,
   EOwnerSortFields,
+  OwnerFilterDto,
 } from "../../../backend/casaikos-api";
 
 const pageSize = 10;
-export interface IOwnerFilter {
-  name?: string;
-  cities?: string[];
-}
-const filterInitialState: IOwnerFilter = {
+// export interface IOwnerFilter {
+//   name?: string;
+//   cities?: string[];
+// }
+const filterInitialState: OwnerFilterDto = {
   name: undefined,
   cities: undefined,
 };
@@ -34,7 +35,7 @@ export const OwnersListPage = () => {
   const { openModal, closeModal } = useModal();
   const [currentPage, setCurrentPage] = useState(1);
   const [appliedFilters, setAppliedFilters] =
-    useState<IOwnerFilter>(filterInitialState);
+    useState<OwnerFilterDto>(filterInitialState);
 
   const { ownersResult, isLoading } = useOwners({
     pagination: {
@@ -55,7 +56,7 @@ export const OwnersListPage = () => {
     setCurrentPage(page);
   };
 
-  const handleApplyFilters = (filters: IOwnerFilter) => {
+  const handleApplyFilters = (filters: OwnerFilterDto) => {
     setAppliedFilters(filters);
     setCurrentPage(1);
   };

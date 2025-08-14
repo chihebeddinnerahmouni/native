@@ -5,7 +5,7 @@ import {
   PageTitle2,
   TextBody,
 } from "../../../components/ui/texts/Texts.component";
-// import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useSingleOwner } from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { ErrorComponent } from "../../../components/ui/Error.component";
@@ -42,13 +42,12 @@ const tabs = [
 ];
 
 export const OwnerDetailsPage = () => {
-  //   const route =
-  //     useRoute<
-  //       RouteProp<{ OwnerDetails: { ownerId: string } }, "OwnerDetails">
-  //     >();
-  //   const selectedOwnerId = route.params?.ownerId;
-  //   console.log(selectedOwnerId);
-  const selectedOwnerId = "686913592d9385e4c7d8e2f1";
+  const route =
+    useRoute<
+      RouteProp<{ OwnerDetails: { ownerId: string } }, "OwnerDetails">
+    >();
+  const selectedOwnerId = route.params?.ownerId;
+  //   const selectedOwnerId = "686913592d9385e4c7d8e2f1";
   const [selectedTab, setSelectedTab] = useState<string>(EOwnerTabs.PROPERTY);
   const { owner, error, isLoading } = useSingleOwner({
     ownerId: selectedOwnerId || "",

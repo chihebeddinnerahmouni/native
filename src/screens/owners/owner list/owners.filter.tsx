@@ -6,13 +6,13 @@ import {
 import { FieldText } from "../../../components/ui/inputs/field-text/field-text.component";
 import { SearchIcon } from "../../../icons";
 import { useModal } from "../../../contexts";
-import { IOwnerFilter } from "./owners-list.page";
 import { MultiSelect } from "../../../components/ui/inputs/multi-select.component";
 import { mockCities } from "../../../constants/data";
+import { OwnerFilterDto } from "../../../backend/casaikos-api";
 
 interface OwnersFilterProps {
-  initialFilters?: IOwnerFilter;
-  onApplyFilters: (filters: IOwnerFilter) => void;
+  initialFilters?: OwnerFilterDto;
+  onApplyFilters: (filters: OwnerFilterDto) => void;
 }
 
 export const OwnersFilter: React.FC<OwnersFilterProps> = ({
