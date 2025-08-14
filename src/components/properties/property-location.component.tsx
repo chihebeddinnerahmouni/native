@@ -14,7 +14,8 @@ export const PropertyLocation = ({ address }: IProps) => {
     <View style={locationStyle.propertyLocation}>
       <LocationIcon size={16} color={colors.textColor2} />
       <TextBody style={locationStyle.locationText} numberOfLines={2}>
-        {address?.street}, {address?.city}, {address?.country}
+        {address?.street ?? "-"}, {address?.city ?? "-"},{" "}
+        {address?.country ?? "-"}
       </TextBody>
     </View>
   );

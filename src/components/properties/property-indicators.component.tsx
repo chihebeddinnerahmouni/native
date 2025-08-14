@@ -14,21 +14,21 @@ export const PropertyIndicators = ({ property }: IProps) => {
       <View style={indicatorsStyles.propertyInfoItem}>
         <BedIcon size={16} color={colors.textColor2} />
         <TextBody style={indicatorsStyles.infoText}>
-          {property.bedrooms || 0}
+          {property.bedrooms || "-"}
         </TextBody>
       </View>
 
       <View style={indicatorsStyles.propertyInfoItem}>
         <BathIcon size={16} color={colors.textColor2} />
         <TextBody style={indicatorsStyles.infoText}>
-          {property.bathrooms || 0}
+          {property.bathrooms || "-"}
         </TextBody>
       </View>
 
       <View style={indicatorsStyles.propertyInfoItem}>
         <SqftIcon size={16} color={colors.textColor2} />
         <TextBody style={indicatorsStyles.infoText}>
-          {property.propertySize || 0} Sq Ft
+          {property.propertySize || "-"} Sq Ft
         </TextBody>
       </View>
     </View>

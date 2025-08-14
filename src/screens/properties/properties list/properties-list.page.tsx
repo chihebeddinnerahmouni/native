@@ -6,7 +6,7 @@ import { FilterIcon, PlusIcon, SearchIcon } from "../../../icons";
 import { ActionHeader } from "../../../components/ui/action-header.component";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { useProperties } from "../../../api-query/hooks/properties/useProperties.query";
-import { PropertyCard } from "../../../components/ui/cards/property card/property.card";
+import { PropertyCard } from "../../../components/ui/cards";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { colors } from "../../../constants/colors";
 import { PropertiesListStyles } from "./property-list.style";

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { MainLayout } from "../../../layout";
 import {
@@ -20,6 +20,7 @@ import colors from "../../../constants/colors";
 import { TabsComponent } from "../../../components/ui/tabs.component";
 import { OwnerGeneralTab } from "../../../components/owners/owner details/owner-general.tab";
 import { ownerDetailsStyle } from "./owner-details.style";
+import { OwnerPropertiesTab } from "../../../components/owners/owner details/owner-properties.tab";
 
 export enum EOwnerTabs {
   GENERAL = "General",
@@ -47,12 +48,10 @@ export const OwnerDetailsPage = () => {
   //   const selectedOwnerId = route.params?.ownerId;
   //   console.log(selectedOwnerId);
   const selectedOwnerId = "686913592d9385e4c7d8e2f1";
-  const param = useMemo(
-    () => ({ ownerId: selectedOwnerId || "" }),
-    [selectedOwnerId]
-  );
-  const [selectedTab, setSelectedTab] = useState<string>(EOwnerTabs.GENERAL);
-  const { owner, error, isLoading } = useSingleOwner(param);
+  const [selectedTab, setSelectedTab] = useState<string>(EOwnerTabs.PROPERTY);
+  const { owner, error, isLoading } = useSingleOwner({
+    ownerId: selectedOwnerId || "",
+  });
 
   if (isLoading) return <LoadingScreen />;
   if (error || !owner) return <ErrorComponent />;
@@ -92,12 +91,10 @@ export const OwnerDetailsPage = () => {
         {selectedTab === EOwnerTabs.GENERAL && (
           <OwnerGeneralTab owner={owner} />
         )}
-        {/* {selectedTab === EOwnerTabs.PROPERTY && (
-          <View style={ownerDetailsStyle.section}>
-            <TextBody>Properties will be listed here.</TextBody>
-          </View>
+        {selectedTab === EOwnerTabs.PROPERTY && (
+          <OwnerPropertiesTab ownerId={selectedOwnerId} />
         )}
-        {selectedTab === EOwnerTabs.DOCUMENTS && (
+        {/*{selectedTab === EOwnerTabs.DOCUMENTS && (
           <View style={ownerDetailsStyle.section}>
             <TextBody>Documents will be listed here.</TextBody>
           </View>

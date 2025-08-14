@@ -13,6 +13,7 @@ import {
 import { Owner } from "../../../backend/casaikos-api";
 import { View } from "react-native";
 import { ownerDetailsStyle } from "../../../screens/owners/owner details/owner-details.style";
+import { borderBottomStyle } from "../../../styles/border-buttom.style";
 
 type IProps = {
   owner: Owner;
@@ -23,7 +24,7 @@ export const OwnerGeneralTab = ({ owner }: IProps) => {
     <>
       <CardComponent>
         <View style={ownerDetailsStyle.section}>
-          <TextTitle numberOfLines={1} style={ownerDetailsStyle.borderBottom}>
+          <TextTitle numberOfLines={1} style={borderBottomStyle}>
             Owner information
           </TextTitle>
           <IconLabelValue
@@ -40,7 +41,7 @@ export const OwnerGeneralTab = ({ owner }: IProps) => {
       </CardComponent>
       <CardComponent>
         <View style={ownerDetailsStyle.section}>
-          <TextTitle numberOfLines={1} style={ownerDetailsStyle.borderBottom}>
+          <TextTitle numberOfLines={1} style={borderBottomStyle}>
             Address
           </TextTitle>
           <IconLabelValue

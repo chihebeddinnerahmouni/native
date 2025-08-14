@@ -7,6 +7,7 @@ export * from "./users/useUsers";
 export * from "./owners/useOwners";
 export * from "./owners/useOwnerMutation.query";
 export * from "./owners/useSingleOwner.query";
+export * from "./owners/useOwnerProperties.query";
 export * from "./properties/useProperties.query";
 export * from "./properties/usePropertiesMutation.query";
 export * from "./properties/useSingleProperty";

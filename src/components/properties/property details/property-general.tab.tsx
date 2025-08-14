@@ -32,6 +32,7 @@ import {
   showErrorAlert,
   showSuccessAlert,
 } from "../../ui/alerts/alerts.component";
+import { borderBottomStyle } from "../../../styles/border-buttom.style";
 
 type IProps = {
   property: Property;
@@ -53,10 +54,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
 
       <CardComponent>
         <View style={propertyDetailsStyle.section}>
-          <TextTitle
-            numberOfLines={1}
-            style={propertyDetailsStyle.borderBottom}
-          >
+          <TextTitle numberOfLines={1} style={borderBottomStyle}>
             Property Details
           </TextTitle>
           <IconLabelValue
@@ -90,10 +88,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
       </CardComponent>
       <CardComponent>
         <View style={propertyDetailsStyle.section}>
-          <TextTitle
-            numberOfLines={1}
-            style={propertyDetailsStyle.borderBottom}
-          >
+          <TextTitle numberOfLines={1} style={borderBottomStyle}>
             Address
           </TextTitle>
           <IconLabelValue
@@ -120,10 +115,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
       </CardComponent>
       <CardComponent>
         <View style={propertyDetailsStyle.section}>
-          <TextTitle
-            numberOfLines={1}
-            style={propertyDetailsStyle.borderBottom}
-          >
+          <TextTitle numberOfLines={1} style={borderBottomStyle}>
             Property information
           </TextTitle>
           <IconLabelValue
@@ -165,10 +157,7 @@ export const PropertyGeneralComponent = ({ property }: IProps) => {
       </CardComponent>
       <CardComponent>
         <View style={propertyDetailsStyle.section}>
-          <TextTitle
-            numberOfLines={1}
-            style={propertyDetailsStyle.borderBottom}
-          >
+          <TextTitle numberOfLines={1} style={borderBottomStyle}>
             external links
           </TextTitle>
           <ExternalLink

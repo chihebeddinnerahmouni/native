@@ -29,9 +29,4 @@ export const ownerDetailsStyle = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: colors.borderColor,
   },
-  borderBottom: {
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
 });

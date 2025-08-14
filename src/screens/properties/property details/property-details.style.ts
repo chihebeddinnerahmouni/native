@@ -21,9 +21,4 @@ export const propertyDetailsStyle = StyleSheet.create({
     flexDirection: "column",
     gap: 12,
   },
-  borderBottom: {
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
 });
