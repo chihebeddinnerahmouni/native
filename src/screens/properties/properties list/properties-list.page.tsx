@@ -13,8 +13,12 @@ import { PropertiesListStyles } from "./property-list.style";
 import { useModal } from "../../../contexts";
 import { Pagination } from "../../../components/ui/pagination";
 import { PropertyForm } from "../../../components/forms";
+import {
+  EOrderDirection,
+  EPropertySortFields,
+} from "../../../backend/casaikos-api";
 
-const pageSize = 1;
+const pageSize = 10;
 
 export const PropertiesListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,10 +33,10 @@ export const PropertiesListPage = () => {
     //   cities: commaSeparatedToArray(cities) ?? undefined,
     //   title: title ?? undefined,
     // },
-    // sort: {
-    //   sortBy,
-    //   sortDirection,
-    // },
+    sort: {
+      sortBy: EPropertySortFields.Title,
+      sortDirection: EOrderDirection.Asc,
+    },
   });
 
   const handlePageChange = (page: number) => {

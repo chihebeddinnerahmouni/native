@@ -15,6 +15,10 @@ import { useOwners } from "../../../api-query/hooks";
 import { OwnerCard } from "../../../components/ui/cards/owner card/owner.card";
 import NoItemsFound from "../../../components/ui/noItemsFound";
 import { OwnersFilter } from "./owners.filter";
+import {
+  EOrderDirection,
+  EOwnerSortFields,
+} from "../../../backend/casaikos-api";
 
 const pageSize = 10;
 export interface IOwnerFilter {
@@ -41,10 +45,10 @@ export const OwnersListPage = () => {
       name: appliedFilters.name,
       cities: appliedFilters.cities,
     },
-    // sort: {
-    //   sortBy,
-    //   sortDirection,
-    // },
+    sort: {
+      sortBy: EOwnerSortFields.FirstName,
+      sortDirection: EOrderDirection.Asc,
+    },
   });
 
   const handlePageChange = (page: number) => {
