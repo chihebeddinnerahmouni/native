@@ -53,7 +53,7 @@ export const TenantCard = ({ tenant }: IProps) => {
             openModal({
               title: "Update Tenant",
               component: (
-                <TenantsForm selectedOwner={tenant} closeModal={closeModal} />
+                <TenantsForm selectedTenant={tenant} closeModal={closeModal} />
               ),
             });
           },
