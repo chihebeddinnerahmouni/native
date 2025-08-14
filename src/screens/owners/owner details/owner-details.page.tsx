@@ -21,6 +21,7 @@ import { TabsComponent } from "../../../components/ui/tabs.component";
 import { OwnerGeneralTab } from "../../../components/owners/owner details/owner-general.tab";
 import { ownerDetailsStyle } from "./owner-details.style";
 import { OwnerPropertiesTab } from "../../../components/owners/owner details/owner-properties.tab";
+import { OwnerDocumentsTab } from "../../../components/owners/owner details/owner-documents.tab";
 
 export enum EOwnerTabs {
   GENERAL = "General",
@@ -94,11 +95,12 @@ export const OwnerDetailsPage = () => {
         {selectedTab === EOwnerTabs.PROPERTY && (
           <OwnerPropertiesTab ownerId={selectedOwnerId} />
         )}
-        {/*{selectedTab === EOwnerTabs.DOCUMENTS && (
-          <View style={ownerDetailsStyle.section}>
-            <TextBody>Documents will be listed here.</TextBody>
-          </View>
-        )} */}
+        {selectedTab === EOwnerTabs.DOCUMENTS && (
+          <OwnerDocumentsTab
+            documents={owner.files || []}
+            propertyId={selectedOwnerId}
+          />
+        )}
       </View>
     </MainLayout>
   );

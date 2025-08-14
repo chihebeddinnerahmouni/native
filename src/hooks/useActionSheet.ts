@@ -2,7 +2,7 @@ import { Platform, Alert } from "react-native";
 
 export interface ActionSheetOption {
   text: string;
-  onPress: () => void;
+  onPress?: () => void;
   style?: "default" | "cancel" | "destructive";
 }
 
@@ -42,7 +42,7 @@ export const useActionSheet = () => {
         },
         (buttonIndex: number) => {
           if (buttonIndex >= 0 && buttonIndex < options.length) {
-            options[buttonIndex].onPress();
+            options[buttonIndex].onPress?.();
           }
         }
       );

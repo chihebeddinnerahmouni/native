@@ -79,7 +79,7 @@ export const PropertyDetailsPage = () => {
     [selectedPropertyId]
   );
   const [selectedTab, setSelectedTab] = useState<string>(
-    EPropertyTabs.FACILITIES
+    EPropertyTabs.DOCUMENTS
   );
   const { property, isLoading, propertyError } = useSingleProperty(param);
   const { availabilities } = useAvailabilities(param);

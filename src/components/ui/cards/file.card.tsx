@@ -1,36 +1,20 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { View, Image, TouchableOpacity } from "react-native";
-import { HostedFile } from "../../backend/casaikos-api";
+import { HostedFile } from "../../../backend/casaikos-api";
 import { StyleSheet } from "react-native";
-import colors from "../../constants/colors";
-import { TextBody } from "./texts/Texts.component";
-import { DotsIcon } from "../../icons";
-import { useActionSheet, useConfirm } from "../../hooks";
-import { usePropertyDocMutation } from "../../api-query/hooks";
-import { useModal } from "../../contexts";
-import { RenameDocumentForm } from "../forms/property/documents-rename.form";
+import colors from "../../../constants/colors";
+import { TextBody } from "../texts/Texts.component";
+import { DotsIcon } from "../../../icons";
+import { useActionSheet } from "../../../hooks";
 
 type IProps = {
   file: HostedFile;
-  propertyId: string;
+  onClickEdit?: (file: HostedFile) => void;
+  handleDelete?: (file: HostedFile) => void;
 };
 
-export const FileItem = ({ file, propertyId }: IProps) => {
-  const param = useMemo(() => {
-    return { propertyId: propertyId ?? "" };
-  }, [propertyId]);
+export const FileCard = ({ file, onClickEdit, handleDelete }: IProps) => {
   const { showActionSheet } = useActionSheet();
-  const { showConfirmation } = useConfirm();
-  const { openModal, closeModal } = useModal();
-  const { deletePropertyDoc } = usePropertyDocMutation(param);
-
-  const handleDelete = () => {
-    showConfirmation({
-      title: "Delete File",
-      message: `Are you sure you want to delete "${file.fileName}"?\nThis action cannot be undone.`,
-      onConfirm: () => deletePropertyDoc(file.fileKey),
-    });
-  };
 
   const handleDotsPress = () => {
     showActionSheet({
@@ -46,35 +30,22 @@ export const FileItem = ({ file, propertyId }: IProps) => {
           text: "Rename",
           style: "default",
           onPress: () => {
-            onClickEdit(file);
+            onClickEdit?.(file);
           },
         },
         {
           text: "Delete",
           style: "destructive",
-          onPress: handleDelete,
+          onPress: () => handleDelete?.(file),
         },
       ],
-    });
-  };
-
-  const onClickEdit = (document: HostedFile) => {
-    openModal({
-      title: "Rename document",
-      component: (
-        <RenameDocumentForm
-          propertyId={propertyId}
-          onDismiss={closeModal}
-          document={document}
-        />
-      ),
     });
   };
 
   return (
     <View style={styles.fileItem}>
       <View style={styles.leftContainer}>
-        <Image source={require("../../../assets/images/folder.png")} />
+        <Image source={require("../../../../assets/images/folder.png")} />
         <View style={styles.fileDetails}>
           <TextBody style={styles.name}>{file.fileName}</TextBody>
           <TextBody style={styles.size}>pdf - 1.3 MB*</TextBody>
