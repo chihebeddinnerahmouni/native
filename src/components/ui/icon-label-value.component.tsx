@@ -6,7 +6,7 @@ import colors from "../../constants/colors";
 type IconLabelValueProps = {
   icon?: ReactNode;
   label?: string;
-  value: string | number | ReactNode;
+  value: string | number | ReactNode | undefined;
   labelStyle?: object;
   valueStyle?: object;
   containerStyle?: object;
@@ -31,7 +31,7 @@ export const IconLabelValue: React.FC<IconLabelValueProps> = ({
 
       <View style={styles.centerSection}>
         <TextBody style={[styles.value, valueStyle]} numberOfLines={1}>
-          {value}
+          {value ?? "-"}
         </TextBody>
       </View>
     </View>

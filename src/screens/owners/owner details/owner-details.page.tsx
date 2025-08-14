@@ -9,7 +9,6 @@ import {
 import { useSingleOwner } from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { ErrorComponent } from "../../../components/ui/Error.component";
-import { StyleSheet } from "react-native";
 import { CardComponent } from "../../../components/ui/cards/card.component";
 import {
   EntityType,
@@ -19,6 +18,8 @@ import { InfoComp } from "../../../components/ui/info.component";
 import { EmailIcon, PhoneIcon } from "../../../icons";
 import colors from "../../../constants/colors";
 import { TabsComponent } from "../../../components/ui/tabs.component";
+import { OwnerGeneralTab } from "../../../components/owners/owner details/owner-general.tab";
+import { ownerDetailsStyle } from "./owner-details.style";
 
 export enum EOwnerTabs {
   GENERAL = "General",
@@ -58,62 +59,50 @@ export const OwnerDetailsPage = () => {
 
   return (
     <MainLayout HeaderLeft={<PageTitle2>Owners</PageTitle2>}>
-      <CardComponent style={ownerDetailsStyle.section}>
-        <View style={ownerDetailsStyle.nameMessageContainer}>
-          <View style={ownerDetailsStyle.nameContainer}>
-            <ProfileIcon
-              firstName={owner.firstName}
-              lastName={owner.lastName}
-              entity={EntityType.OWNER}
-              size={24}
-            />
-            <TextBody style={ownerDetailsStyle.nameText} numberOfLines={1}>
-              {owner.firstName} {owner.lastName}
-            </TextBody>
+      <View style={ownerDetailsStyle.container}>
+        <CardComponent style={ownerDetailsStyle.section}>
+          <View style={ownerDetailsStyle.nameMessageContainer}>
+            <View style={ownerDetailsStyle.nameContainer}>
+              <ProfileIcon
+                firstName={owner.firstName}
+                lastName={owner.lastName}
+                entity={EntityType.OWNER}
+                size={24}
+              />
+              <TextBody style={ownerDetailsStyle.nameText} numberOfLines={1}>
+                {owner.firstName} {owner.lastName}
+              </TextBody>
+            </View>
           </View>
-        </View>
-        <InfoComp
-          Icon={<EmailIcon color={colors.textColor2} />}
-          value={owner.email}
-        />
-        <InfoComp
-          Icon={<PhoneIcon color={colors.textColor2} />}
-          value={owner.phoneNumber}
-        />
-        <TabsComponent
-          tabs={tabs}
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-          style={ownerDetailsStyle.tabsContainer}
-        />
-      </CardComponent>
+          <InfoComp
+            Icon={<EmailIcon color={colors.textColor2} />}
+            value={owner.email}
+          />
+          <InfoComp
+            Icon={<PhoneIcon color={colors.textColor2} />}
+            value={owner.phoneNumber}
+          />
+          <TabsComponent
+            tabs={tabs}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            style={ownerDetailsStyle.tabsContainer}
+          />
+        </CardComponent>
+        {selectedTab === EOwnerTabs.GENERAL && (
+          <OwnerGeneralTab owner={owner} />
+        )}
+        {/* {selectedTab === EOwnerTabs.PROPERTY && (
+          <View style={ownerDetailsStyle.section}>
+            <TextBody>Properties will be listed here.</TextBody>
+          </View>
+        )}
+        {selectedTab === EOwnerTabs.DOCUMENTS && (
+          <View style={ownerDetailsStyle.section}>
+            <TextBody>Documents will be listed here.</TextBody>
+          </View>
+        )} */}
+      </View>
     </MainLayout>
   );
 };
-
-export const ownerDetailsStyle = StyleSheet.create({
-  section: {
-    flexDirection: "column",
-    gap: 8,
-  },
-  nameMessageContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 8,
-  },
-  nameContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  nameText: {
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  tabsContainer: {
-    paddingTop: 8,
-    borderTopWidth: 1,
-    borderColor: colors.borderColor,
-  },
-});
