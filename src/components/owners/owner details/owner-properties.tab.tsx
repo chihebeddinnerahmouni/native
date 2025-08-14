@@ -3,7 +3,7 @@ import { TextTitle } from "../../ui/texts/Texts.component";
 import { CardComponent, PropertyMiniCard } from "../../ui/cards";
 import { StyleSheet } from "react-native";
 import { useOwnerProperties } from "../../../api-query/hooks";
-import { borderBottomStyle } from "../../../styles/border-buttom.style";
+import { borderBottomStyle } from "../../../styles";
 
 type IProps = {
   ownerId: string;

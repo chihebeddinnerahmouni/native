@@ -13,7 +13,7 @@ import {
 import { Owner } from "../../../backend/casaikos-api";
 import { View } from "react-native";
 import { ownerDetailsStyle } from "../../../screens/owners/owner details/owner-details.style";
-import { borderBottomStyle } from "../../../styles/border-buttom.style";
+import { borderBottomStyle } from "../../../styles";
 
 type IProps = {
   owner: Owner;

@@ -32,7 +32,7 @@ import {
   showErrorAlert,
   showSuccessAlert,
 } from "../../ui/alerts/alerts.component";
-import { borderBottomStyle } from "../../../styles/border-buttom.style";
+import { borderBottomStyle } from "../../../styles";
 
 type IProps = {
   property: Property;
