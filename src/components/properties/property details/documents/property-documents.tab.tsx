@@ -1,9 +1,8 @@
 import React from "react";
-import { CardComponent } from "../../../ui/cards/card.component";
+import { CardComponent } from "../../../ui/cards";
 import { HostedFile } from "../../../../backend/casaikos-api";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { ActionHeader } from "../../../ui/action-header.component";
-import colors from "../../../../constants/colors";
 import { NoItemsFound } from "../../../ui/noItemsFound";
 import { FileUpload } from "../../../ui/upload-file.component";
 import { FileCard } from "../../../ui/cards/file.card";
@@ -14,6 +13,7 @@ import { useModal } from "../../../../contexts";
 import { RenameDocumentForm } from "../../../forms/documents-rename.form";
 import { useConfirm } from "../../../../hooks";
 import { RenameDocumentParams } from "../../../../types/rename-document-function.types";
+import { documentsStyle } from "../../../../styles";
 
 type IProps = {
   documents: HostedFile[];
@@ -101,18 +101,3 @@ export const DocumentsComponent = ({ documents, propertyId }: IProps) => {
     </>
   );
 };
-
-const documentsStyle = StyleSheet.create({
-  actionsHeader: {
-    paddingBottom: 12,
-    borderColor: colors.borderColor,
-    borderBottomWidth: 1,
-  },
-  uploadContainer: {
-    marginTop: 12,
-  },
-  filesContainer: {
-    marginTop: 12,
-    gap: 8,
-  },
-});

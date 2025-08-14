@@ -98,7 +98,7 @@ export const OwnerDetailsPage = () => {
         {selectedTab === EOwnerTabs.DOCUMENTS && (
           <OwnerDocumentsTab
             documents={owner.files || []}
-            propertyId={selectedOwnerId}
+            ownerId={selectedOwnerId}
           />
         )}
       </View>
