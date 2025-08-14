@@ -3,6 +3,7 @@ export enum EScreens {
   MESSAGES = "Messages",
   PROPERTIES = "Properties",
   OWNERS = "Owners",
+  TENANTS = "Tenants",
   // SETTINGS = "Settings",
   // Add more main sections as you build them
 }
@@ -24,6 +25,8 @@ export enum ERoute {
   PROPERTIES_DETAILS = "properties-details",
   OWNERS_LIST = "owners-list",
   OWNERS_DETAILS = "owners-details",
+  TENANTS_LIST = "tenants-list",
+  TENANTS_DETAILS = "tenants-details",
 }
 
 export const NavigateAfterLogin = (navigation: any) => {
