@@ -12,7 +12,7 @@ import { useModal } from "../../../contexts";
 import { Pagination } from "../../../components/ui/pagination";
 import { OwnerForm } from "../../../components/forms";
 import { useTenants } from "../../../api-query/hooks";
-import { OwnerCard } from "../../../components/ui/cards";
+import { TenantCard } from "../../../components/ui/cards";
 import NoItemsFound from "../../../components/ui/noItemsFound";
 import { TenantsFilter } from "./tenants.filter";
 import {
@@ -119,7 +119,7 @@ export const TenantsListPage = () => {
       <View style={tenantsListStyles.tenantsContainer}>
         {tenantsResult.items.length ? (
           tenantsResult.items.map((tenant) => (
-            <OwnerCard key={tenant._id} owner={tenant} />
+            <TenantCard key={tenant._id} tenant={tenant} />
           ))
         ) : (
           <NoItemsFound message="No tenants found" />

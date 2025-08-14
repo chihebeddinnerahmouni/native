@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { Owner } from "../../../backend/casaikos-api";
+import { Tenant } from "../../../backend/casaikos-api";
 import { DotsIcon, EmailIcon, LocationIcon, PhoneIcon } from "../../../icons";
 import { Badge } from "../badge.component";
 import { TextBody } from "../texts/Texts.component";
@@ -11,27 +11,27 @@ import { ETabs, EScreens, ERoute } from "../../../utils";
 import { CardComponent } from "./card.component";
 import { InfoComp } from "../info.component";
 import { useActionSheet, useConfirm } from "../../../hooks";
-import { OwnerForm } from "../../forms";
 import { useModal } from "../../../contexts";
-import { useOwnerMutation } from "../../../api-query/hooks";
+import { useTenantMutation } from "../../../api-query/hooks";
+import { TenantsForm } from "../../forms";
 
 interface IProps {
-  owner: Owner;
+  tenant: Tenant;
 }
 
-export const TenantCard = ({ owner }: IProps) => {
+export const TenantCard = ({ tenant }: IProps) => {
   const navigator = useNavigation();
   const { showActionSheet } = useActionSheet();
   const { openModal, closeModal } = useModal();
   const { showConfirmation } = useConfirm();
-  const { deleteOwner } = useOwnerMutation();
+  const { deleteTenant } = useTenantMutation();
 
   const navigationHandle = () => {
     (navigator as any).navigate(ETabs.MAIN, {
-      screen: EScreens.OWNERS,
+      screen: EScreens.TENANTS,
       params: {
-        screen: ERoute.OWNERS_DETAILS,
-        params: { ownerId: owner._id },
+        screen: ERoute.TENANTS_DETAILS,
+        params: { tenantId: tenant._id },
       },
     });
   };
@@ -39,7 +39,7 @@ export const TenantCard = ({ owner }: IProps) => {
   const handleOptionsPress = () => {
     showActionSheet({
       title: "Property Options",
-      message: `What would you like to do with ${owner.firstName} ${owner.lastName}?`,
+      message: `What would you like to do with ${tenant.firstName} ${tenant.lastName}?`,
       options: [
         {
           text: "Cancel",
@@ -51,9 +51,9 @@ export const TenantCard = ({ owner }: IProps) => {
           style: "default",
           onPress: () => {
             openModal({
-              title: "Update Owner",
+              title: "Update Tenant",
               component: (
-                <OwnerForm selectedOwner={owner} closeModal={closeModal} />
+                <TenantsForm selectedOwner={tenant} closeModal={closeModal} />
               ),
             });
           },
@@ -63,9 +63,9 @@ export const TenantCard = ({ owner }: IProps) => {
           style: "destructive",
           onPress: () => {
             showConfirmation({
-              title: "Delete Owner",
-              message: `Are you sure you want to delete ${owner.firstName} ${owner.lastName}?`,
-              onConfirm: () => deleteOwner(owner),
+              title: "Delete Tenant",
+              message: `Are you sure you want to delete ${tenant.firstName} ${tenant.lastName}?`,
+              onConfirm: () => deleteTenant(tenant),
             });
           },
         },
@@ -75,21 +75,18 @@ export const TenantCard = ({ owner }: IProps) => {
 
   return (
     <CardComponent>
-      <TouchableOpacity
-        style={ownerCardStyles.ownerCard}
-        onPress={navigationHandle}
-      >
-        <View style={ownerCardStyles.ownerNameContainer}>
-          <TextBody style={ownerCardStyles.ownerNameText} numberOfLines={1}>
-            {owner.firstName} {owner.lastName}
+      <TouchableOpacity style={style.ownerCard} onPress={navigationHandle}>
+        <View style={style.ownerNameContainer}>
+          <TextBody style={style.ownerNameText} numberOfLines={1}>
+            {tenant.firstName} {tenant.lastName}
           </TextBody>
-          <View style={ownerCardStyles.optionsContainer}>
+          <View style={style.optionsContainer}>
             <Badge
-              type={owner.isProfileComplete ? "success" : "danger"}
-              text={owner.isProfileComplete ? "Complete" : "Incomplete"}
+              type={tenant.isProfileComplete ? "success" : "danger"}
+              text={tenant.isProfileComplete ? "Complete" : "Incomplete"}
             />
             <TouchableOpacity
-              style={ownerCardStyles.optionsButton}
+              style={style.optionsButton}
               onPress={handleOptionsPress}
             >
               <DotsIcon color={colors.textColor} />
@@ -99,22 +96,26 @@ export const TenantCard = ({ owner }: IProps) => {
 
         <InfoComp
           Icon={<LocationIcon color={colors.textColor} />}
-          value={owner.address?.country + ", " + owner.address?.city}
+          value={
+            (tenant.address?.country ?? "-") +
+            ", " +
+            (tenant.address?.city ?? "-")
+          }
         />
         <InfoComp
           Icon={<EmailIcon color={colors.textColor} />}
-          value={owner.email}
+          value={tenant.email}
         />
         <InfoComp
           Icon={<PhoneIcon color={colors.textColor} />}
-          value={owner.phoneNumber}
+          value={tenant.phoneNumber}
         />
       </TouchableOpacity>
     </CardComponent>
   );
 };
 
-const ownerCardStyles = StyleSheet.create({
+const style = StyleSheet.create({
   ownerCard: {
     gap: 12,
   },
