@@ -3,12 +3,12 @@ import { View, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  CreateOwnerDto,
+  CreateTenantDto,
   EUserSelectFields,
-  Owner,
+  Tenant,
 } from "../../backend/casaikos-api";
 import { honorificTitles, nationalities } from "../../constants/data";
-import { useOwnerMutation, useUsers } from "../../api-query/hooks";
+import { useTenantMutation, useUsers } from "../../api-query/hooks";
 import { FieldText } from "../ui/inputs/field-text/field-text.component";
 import Select from "../ui/inputs/select.component";
 import {
@@ -18,16 +18,16 @@ import {
   FormSection,
 } from "../ui/form/form-items.component";
 import { TextFormSectionTitle } from "../ui/texts/Texts.component";
-import { ownerSchema } from "../../utils/validators/owners.validator";
 import { DatePicker } from "../ui/inputs/date-picker.component";
+import { tenantSchema } from "../../utils/validators/tenants.validator";
 
 type PropertyFormProps = {
-  selectedOwner?: Owner;
+  selectedTenant?: Tenant;
   closeModal: () => void;
 };
 
 export const TenantsForm = ({
-  selectedOwner,
+  selectedTenant,
   closeModal,
 }: PropertyFormProps) => {
   const {
@@ -36,30 +36,30 @@ export const TenantsForm = ({
     formState: { errors },
     reset,
     control,
-  } = useForm<CreateOwnerDto>({
-    resolver: yupResolver(ownerSchema),
+  } = useForm<CreateTenantDto>({
+    resolver: yupResolver(tenantSchema),
   });
 
-  const { saveOwner, isSaveLoading } = useOwnerMutation();
+  const { saveTenant, isSaveLoading } = useTenantMutation();
   const { usersResult } = useUsers({
     select: [EUserSelectFields.FirstName, EUserSelectFields.LastName],
   });
 
   const onClickSubmit = () => {
     const values = getValues();
-    saveOwner({
-      selectedOwner,
-      ownerData: values,
+    saveTenant({
+      selectedTenant,
+      tenantData: values,
     }).then(() => {
       closeModal();
     });
   };
 
   useEffect(() => {
-    if (selectedOwner) {
+    if (selectedTenant) {
       reset({
-        ...selectedOwner,
-        agentId: selectedOwner.agent?._id,
+        ...selectedTenant,
+        agentId: selectedTenant.agent?._id,
         bank: {
           bankName: "bankName*",
           accountName: "name*",
@@ -69,7 +69,7 @@ export const TenantsForm = ({
         },
       });
     }
-  }, [selectedOwner, reset]);
+  }, [selectedTenant, reset]);
 
   return (
     <FormContainer>

@@ -16,7 +16,7 @@ type SaveTenantVariables = {
 type UseTenantProps = {
   deleteTenant: (tenant: Tenant) => Promise<void>;
   saveTenant: (variables: SaveTenantVariables) => Promise<void>;
-  isSavingTenant: boolean;
+  isSaveLoading: boolean;
 };
 
 export const useTenantMutation = (): UseTenantProps => {
@@ -43,6 +43,6 @@ export const useTenantMutation = (): UseTenantProps => {
   return {
     deleteTenant: deleteMutation.mutateAsync,
     saveTenant: saveTenantMutation.mutateAsync,
-    isSavingTenant: saveTenantMutation.isPending,
+    isSaveLoading: saveTenantMutation.isPending,
   };
 };

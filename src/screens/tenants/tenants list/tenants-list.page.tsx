@@ -10,7 +10,7 @@ import { colors } from "../../../constants/colors";
 import { tenantsListStyles } from "./tenants-list.style";
 import { useModal } from "../../../contexts";
 import { Pagination } from "../../../components/ui/pagination";
-import { OwnerForm } from "../../../components/forms";
+import { TenantsForm } from "../../../components/forms";
 import { useTenants } from "../../../api-query/hooks";
 import { TenantCard } from "../../../components/ui/cards";
 import NoItemsFound from "../../../components/ui/noItemsFound";
@@ -73,8 +73,8 @@ export const TenantsListPage = () => {
 
   const onClickOpenForm = () => {
     openModal({
-      title: "New Owner",
-      component: <OwnerForm closeModal={closeModal} />,
+      title: "New Tenant",
+      component: <TenantsForm closeModal={closeModal} />,
     });
   };
 
