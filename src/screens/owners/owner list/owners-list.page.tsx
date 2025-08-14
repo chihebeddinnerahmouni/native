@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
 import { MainLayout } from "../../../layout";
-import { FilterIcon, PlusIcon, SearchIcon } from "../../../icons";
+import { FilterIcon, PlusIcon } from "../../../icons";
 import { ActionHeader } from "../../../components/ui/action-header.component";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
@@ -83,9 +83,9 @@ export const OwnersListPage = () => {
       HeaderLeft={<PageTitle2>Owners</PageTitle2>}
       HeaderRight={
         <View style={ownersListStyles.headerActions}>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <SearchIcon />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={filterHandler}>
             <FilterIcon />
           </TouchableOpacity>
@@ -116,16 +116,6 @@ export const OwnersListPage = () => {
           </Button>
         }
       />
-
-      {/* <View style={ownersListStyles.searchContainer}>
-        <FieldText
-          type="search"
-          placeholder="Search owners by name..."
-          value={title}
-          onChangeText={handleTitleChange}
-          startIcon={<SearchIcon />}
-        />
-      </View> */}
 
       <View style={ownersListStyles.ownersContainer}>
         {ownersResult.items.length ? (
