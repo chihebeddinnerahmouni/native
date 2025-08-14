@@ -21,11 +21,15 @@ import colors from "../../../constants/colors";
 import { TabsComponent } from "../../../components/ui/tabs.component";
 
 export enum EOwnerTabs {
+  GENERAL = "General",
   PROPERTY = "properties",
   DOCUMENTS = "documents",
 }
 
 const tabs = [
+  {
+    title: EOwnerTabs.GENERAL,
+  },
   {
     title: EOwnerTabs.PROPERTY,
   },
@@ -46,7 +50,7 @@ export const OwnerDetailsPage = () => {
     () => ({ ownerId: selectedOwnerId || "" }),
     [selectedOwnerId]
   );
-  const [selectedTab, setSelectedTab] = useState<string>(EOwnerTabs.PROPERTY);
+  const [selectedTab, setSelectedTab] = useState<string>(EOwnerTabs.GENERAL);
   const { owner, error, isLoading } = useSingleOwner(param);
 
   if (isLoading) return <LoadingScreen />;

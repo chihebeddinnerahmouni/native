@@ -11,17 +11,17 @@ import {
 } from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { TabsComponent } from "../../../components/ui/tabs.component";
-import { PropertyGeneralComponent } from "../../../components/properties/property details/property-general.component";
+import { PropertyGeneralComponent } from "../../../components/properties/property details/property-general.tab";
 import { propertyDetailsStyle } from "./property-details.style";
-import { AmenitiesComponent } from "../../../components/properties/property details/amenities/property-amenities.component";
-import { AvailabilitiesComponent } from "../../../components/properties/property details/availability/property-availability.component";
-import { TargetsComponent } from "../../../components/properties/property details/targets/property-target.component";
-import { DocumentsComponent } from "../../../components/properties/property details/documents/property-documents.component";
-import { NotesComponent } from "../../../components/properties/property details/notes/property-notes.component";
-import { MediaComponent } from "../../../components/properties/property details/media/property-media.component";
+import { AmenitiesComponent } from "../../../components/properties/property details/amenities/property-amenities.tab";
+import { AvailabilitiesComponent } from "../../../components/properties/property details/availability/property-availability.tab";
+import { TargetsComponent } from "../../../components/properties/property details/targets/property-target.tab";
+import { DocumentsComponent } from "../../../components/properties/property details/documents/property-documents.tab";
+import { NotesComponent } from "../../../components/properties/property details/notes/property-notes.tab";
+import { MediaComponent } from "../../../components/properties/property details/media/property-media.tab";
 import { getImageUrl } from "../../../utils/validators/images.utils";
-import { CompliancesComponent } from "../../../components/properties/property details/compliances/property-compliances.component";
-import { FacilitiesComponent } from "../../../components/properties/property details/facilities/property-facilities.component";
+import { CompliancesComponent } from "../../../components/properties/property details/compliances/property-compliances.tab";
+import { FacilitiesComponent } from "../../../components/properties/property details/facilities/property-facilities.tab";
 import { ErrorComponent } from "../../../components/ui/Error.component";
 // import { RouteProp, useRoute } from "@react-navigation/native";
 

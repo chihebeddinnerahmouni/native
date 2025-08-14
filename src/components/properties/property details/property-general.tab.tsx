@@ -1,12 +1,9 @@
 import React from "react";
-import {
-  TextBody,
-  TextTitle,
-} from "../../../components/ui/texts/Texts.component";
-import { CardComponent } from "../../../components/ui/cards/card.component";
-import { PropertyLocation } from "../../../components/properties/property-location.component";
-import { PropertyIndicators } from "../../../components/properties/property-indicators.component";
-import { IconLabelValue } from "../../../components/ui/icon-label-value.component";
+import { TextBody, TextTitle } from "../../ui/texts/Texts.component";
+import { CardComponent } from "../../ui/cards/card.component";
+import { PropertyLocation } from "../property-location.component";
+import { PropertyIndicators } from "../property-indicators.component";
+import { IconLabelValue } from "../../ui/icon-label-value.component";
 import {
   AirbnbIcon,
   BuildingIcon,
@@ -25,7 +22,7 @@ import {
   StatusIcon,
   UserIcon,
 } from "../../../icons";
-import { Badge } from "../../../components/ui/badge.component";
+import { Badge } from "../../ui/badge.component";
 import { Property } from "../../../backend/casaikos-api";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
