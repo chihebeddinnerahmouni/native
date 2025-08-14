@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { PageTitle2 } from "../../../components/ui/texts/Texts.component";
 import { MainLayout } from "../../../layout";
-import { FilterIcon, PlusIcon, SearchIcon } from "../../../icons";
+import { FilterIcon, PlusIcon } from "../../../icons";
 import { ActionHeader } from "../../../components/ui/action-header.component";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { useProperties } from "../../../api-query/hooks/properties/useProperties.query";
@@ -73,9 +73,6 @@ export const PropertiesListPage = () => {
     openModal({
       title: "New Property",
       component: <PropertyForm closeModal={closeModal} />,
-      onDismiss: () => {
-        // console.log("Modal dismissed");
-      },
     });
   };
 

@@ -62,6 +62,7 @@ export const PropertiesFilter: React.FC<IProps> = ({
       />
 
       <FormActions
+        cancelText="Clear Filters"
         onPress={handleApply}
         isLoading={false}
         onCancelPress={handleClear}

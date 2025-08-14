@@ -62,6 +62,7 @@ export const OwnersFilter: React.FC<OwnersFilterProps> = ({
       />
 
       <FormActions
+        cancelText="Clear Filters"
         onPress={handleApply}
         isLoading={false}
         onCancelPress={handleClear}

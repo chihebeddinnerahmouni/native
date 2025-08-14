@@ -85,9 +85,6 @@ export const OwnersListPage = () => {
       HeaderLeft={<PageTitle2>Owners</PageTitle2>}
       HeaderRight={
         <View style={ownersListStyles.headerActions}>
-          {/* <TouchableOpacity>
-            <SearchIcon />
-          </TouchableOpacity> */}
           <TouchableOpacity onPress={filterHandler}>
             <FilterIcon />
           </TouchableOpacity>
