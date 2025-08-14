@@ -6,7 +6,7 @@ import { ActionHeader } from "../../../ui/action-header.component";
 import colors from "../../../../constants/colors";
 import { NoItemsFound } from "../../../ui/noItemsFound";
 import { FileUpload } from "../../../ui/upload-file.component";
-import { FileItem } from "./file-item.component";
+import { FileItem } from "../../../ui/file-item.component";
 import { usePropertyDocMutation } from "../../../../api-query/hooks";
 import { convertToRNFile } from "../../../../utils/files.utils";
 import * as DocumentPicker from "expo-document-picker";

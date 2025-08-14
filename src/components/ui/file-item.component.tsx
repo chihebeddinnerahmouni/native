@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
-import { HostedFile } from "../../../../backend/casaikos-api";
+import { HostedFile } from "../../backend/casaikos-api";
 import { StyleSheet } from "react-native";
-import colors from "../../../../constants/colors";
-import { TextBody } from "../../../ui/texts/Texts.component";
-import { DotsIcon } from "../../../../icons";
-import { useActionSheet, useConfirm } from "../../../../hooks";
-import { usePropertyDocMutation } from "../../../../api-query/hooks";
-import { useModal } from "../../../../contexts";
-import { RenameDocumentForm } from "../../../forms/property/documents-rename.form";
+import colors from "../../constants/colors";
+import { TextBody } from "./texts/Texts.component";
+import { DotsIcon } from "../../icons";
+import { useActionSheet, useConfirm } from "../../hooks";
+import { usePropertyDocMutation } from "../../api-query/hooks";
+import { useModal } from "../../contexts";
+import { RenameDocumentForm } from "../forms/property/documents-rename.form";
 
 type IProps = {
   file: HostedFile;
@@ -74,7 +74,7 @@ export const FileItem = ({ file, propertyId }: IProps) => {
   return (
     <View style={styles.fileItem}>
       <View style={styles.leftContainer}>
-        <Image source={require("../../../../../assets/images/folder.png")} />
+        <Image source={require("../../../assets/images/folder.png")} />
         <View style={styles.fileDetails}>
           <TextBody style={styles.name}>{file.fileName}</TextBody>
           <TextBody style={styles.size}>pdf - 1.3 MB*</TextBody>
