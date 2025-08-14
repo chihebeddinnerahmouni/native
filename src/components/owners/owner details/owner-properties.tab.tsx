@@ -1,9 +1,14 @@
 import React from "react";
 import { TextTitle } from "../../ui/texts/Texts.component";
-import { CardComponent, PropertyMiniCard } from "../../ui/cards";
+import {
+  CardComponent,
+  PropertyMiniCard,
+  PropertyMiniCardSkeleton,
+} from "../../ui/cards";
 import { StyleSheet } from "react-native";
 import { useOwnerProperties } from "../../../api-query/hooks";
 import { borderBottomStyle } from "../../../styles";
+import NoItemsFound from "../../ui/noItemsFound";
 
 type IProps = {
   ownerId: string;
@@ -19,9 +24,17 @@ export const OwnerPropertiesTab = ({ ownerId }: IProps) => {
       <TextTitle numberOfLines={1} style={borderBottomStyle}>
         Owner Properties
       </TextTitle>
-      {propertiesList.map((property) => (
-        <PropertyMiniCard key={property._id} property={property} />
-      ))}
+      {isLoading ? (
+        Array.from({ length: 3 }).map((_, index) => (
+          <PropertyMiniCardSkeleton key={`skeleton-${index}`} />
+        ))
+      ) : propertiesList.length > 0 ? (
+        propertiesList.map((property) => (
+          <PropertyMiniCard key={property._id} property={property} />
+        ))
+      ) : (
+        <NoItemsFound message="No properties found for this owner." />
+      )}
     </CardComponent>
   );
 };
