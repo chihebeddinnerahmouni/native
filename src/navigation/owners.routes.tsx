@@ -10,7 +10,7 @@ export const OwnersNavigator = () => {
   return (
     <OwnersStack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={ERoute.OWNERS_LIST}
+      initialRouteName={ERoute.OWNERS_DETAILS}
     >
       <OwnersStack.Screen
         name={ERoute.OWNERS_LIST}

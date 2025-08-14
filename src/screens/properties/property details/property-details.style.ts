@@ -13,6 +13,10 @@ export const propertyDetailsStyle = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
+  tabsContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+  },
   section: {
     flexDirection: "column",
     gap: 12,

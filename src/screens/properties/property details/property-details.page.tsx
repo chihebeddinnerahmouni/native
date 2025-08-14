@@ -22,6 +22,7 @@ import { MediaComponent } from "../../../components/properties/property details/
 import { getImageUrl } from "../../../utils/validators/images.utils";
 import { CompliancesComponent } from "../../../components/properties/property details/compliances/property-compliances.component";
 import { FacilitiesComponent } from "../../../components/properties/property details/facilities/property-facilities.component";
+import { ErrorComponent } from "../../../components/ui/Error.component";
 // import { RouteProp, useRoute } from "@react-navigation/native";
 
 export enum EPropertyTabs {
@@ -87,7 +88,7 @@ export const PropertyDetailsPage = () => {
   const propertyImageUrl = getImageUrl(property?.images?.[0]);
 
   if (isLoading) return <LoadingScreen />;
-  if (propertyError || !property) return <View>Error loading property</View>;
+  if (propertyError || !property) return <ErrorComponent />;
 
   return (
     <MainLayout HeaderLeft={<PageTitle2>Detail Property</PageTitle2>}>
@@ -104,6 +105,7 @@ export const PropertyDetailsPage = () => {
             tabs={tabs}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
+            style={propertyDetailsStyle.tabsContainer}
           />
         </CardComponent>
         {selectedTab === EPropertyTabs.GENERAL && (

@@ -43,9 +43,8 @@ export const TabsComponent = ({
 
 export const tabStyles = StyleSheet.create({
   tabsScrollContainer: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
     gap: 12,
+    minWidth: "100%",
   },
   tabText: {
     fontSize: 14,

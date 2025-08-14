@@ -1,16 +1,17 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { TextBody } from "../ui/texts/Texts.component";
 import colors from "../../constants/colors";
 
 type IProps = {
   value: string | number | React.ReactNode;
   Icon?: React.ReactNode;
+  style?: ViewStyle;
 };
 
-export const InfoComp = ({ value, Icon }: IProps) => {
+export const InfoComp = ({ value, Icon, style }: IProps) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       {Icon}
       <TextBody style={styles.text} numberOfLines={2}>
         {value}
