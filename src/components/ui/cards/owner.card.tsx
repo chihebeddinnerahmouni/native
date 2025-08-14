@@ -1,24 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { Owner } from "../../../../backend/casaikos-api";
-import {
-  DotsIcon,
-  EmailIcon,
-  LocationIcon,
-  PhoneIcon,
-} from "../../../../icons";
-import { Badge } from "../../badge.component";
-import { TextBody } from "../../texts/Texts.component";
-import colors from "../../../../constants/colors";
+import { Owner } from "../../../backend/casaikos-api";
+import { DotsIcon, EmailIcon, LocationIcon, PhoneIcon } from "../../../icons";
+import { Badge } from "../badge.component";
+import { TextBody } from "../texts/Texts.component";
+import colors from "../../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
-import { ETabs, EScreens, ERoute } from "../../../../utils";
-import { CardComponent } from "../card.component";
-import { InfoComp } from "../../info.component";
-import { useActionSheet, useConfirm } from "../../../../hooks";
-import { OwnerForm } from "../../../forms";
-import { useModal } from "../../../../contexts";
-import { useOwnerMutation } from "../../../../api-query/hooks";
+import { ETabs, EScreens, ERoute } from "../../../utils";
+import { CardComponent } from "./card.component";
+import { InfoComp } from "../info.component";
+import { useActionSheet, useConfirm } from "../../../hooks";
+import { OwnerForm } from "../../forms";
+import { useModal } from "../../../contexts";
+import { useOwnerMutation } from "../../../api-query/hooks";
 
 interface IProps {
   owner: Owner;
@@ -119,7 +114,7 @@ export const OwnerCard = ({ owner }: IProps) => {
   );
 };
 
-export const ownerCardStyles = StyleSheet.create({
+const ownerCardStyles = StyleSheet.create({
   ownerCard: {
     gap: 12,
   },

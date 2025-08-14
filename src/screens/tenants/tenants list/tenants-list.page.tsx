@@ -7,23 +7,23 @@ import { ActionHeader } from "../../../components/ui/action-header.component";
 import { Button } from "../../../components/ui/buttons/button.component";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { colors } from "../../../constants/colors";
-import { ownersListStyles } from "./tenants-list.style";
+import { tenantsListStyles } from "./tenants-list.style";
 import { useModal } from "../../../contexts";
 import { Pagination } from "../../../components/ui/pagination";
 import { OwnerForm } from "../../../components/forms";
-import { useOwners } from "../../../api-query/hooks";
-import { OwnerCard } from "../../../components/ui/cards/owner card/owner.card";
+import { useTenants } from "../../../api-query/hooks";
+import { OwnerCard } from "../../../components/ui/cards";
 import NoItemsFound from "../../../components/ui/noItemsFound";
-import { OwnersFilter } from "./tenants.filter";
+import { TenantsFilter } from "./tenants.filter";
 import {
   EOrderDirection,
-  EOwnerSortFields,
-  OwnerFilterDto,
+  ETenantSortFields,
+  TenantFilterDto,
 } from "../../../backend/casaikos-api";
 
 const pageSize = 10;
 
-const filterInitialState: OwnerFilterDto = {
+const filterInitialState: TenantFilterDto = {
   name: undefined,
   cities: undefined,
 };
@@ -32,9 +32,9 @@ export const TenantsListPage = () => {
   const { openModal, closeModal } = useModal();
   const [currentPage, setCurrentPage] = useState(1);
   const [appliedFilters, setAppliedFilters] =
-    useState<OwnerFilterDto>(filterInitialState);
+    useState<TenantFilterDto>(filterInitialState);
 
-  const { ownersResult, isLoading } = useOwners({
+  const { tenantsResult, isLoading } = useTenants({
     pagination: {
       page: currentPage,
       pageSize,
@@ -44,7 +44,7 @@ export const TenantsListPage = () => {
       cities: appliedFilters.cities,
     },
     sort: {
-      sortBy: EOwnerSortFields.FirstName,
+      sortBy: ETenantSortFields.FirstName,
       sortDirection: EOrderDirection.Asc,
     },
   });
@@ -53,7 +53,7 @@ export const TenantsListPage = () => {
     setCurrentPage(page);
   };
 
-  const handleApplyFilters = (filters: OwnerFilterDto) => {
+  const handleApplyFilters = (filters: TenantFilterDto) => {
     setAppliedFilters(filters);
     setCurrentPage(1);
   };
@@ -63,7 +63,7 @@ export const TenantsListPage = () => {
       title: "Filter Owners",
       slideDirection: "bottom",
       component: (
-        <OwnersFilter
+        <TenantsFilter
           initialFilters={appliedFilters}
           onApplyFilters={handleApplyFilters}
         />
@@ -84,7 +84,7 @@ export const TenantsListPage = () => {
     <MainLayout
       HeaderLeft={<PageTitle2>Owners</PageTitle2>}
       HeaderRight={
-        <View style={ownersListStyles.headerActions}>
+        <View style={tenantsListStyles.headerActions}>
           <TouchableOpacity onPress={filterHandler}>
             <FilterIcon />
           </TouchableOpacity>
@@ -94,15 +94,15 @@ export const TenantsListPage = () => {
     >
       <Pagination
         currentPage={currentPage}
-        totalPages={ownersResult.pagesCount}
+        totalPages={tenantsResult.pagesCount}
         onPageChange={handlePageChange}
         disabled={isLoading}
         pageSize={pageSize}
-        totalItems={ownersResult.documentsCount}
+        totalItems={tenantsResult.documentsCount}
       />
 
       <ActionHeader
-        title="List Owners"
+        title="List Tenants"
         actions={
           <Button
             variant="contained"
@@ -111,18 +111,18 @@ export const TenantsListPage = () => {
               onClickOpenForm();
             }}
           >
-            Add Owner
+            Add Tenant
           </Button>
         }
       />
 
-      <View style={ownersListStyles.ownersContainer}>
-        {ownersResult.items.length ? (
-          ownersResult.items.map((owner) => (
-            <OwnerCard key={owner._id} owner={owner} />
+      <View style={tenantsListStyles.tenantsContainer}>
+        {tenantsResult.items.length ? (
+          tenantsResult.items.map((tenant) => (
+            <OwnerCard key={tenant._id} owner={tenant} />
           ))
         ) : (
-          <NoItemsFound message="No owners found" />
+          <NoItemsFound message="No tenants found" />
         )}
       </View>
     </MainLayout>

@@ -8,14 +8,14 @@ import { SearchIcon } from "../../../icons";
 import { useModal } from "../../../contexts";
 import { MultiSelect } from "../../../components/ui/inputs/multi-select.component";
 import { mockCities } from "../../../constants/data";
-import { OwnerFilterDto } from "../../../backend/casaikos-api";
+import { TenantFilterDto } from "../../../backend/casaikos-api";
 
-interface OwnersFilterProps {
-  initialFilters?: OwnerFilterDto;
-  onApplyFilters: (filters: OwnerFilterDto) => void;
+interface IProps {
+  initialFilters?: TenantFilterDto;
+  onApplyFilters: (filters: TenantFilterDto) => void;
 }
 
-export const OwnersFilter: React.FC<OwnersFilterProps> = ({
+export const TenantsFilter: React.FC<IProps> = ({
   initialFilters = {},
   onApplyFilters,
 }) => {

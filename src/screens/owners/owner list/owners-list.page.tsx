@@ -12,7 +12,7 @@ import { useModal } from "../../../contexts";
 import { Pagination } from "../../../components/ui/pagination";
 import { OwnerForm } from "../../../components/forms";
 import { useOwners } from "../../../api-query/hooks";
-import { OwnerCard } from "../../../components/ui/cards/owner card/owner.card";
+import { OwnerCard } from "../../../components/ui/cards";
 import NoItemsFound from "../../../components/ui/noItemsFound";
 import { OwnersFilter } from "./owners.filter";
 import {

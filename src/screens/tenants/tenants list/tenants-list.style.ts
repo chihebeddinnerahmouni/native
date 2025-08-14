@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const ownersListStyles = StyleSheet.create({
+export const tenantsListStyles = StyleSheet.create({
   headerActions: {
     flexDirection: "row",
     gap: 16,
@@ -9,7 +9,7 @@ export const ownersListStyles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 16,
   },
-  ownersContainer: {
+  tenantsContainer: {
     marginTop: 16,
     flex: 1,
     flexDirection: "column",
