@@ -18,13 +18,13 @@ export const propertyCardStyles = StyleSheet.create({
   statusBadge: {
     position: "absolute",
     top: 12,
-    right: 12,
+    left: 12,
     zIndex: 1,
   },
   optionsButton: {
     position: "absolute",
     top: 12,
-    left: 12,
+    right: 12,
     zIndex: 1,
     backgroundColor: colors.bgColor,
     borderRadius: 20,
