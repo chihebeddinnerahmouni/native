@@ -22,10 +22,7 @@ import {
 } from "../../../backend/casaikos-api";
 
 const pageSize = 10;
-// export interface IOwnerFilter {
-//   name?: string;
-//   cities?: string[];
-// }
+
 const filterInitialState: OwnerFilterDto = {
   name: undefined,
   cities: undefined,
@@ -61,13 +58,6 @@ export const OwnersListPage = () => {
     setCurrentPage(1);
   };
 
-  const onClickOpenForm = () => {
-    openModal({
-      title: "New Owner",
-      component: <OwnerForm closeModal={closeModal} />,
-    });
-  };
-
   const filterHandler = () => {
     openModal({
       title: "Filter Owners",
@@ -78,6 +68,13 @@ export const OwnersListPage = () => {
           onApplyFilters={handleApplyFilters}
         />
       ),
+    });
+  };
+
+  const onClickOpenForm = () => {
+    openModal({
+      title: "New Owner",
+      component: <OwnerForm closeModal={closeModal} />,
     });
   };
 

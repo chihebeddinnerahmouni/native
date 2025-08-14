@@ -16,23 +16,31 @@ import { PropertyForm } from "../../../components/forms";
 import {
   EOrderDirection,
   EPropertySortFields,
+  PropertyFilterDto,
 } from "../../../backend/casaikos-api";
+import { PropertiesFilter } from "./properties.filter";
 
 const pageSize = 10;
+const filterInitialState: PropertyFilterDto = {
+  title: undefined,
+  cities: undefined,
+};
 
 export const PropertiesListPage = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const { openModal, closeModal } = useModal();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [appliedFilters, setAppliedFilters] =
+    useState<PropertyFilterDto>(filterInitialState);
+
   const { propertiesResult, isLoading } = useProperties({
     pagination: {
       page: currentPage,
       pageSize,
     },
-    // filter: {
-    //   cities: commaSeparatedToArray(cities) ?? undefined,
-    //   title: title ?? undefined,
-    // },
+    filter: {
+      cities: appliedFilters.cities,
+      title: appliedFilters.title,
+    },
     sort: {
       sortBy: EPropertySortFields.Title,
       sortDirection: EOrderDirection.Asc,
@@ -41,6 +49,24 @@ export const PropertiesListPage = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleApplyFilters = (filters: PropertyFilterDto) => {
+    setAppliedFilters(filters);
+    setCurrentPage(1);
+  };
+
+  const filterHandler = () => {
+    openModal({
+      title: "Filter Owners",
+      slideDirection: "bottom",
+      component: (
+        <PropertiesFilter
+          initialFilters={appliedFilters}
+          onApplyFilters={handleApplyFilters}
+        />
+      ),
+    });
   };
 
   const onClickOpenForm = () => {
@@ -60,10 +86,7 @@ export const PropertiesListPage = () => {
       HeaderLeft={<PageTitle2>Properties</PageTitle2>}
       HeaderRight={
         <View style={PropertiesListStyles.headerActions}>
-          <TouchableOpacity>
-            <SearchIcon />
-          </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={filterHandler}>
             <FilterIcon />
           </TouchableOpacity>
         </View>
