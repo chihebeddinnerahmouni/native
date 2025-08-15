@@ -15,6 +15,8 @@ export * from "./notes.utils";
 export * from "./compliances.utils";
 export * from "./filter.utils";
 export * from "./files.utils";
+export * from "./bookings.utils";
+export * from "./theme.utils";
 //
 export * from "./validators/auth.validator";
 export * from "./validators/properties.validator";

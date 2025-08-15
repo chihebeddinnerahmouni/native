@@ -23,3 +23,4 @@ export * from "./properties/targets/useTargetsMutation.query";
 export * from "./properties/usePropertyDocMutation.query";
 export * from "./compliances/useCompliancesMutation.query";
 export * from "./bookings/useTenantBookings";
+export * from "./bookings/useBookings";

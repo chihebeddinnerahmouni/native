@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ERoute } from "../utils";
-import { BookingsListPage } from "../screens/bookings/bookings-list.page";
+import { BookingsListPage } from "../screens/bookings/bookings list/bookings-list.page";
 
 const BookingsStack = createNativeStackNavigator();
 
