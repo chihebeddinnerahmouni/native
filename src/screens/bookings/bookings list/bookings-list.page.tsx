@@ -45,6 +45,13 @@ export const BookingsListPage = () => {
     // }),
   });
 
+  const tabToggleHandler = (newTab: EBookingsTabs) => {
+    setActiveTab(newTab);
+    newTab === EBookingsTabs.PRE_BOOKINGS
+      ? setActiveStatus(EBookingStatus.INITIAL)
+      : setActiveStatus(EBookingStatus.BOOKED);
+  };
+
   if (isLoading) return <LoadingScreen />;
 
   return (
@@ -71,7 +78,7 @@ export const BookingsListPage = () => {
             activeTab === EBookingsTabs.PRE_BOOKINGS &&
               bookingsListStyles.activeTab,
           ]}
-          onPress={() => setActiveTab(EBookingsTabs.PRE_BOOKINGS)}
+          onPress={() => tabToggleHandler(EBookingsTabs.PRE_BOOKINGS)}
         >
           Pre Bookings
         </TextBody>
@@ -81,7 +88,7 @@ export const BookingsListPage = () => {
             activeTab === EBookingsTabs.BOOKINGS &&
               bookingsListStyles.activeTab,
           ]}
-          onPress={() => setActiveTab(EBookingsTabs.BOOKINGS)}
+          onPress={() => tabToggleHandler(EBookingsTabs.BOOKINGS)}
         >
           Bookings
         </TextBody>

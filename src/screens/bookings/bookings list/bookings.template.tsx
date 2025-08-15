@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { ScrollView, View } from "react-native";
 import { Booking, EBookingStatus } from "../../../backend/casaikos-api";
 import { EBookingsTabs } from "./bookings-list.page";
 import { bookingsListStyles } from "./bookings-list-styles";
 import { TextBody } from "../../../components/ui/texts/Texts.component";
 import { TouchableOpacity } from "react-native";
+import { postBookingStatus, preBookingStatus } from "../../../utils";
 
 type IProps = {
   bookingsList: Booking[];
   type: EBookingsTabs;
   activeStatus: EBookingStatus;
   setActiveStatus: (status: EBookingStatus) => void;
+  archivePages?: boolean;
   bookingStatusList: {
     label: string;
     value: EBookingStatus;
@@ -22,8 +24,38 @@ export const BookingsTemplate = ({
   bookingsList,
   activeStatus,
   setActiveStatus,
+  archivePages = false,
   bookingStatusList,
 }: IProps) => {
+  const filteredBookings = useMemo(() => {
+    let result: Booking[] = [];
+    switch (type) {
+      case EBookingsTabs.PRE_BOOKINGS:
+        result = bookingsList.filter((booking) => {
+          return (
+            booking.lastStatus?.value &&
+            booking.isArchived === archivePages &&
+            preBookingStatus.includes(
+              booking.lastStatus.value as EBookingStatus
+            )
+          );
+        });
+        break;
+      case EBookingsTabs.BOOKINGS:
+        result = bookingsList.filter((booking) => {
+          return (
+            booking.lastStatus?.value &&
+            booking.isArchived === archivePages &&
+            postBookingStatus.includes(
+              booking.lastStatus.value as EBookingStatus
+            )
+          );
+        });
+        break;
+    }
+    return result;
+  }, [bookingsList, type, archivePages]);
+
   return (
     <View style={bookingsListStyles.bookingsSection}>
       <ScrollView
