@@ -9,6 +9,7 @@ import { EScreens, ETabs } from "../utils";
 import colors from "../constants/colors";
 import { OwnersNavigator } from "./owners.routes";
 import { TenantsNavigator } from "./tenants.routes";
+import { BookingsNavigator } from "./bookings.routes";
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,7 +55,7 @@ export const MainTabNavigator = () => {
           // display: "none",
         },
       }}
-      initialRouteName={EScreens.TENANTS}
+      initialRouteName={EScreens.BOOKINGS}
     >
       <Tab.Screen
         name={EScreens.MESSAGES}
@@ -85,6 +86,14 @@ export const MainTabNavigator = () => {
         component={TenantsNavigator}
         options={{
           tabBarLabel: "Tenants",
+          // icon
+        }}
+      />
+      <Tab.Screen
+        name={EScreens.BOOKINGS}
+        component={BookingsNavigator}
+        options={{
+          tabBarLabel: "Bookings",
           // icon
         }}
       />
