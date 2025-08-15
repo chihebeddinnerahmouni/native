@@ -1,9 +1,9 @@
+/* eslint-disable react-native/no-unused-styles */
 import React from "react";
 import { View, Text, StyleSheet, ViewStyle } from "react-native";
 import { TUIType } from "../../utils";
 
-type BadgeType = "success" | "danger" | "warning" | "info";
-// type BadgeType = TUIType;
+type BadgeType = TUIType;
 
 interface BadgeProps {
   type: BadgeType;
@@ -14,7 +14,9 @@ interface BadgeProps {
 export const Badge = ({ type, text, style }: BadgeProps) => {
   return (
     <View style={[styles.badge, styles[type], style]}>
-      <Text style={[styles.text, styles[`${type}Text`]]}>{text}</Text>
+      <Text style={[styles.text, styles[`${type}Text` as keyof typeof styles]]}>
+        {text}
+      </Text>
     </View>
   );
 };
@@ -29,6 +31,18 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     fontWeight: "600",
+  },
+  primary: {
+    backgroundColor: "#e3f2fd",
+  },
+  primaryText: {
+    color: "#1976d2",
+  },
+  secondary: {
+    backgroundColor: "#f5f5f5",
+  },
+  secondaryText: {
+    color: "#424242",
   },
   success: {
     backgroundColor: "#d4edda",

@@ -135,6 +135,8 @@ export const archivedBookingStatusList = bookingStatusList.map((status) => ({
   isDraggableTo: false,
 }));
 
-export const getBadgeType = (status: EBookingStatus | undefined): TUIType => {
+export const getBookingBadgeType = (
+  status: EBookingStatus | undefined
+): TUIType => {
   return status ? statusToType[status] : "info";
 };

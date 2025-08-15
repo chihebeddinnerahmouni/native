@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Booking, Property } from "../../../backend/casaikos-api";
+import { Booking } from "../../../backend/casaikos-api";
 import colors from "../../../constants/colors";
 import { TextBody } from "../texts/Texts.component";
 import { noImagePlaceholder } from "../../../constants/constant";
@@ -13,7 +13,7 @@ import {
   EScreens,
   ETabs,
   formatDate,
-  getBadgeType,
+  getBookingBadgeType,
 } from "../../../utils";
 import { getImageUrl } from "../../../utils/validators/images.utils";
 import { IconLabelValue } from "../icon-label-value.component";
@@ -60,7 +60,7 @@ export const BookingCard = ({ booking }: IProps) => {
           <PropertyIndicators property={booking.property} />
         </View>
       </View>
-      {/* {booking.lastStatus?.note && (
+      {booking.lastStatus?.note && (
         <View style={styles.noteContainer}>
           <TextBody style={styles.noteTitle}>Note</TextBody>
           <TextBody style={styles.noteText}>
@@ -68,11 +68,11 @@ export const BookingCard = ({ booking }: IProps) => {
             {booking.agent?.lastName}
           </TextBody>
         </View>
-      )} */}
-      <View style={styles.noteContainer}>
+      )}
+      {/* <View style={styles.noteContainer}>
         <TextBody style={styles.noteTitle}>Note</TextBody>
         <TextBody style={styles.noteText}>note - by chiheb rahmouni</TextBody>
-      </View>
+      </View> */}
       <IconLabelValue
         icon={<CalendarIcon color={colors.textColor} />}
         label="Check-in"
@@ -107,11 +107,12 @@ export const BookingCard = ({ booking }: IProps) => {
           <StatusIcon color={colors.textColor} />
           <TextBody style={styles.statusTitle}>status</TextBody>
         </View>
-        <Badge
-          text={booking.lastStatus?.value || "Unknown"}
-          //   type={getBadgeType(booking.lastStatus?.value)}
-          type="success"
-        />
+        <TouchableOpacity>
+          <Badge
+            text={booking.lastStatus?.value || "Unknown"}
+            type={getBookingBadgeType(booking.lastStatus?.value)}
+          />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -131,7 +132,6 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.borderColor,
     borderBottomWidth: 1,
     paddingBottom: 12,
-    // marginBottom: 12,
   },
   image: {
     width: 75,
