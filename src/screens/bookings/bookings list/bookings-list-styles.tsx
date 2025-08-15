@@ -3,6 +3,7 @@ import colors from "../../../constants/colors";
 
 export const bookingsListStyles = StyleSheet.create({
   tabContainer: {
+    backgroundColor: colors.bgColor,
     marginTop: 16,
     flexDirection: "row",
     padding: 5,
@@ -37,6 +38,7 @@ export const bookingsListStyles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: colors.borderColor,
+    backgroundColor: colors.bgColor,
   },
   activeStatusItem: {
     backgroundColor: colors.primaryColor,

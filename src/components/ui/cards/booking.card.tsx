@@ -116,6 +116,7 @@ export const BookingCard = ({ booking }: IProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.bgColor,
     padding: 8,
     borderWidth: 1,
     borderColor: colors.borderColor,
