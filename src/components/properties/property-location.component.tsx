@@ -24,7 +24,7 @@ export const PropertyLocation = ({ address }: IProps) => {
 export const locationStyle = StyleSheet.create({
   propertyLocation: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     width: "100%",
   },
   locationText: {

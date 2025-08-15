@@ -130,6 +130,42 @@ export const archivedPreBookingStatusList = preBookingStatusList.map(
   })
 );
 
+export const statusFlowMap = {
+  [EBookingStatus.INITIAL]: [
+    EBookingStatus.VIEWING,
+    EBookingStatus.TENANT_REJECTED_BEFORE_BOOKING,
+    EBookingStatus.AGENT_DECLINED_BEFORE_BOOKING,
+    EBookingStatus.PENDING_PAYMENT,
+  ],
+  [EBookingStatus.VIEWING]: [
+    EBookingStatus.VIEWING,
+    EBookingStatus.TENANT_REJECTED_BEFORE_BOOKING,
+    EBookingStatus.AGENT_DECLINED_BEFORE_BOOKING,
+    EBookingStatus.PENDING_PAYMENT,
+  ],
+  [EBookingStatus.PENDING_PAYMENT]: [EBookingStatus.BOOKED],
+  [EBookingStatus.BOOKED]: [
+    EBookingStatus.TENANT_CANCELED_AFTER_BOOKING,
+    EBookingStatus.AGENT_CANCELED_AFTER_BOOKING,
+    EBookingStatus.CHECK_IN,
+  ],
+  [EBookingStatus.CHECK_IN]: [
+    EBookingStatus.AGENT_STOPPED_DURING_RENT,
+    EBookingStatus.TENANT_STOPPED_DURING_RENT,
+    EBookingStatus.CHECK_OUT,
+    EBookingStatus.DONE,
+  ],
+  [EBookingStatus.CHECK_OUT]: [EBookingStatus.REFUND],
+  [EBookingStatus.TENANT_REJECTED_BEFORE_BOOKING]: [],
+  [EBookingStatus.AGENT_DECLINED_BEFORE_BOOKING]: [],
+  [EBookingStatus.TENANT_CANCELED_AFTER_BOOKING]: [],
+  [EBookingStatus.AGENT_CANCELED_AFTER_BOOKING]: [],
+  [EBookingStatus.AGENT_STOPPED_DURING_RENT]: [],
+  [EBookingStatus.TENANT_STOPPED_DURING_RENT]: [],
+  [EBookingStatus.REFUND]: [],
+  [EBookingStatus.DONE]: [],
+};
+
 export const archivedBookingStatusList = bookingStatusList.map((status) => ({
   ...status,
   isDraggableTo: false,

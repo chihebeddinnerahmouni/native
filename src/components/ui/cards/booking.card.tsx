@@ -20,12 +20,15 @@ import { IconLabelValue } from "../icon-label-value.component";
 import { CalendarIcon, StatusIcon } from "../../../icons";
 import { EntityType, ProfileIcon } from "../Profile-icon.component";
 import { Badge } from "../badge.component";
+import { useModal } from "../../../contexts";
+import { BookingStatusForm } from "../../forms/bookings/booking-status.form";
 
 type IProps = {
   booking: Booking | null;
 };
 export const BookingCard = ({ booking }: IProps) => {
   const navigator = useNavigation();
+  const { openModal, closeModal } = useModal();
 
   if (!booking || !booking.property) return null;
 
@@ -38,6 +41,20 @@ export const BookingCard = ({ booking }: IProps) => {
         screen: ERoute.BOOKING_DETAILS,
         params: { propertyId: booking._id },
       },
+    });
+  };
+
+  const statusHandler = () => {
+    openModal({
+      title: "Update Booking Status",
+      slideDirection: "bottom",
+      component: (
+        <BookingStatusForm
+          onDismiss={closeModal}
+          status={booking.lastStatus?.value}
+          bookingId={booking._id}
+        />
+      ),
     });
   };
 
@@ -103,7 +120,7 @@ export const BookingCard = ({ booking }: IProps) => {
           <StatusIcon color={colors.textColor} />
           <TextBody style={styles.statusTitle}>status</TextBody>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={statusHandler}>
           <Badge
             text={booking.lastStatus?.value || "Unknown"}
             type={getBookingBadgeType(booking.lastStatus?.value)}
