@@ -5,7 +5,7 @@ import {
   PageTitle2,
   TextBody,
 } from "../../../components/ui/texts/Texts.component";
-import { RouteProp, useRoute } from "@react-navigation/native";
+// import { RouteProp, useRoute } from "@react-navigation/native";
 import { useSingleTenant } from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { ErrorComponent } from "../../../components/ui/Error.component";
@@ -19,9 +19,9 @@ import { EmailIcon, PhoneIcon } from "../../../icons";
 import colors from "../../../constants/colors";
 import { TabsComponent } from "../../../components/ui/tabs.component";
 import { tenantDetailsStyle } from "./tenant-details.style";
-import { OwnerDocumentsTab } from "../../../components/owners/owner details/owner-documents.tab";
 import { TenantGeneralTab } from "../../../components/tenants/tenant details/tenant-general.tab";
 import { TenantsPropertiesTab } from "../../../components/tenants/tenant details/tenant-properties.tab";
+import { TenantDocumentsTab } from "../../../components/tenants/tenant details/tenant-documents.tab";
 
 export enum EOwnerTabs {
   GENERAL = "General",
@@ -94,12 +94,12 @@ export const TenantDetailsPage = () => {
         {selectedTab === EOwnerTabs.PROPERTY && (
           <TenantsPropertiesTab tenantId={selectedTenantId} />
         )}
-        {/* {selectedTab === EOwnerTabs.DOCUMENTS && (
-          <OwnerDocumentsTab
-            documents={owner.files || []}
-            ownerId={selectedOwnerId}
+        {selectedTab === EOwnerTabs.DOCUMENTS && (
+          <TenantDocumentsTab
+            documents={tenant.files || []}
+            tenantId={selectedTenantId}
           />
-        )} */}
+        )}
       </View>
     </MainLayout>
   );
