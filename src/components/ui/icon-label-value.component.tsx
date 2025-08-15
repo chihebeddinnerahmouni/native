@@ -9,7 +9,7 @@ type IconLabelValueProps = {
   value: string | number | ReactNode | undefined;
   labelStyle?: object;
   valueStyle?: object;
-  containerStyle?: object;
+  styles?: object;
 };
 
 export const IconLabelValue: React.FC<IconLabelValueProps> = ({
@@ -18,19 +18,19 @@ export const IconLabelValue: React.FC<IconLabelValueProps> = ({
   value,
   labelStyle,
   valueStyle,
-  containerStyle,
+  styles,
 }) => {
   return (
-    <View style={[styles.container, containerStyle]}>
-      <View style={styles.leftSection}>
-        {icon && <View style={styles.iconContainer}>{icon}</View>}
+    <View style={[compStyles.container, styles]}>
+      <View style={compStyles.leftSection}>
+        {icon && <View style={compStyles.iconContainer}>{icon}</View>}
         {label && (
-          <TextBody style={[styles.label, labelStyle]}>{label}</TextBody>
+          <TextBody style={[compStyles.label, labelStyle]}>{label}</TextBody>
         )}
       </View>
 
-      <View style={styles.centerSection}>
-        <TextBody style={[styles.value, valueStyle]} numberOfLines={1}>
+      <View style={compStyles.centerSection}>
+        <TextBody style={[compStyles.value, valueStyle]} numberOfLines={1}>
           {value ?? "-"}
         </TextBody>
       </View>
@@ -38,7 +38,7 @@ export const IconLabelValue: React.FC<IconLabelValueProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+const compStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",

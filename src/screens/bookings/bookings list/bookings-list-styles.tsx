@@ -50,4 +50,7 @@ export const bookingsListStyles = StyleSheet.create({
     color: colors.bgColor,
     borderColor: "transparent",
   },
+  bookingsContainer: {
+    marginTop: 16,
+  },
 });

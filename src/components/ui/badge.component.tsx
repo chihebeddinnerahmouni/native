@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, ViewStyle } from "react-native";
+import { TUIType } from "../../utils";
 
 type BadgeType = "success" | "danger" | "warning" | "info";
+// type BadgeType = TUIType;
 
 interface BadgeProps {
   type: BadgeType;

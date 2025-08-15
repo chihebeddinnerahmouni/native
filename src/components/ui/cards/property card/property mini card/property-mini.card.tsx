@@ -9,6 +9,7 @@ import { PropertyLocation } from "../../../../properties/property-location.compo
 import { PropertyIndicators } from "../../../../properties/property-indicators.component";
 import { useNavigation } from "@react-navigation/native";
 import { ERoute, EScreens, ETabs } from "../../../../../utils";
+import { getImageUrl } from "../../../../../utils/validators/images.utils";
 
 type IProps = {
   property: Property | null;
@@ -35,7 +36,9 @@ export const PropertyMiniCard = ({ property }: IProps) => {
       <View style={styles.topContainer}>
         <Image
           source={
-            propertyImageUrl ? { uri: propertyImageUrl } : noImagePlaceholder
+            propertyImageUrl
+              ? { uri: getImageUrl(property.images?.[0]) }
+              : noImagePlaceholder
           }
           style={styles.image}
           defaultSource={noImagePlaceholder}

@@ -6,6 +6,7 @@ import { bookingsListStyles } from "./bookings-list-styles";
 import { TextBody } from "../../../components/ui/texts/Texts.component";
 import { TouchableOpacity } from "react-native";
 import { postBookingStatus, preBookingStatus } from "../../../utils";
+import { BookingCard } from "../../../components/ui/cards";
 
 type IProps = {
   bookingsList: Booking[];
@@ -86,6 +87,11 @@ export const BookingsTemplate = ({
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <View style={bookingsListStyles.bookingsContainer}>
+        {filteredBookings.map((booking) => (
+          <BookingCard key={booking._id} booking={booking} />
+        ))}
+      </View>
     </View>
   );
 };

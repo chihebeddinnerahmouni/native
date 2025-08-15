@@ -7,3 +7,4 @@ export * from "./file.card";
 export * from "./tenant.card";
 export * from "./payment/payment.card";
 export * from "./payment/payment-skeleton.card";
+export * from "./booking.card";
