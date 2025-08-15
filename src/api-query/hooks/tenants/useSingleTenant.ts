@@ -9,12 +9,17 @@ type IProps = {
 type IResponse = {
   tenant: Tenant | undefined;
   tenantError: unknown;
+  isLoading: boolean;
 };
 
 export const useSingleTenant = (options: IProps): IResponse => {
   const { tenantId } = options;
 
-  const { data: tenant, error: tenantError } = useQuery({
+  const {
+    data: tenant,
+    error: tenantError,
+    isLoading,
+  } = useQuery({
     queryKey: [ESocketRefreshModule.TENANTS, tenantId],
     queryFn: () => getTenantById(tenantId),
     enabled: !!tenantId,
@@ -23,5 +28,6 @@ export const useSingleTenant = (options: IProps): IResponse => {
   return {
     tenant,
     tenantError,
+    isLoading,
   };
 };
