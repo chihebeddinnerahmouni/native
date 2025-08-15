@@ -13,7 +13,7 @@ import { RenameDocumentForm } from "../../forms/documents-rename.form";
 import { useConfirm } from "../../../hooks";
 import { RenameDocumentParams } from "../../../types/rename-document-function.types";
 import { documentsStyle } from "../../../styles";
-import { useTenantDocMutation } from "../../../api-query/hooks/tenants/useTenantDocMutation.query";
+import { useTenantDocMutation } from "../../../api-query/hooks";
 
 type IProps = {
   documents: HostedFile[];

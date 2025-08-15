@@ -2,11 +2,12 @@ import React from "react";
 import { TextTitle } from "../../ui/texts/Texts.component";
 import {
   CardComponent,
+  PaymentCard,
   PropertyMiniCard,
   PropertyMiniCardSkeleton,
 } from "../../ui/cards";
 import { StyleSheet } from "react-native";
-import { useTenantBookings } from "../../../api-query/hooks";
+import { useTenantBookings, useTenantPayments } from "../../../api-query/hooks";
 import { borderBottomStyle } from "../../../styles";
 import NoItemsFound from "../../ui/noItemsFound";
 
@@ -15,8 +16,8 @@ type IProps = {
 };
 
 export const TenantsPaymentsTab = ({ tenantId }: IProps) => {
-  const { bookingsList, isLoading } = useTenantBookings({
-    tenantId: tenantId,
+  const { paymentsList, isLoading } = useTenantPayments({
+    tenantId,
   });
 
   return (
@@ -28,12 +29,12 @@ export const TenantsPaymentsTab = ({ tenantId }: IProps) => {
         Array.from({ length: 3 }).map((_, index) => (
           <PropertyMiniCardSkeleton key={`skeleton-${index}`} />
         ))
-      ) : bookingsList.length > 0 ? (
-        bookingsList.map((booking) => (
-          <PropertyMiniCard key={booking._id} property={booking.property} />
+      ) : paymentsList.length > 0 ? (
+        paymentsList.map((payment) => (
+          <PaymentCard key={payment._id} payment={payment} />
         ))
       ) : (
-        <NoItemsFound message="No bookings found for this tenant." />
+        <NoItemsFound message="No payments found for this tenant." />
       )}
     </CardComponent>
   );
