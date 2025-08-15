@@ -5,4 +5,5 @@ export * from "./property card/property mini card/property-mini.card";
 export * from "./property card/property mini card/property-mini-skeleton.card";
 export * from "./file.card";
 export * from "./tenant.card";
-export * from "./payment.card";
+export * from "./payment/payment.card";
+export * from "./payment/payment-skeleton.card";

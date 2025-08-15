@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Payment } from "../../../backend/casaikos-api";
-import colors from "../../../constants/colors";
-import { TextTitle } from "../texts/Texts.component";
-import { formatCurrency, formatDate, getRemainingDays } from "../../../utils";
-import { DotsIcon } from "../../../icons";
-import { IconLabelValue } from "../icon-label-value.component";
-import { Badge } from "../badge.component";
+import { Payment } from "../../../../backend/casaikos-api";
+import colors from "../../../../constants/colors";
+import { TextTitle } from "../../texts/Texts.component";
+import {
+  formatCurrency,
+  formatDate,
+  getRemainingDays,
+} from "../../../../utils";
+import { DotsIcon } from "../../../../icons";
+import { IconLabelValue } from "../../icon-label-value.component";
+import { Badge } from "../../badge.component";
 
 type IProps = {
   payment: Payment;
