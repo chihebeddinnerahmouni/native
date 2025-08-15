@@ -69,10 +69,6 @@ export const BookingCard = ({ booking }: IProps) => {
           </TextBody>
         </View>
       )}
-      {/* <View style={styles.noteContainer}>
-        <TextBody style={styles.noteTitle}>Note</TextBody>
-        <TextBody style={styles.noteText}>note - by chiheb rahmouni</TextBody>
-      </View> */}
       <IconLabelValue
         icon={<CalendarIcon color={colors.textColor} />}
         label="Check-in"

@@ -36,6 +36,7 @@ export const BookingsTemplate = ({
           return (
             booking.lastStatus?.value &&
             booking.isArchived === archivePages &&
+            booking.lastStatus.value === activeStatus &&
             preBookingStatus.includes(
               booking.lastStatus.value as EBookingStatus
             )
@@ -47,6 +48,7 @@ export const BookingsTemplate = ({
           return (
             booking.lastStatus?.value &&
             booking.isArchived === archivePages &&
+            booking.lastStatus.value === activeStatus &&
             postBookingStatus.includes(
               booking.lastStatus.value as EBookingStatus
             )
@@ -55,7 +57,7 @@ export const BookingsTemplate = ({
         break;
     }
     return result;
-  }, [bookingsList, type, archivePages]);
+  }, [bookingsList, type, archivePages, activeStatus]);
 
   return (
     <View style={bookingsListStyles.bookingsSection}>
