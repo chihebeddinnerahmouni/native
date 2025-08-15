@@ -22,11 +22,13 @@ import { tenantDetailsStyle } from "./tenant-details.style";
 import { TenantGeneralTab } from "../../../components/tenants/tenant details/tenant-general.tab";
 import { TenantsPropertiesTab } from "../../../components/tenants/tenant details/tenant-properties.tab";
 import { TenantDocumentsTab } from "../../../components/tenants/tenant details/tenant-documents.tab";
+import { TenantsPaymentsTab } from "../../../components/tenants/tenant details/tenant-payments.tab";
 
 export enum EOwnerTabs {
   GENERAL = "General",
   PROPERTY = "properties",
   DOCUMENTS = "documents",
+  PAYMENTS = "payments",
 }
 
 const tabs = [
@@ -39,6 +41,9 @@ const tabs = [
   {
     title: EOwnerTabs.DOCUMENTS,
   },
+  {
+    title: EOwnerTabs.PAYMENTS,
+  },
 ];
 
 export const TenantDetailsPage = () => {
@@ -48,7 +53,7 @@ export const TenantDetailsPage = () => {
   //     >();
   //   const selectedTenantId = route.params?.tenantId;
   const selectedTenantId = "686a6bfe33547b8927dfc66a";
-  const [selectedTab, setSelectedTab] = useState<string>(EOwnerTabs.PROPERTY);
+  const [selectedTab, setSelectedTab] = useState<string>(EOwnerTabs.PAYMENTS);
   const { tenant, tenantError, isLoading } = useSingleTenant({
     tenantId: selectedTenantId || "",
   });
@@ -99,6 +104,9 @@ export const TenantDetailsPage = () => {
             documents={tenant.files || []}
             tenantId={selectedTenantId}
           />
+        )}
+        {selectedTab === EOwnerTabs.PAYMENTS && (
+          <TenantsPaymentsTab tenantId={selectedTenantId} />
         )}
       </View>
     </MainLayout>
