@@ -1,38 +1,50 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Payment, Property } from "../../../backend/casaikos-api";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Payment } from "../../../backend/casaikos-api";
 import colors from "../../../constants/colors";
-import { TextBody } from "../texts/Texts.component";
-import { noImagePlaceholder } from "../../../constants/constant";
-import { PropertyLocation } from "../../properties/property-location.component";
-import { PropertyIndicators } from "../../properties/property-indicators.component";
-import { useNavigation } from "@react-navigation/native";
-import { ERoute, EScreens, ETabs } from "../../../utils";
+import { TextTitle } from "../texts/Texts.component";
+import { formatCurrency, formatDate, getRemainingDays } from "../../../utils";
+import { DotsIcon } from "../../../icons";
+import { IconLabelValue } from "../icon-label-value.component";
+import { Badge } from "../badge.component";
 
 type IProps = {
   payment: Payment;
 };
 export const PaymentCard = ({ payment }: IProps) => {
   if (!payment) return null;
+  const remainingDays = getRemainingDays(payment.maximumDate);
 
   return (
     <TouchableOpacity style={styles.container}>
-      {/* <View style={styles.topContainer}>
-        <Image
-          source={
-            propertyImageUrl ? { uri: propertyImageUrl } : noImagePlaceholder
-          }
-          style={styles.image}
-          defaultSource={noImagePlaceholder}
-          resizeMode="cover"
+      <View style={styles.header}>
+        <TextTitle numberOfLines={1}>{payment.status}</TextTitle>
+        <TouchableOpacity>
+          <DotsIcon />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.content}>
+        <IconLabelValue label="Type" value={payment.type} />
+        <IconLabelValue label="Amount" value={formatCurrency(payment.amount)} />
+        <IconLabelValue
+          label="Due Date"
+          value={formatDate(payment.maximumDate)}
         />
-        <View style={styles.infosContainer}>
-          <TextBody style={styles.title}>{property.title}</TextBody>
-          <PropertyLocation address={property.address} />
-          <PropertyIndicators property={property} />
-        </View>
-      </View> */}
+        <IconLabelValue
+          label="Remaining Days"
+          value={
+            <Badge
+              type={remainingDays <= 0 ? "danger" : "success"}
+              text={`${remainingDays} days`}
+            />
+          }
+        />
+        <IconLabelValue
+          label="Payment date"
+          value={payment.paymentDate ? formatDate(payment.paymentDate) : "-"}
+        />
+      </View>
     </TouchableOpacity>
   );
 };
@@ -44,25 +56,18 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColor,
     borderRadius: 12,
   },
-  topContainer: {
+  header: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    height: 75,
-  },
-  image: {
-    width: 75,
-    height: 75,
-    borderRadius: 8,
-  },
-  infosContainer: {
-    flex: 1,
     justifyContent: "space-between",
-    height: "100%",
+    alignItems: "center",
   },
-  title: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: colors.textColor,
+  content: {
+    marginTop: 12,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: 16,
+    padding: 8,
+    backgroundColor: colors.emptyBgColor2,
+    borderRadius: 8,
   },
 });
