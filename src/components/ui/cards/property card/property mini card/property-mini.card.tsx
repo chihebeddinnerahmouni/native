@@ -11,11 +11,14 @@ import { useNavigation } from "@react-navigation/native";
 import { ERoute, EScreens, ETabs } from "../../../../../utils";
 
 type IProps = {
-  property: Property;
+  property: Property | null;
 };
 export const PropertyMiniCard = ({ property }: IProps) => {
-  const propertyImageUrl = property.images?.[0]?.fileKey;
   const navigator = useNavigation();
+
+  if (!property) return null;
+
+  const propertyImageUrl = property.images?.[0]?.fileKey;
 
   const navigationHandle = () => {
     (navigator as any).navigate(ETabs.MAIN, {

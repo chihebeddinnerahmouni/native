@@ -6,7 +6,7 @@ import {
   TextBody,
 } from "../../../components/ui/texts/Texts.component";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useSingleOwner, useSingleTenant } from "../../../api-query/hooks";
+import { useSingleTenant } from "../../../api-query/hooks";
 import { LoadingScreen } from "../../../components/ui/LoadingScreen";
 import { ErrorComponent } from "../../../components/ui/Error.component";
 import { CardComponent } from "../../../components/ui/cards/card.component";
@@ -18,10 +18,10 @@ import { InfoComp } from "../../../components/ui/info.component";
 import { EmailIcon, PhoneIcon } from "../../../icons";
 import colors from "../../../constants/colors";
 import { TabsComponent } from "../../../components/ui/tabs.component";
-import { OwnerGeneralTab } from "../../../components/owners/owner details/owner-general.tab";
 import { tenantDetailsStyle } from "./tenant-details.style";
-import { OwnerPropertiesTab } from "../../../components/owners/owner details/owner-properties.tab";
 import { OwnerDocumentsTab } from "../../../components/owners/owner details/owner-documents.tab";
+import { TenantGeneralTab } from "../../../components/tenants/tenant details/tenant-general.tab";
+import { TenantsPropertiesTab } from "../../../components/tenants/tenant details/tenant-properties.tab";
 
 export enum EOwnerTabs {
   GENERAL = "General",
@@ -88,13 +88,13 @@ export const TenantDetailsPage = () => {
             style={tenantDetailsStyle.tabsContainer}
           />
         </CardComponent>
-        {/* {selectedTab === EOwnerTabs.GENERAL && (
-          <OwnerGeneralTab owner={owner} />
+        {selectedTab === EOwnerTabs.GENERAL && (
+          <TenantGeneralTab tenant={tenant} />
         )}
         {selectedTab === EOwnerTabs.PROPERTY && (
-          <OwnerPropertiesTab ownerId={selectedOwnerId} />
+          <TenantsPropertiesTab tenantId={selectedTenantId} />
         )}
-        {selectedTab === EOwnerTabs.DOCUMENTS && (
+        {/* {selectedTab === EOwnerTabs.DOCUMENTS && (
           <OwnerDocumentsTab
             documents={owner.files || []}
             ownerId={selectedOwnerId}
